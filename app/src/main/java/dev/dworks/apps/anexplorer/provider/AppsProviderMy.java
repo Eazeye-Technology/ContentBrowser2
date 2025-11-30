@@ -3,21 +3,17 @@ package dev.dworks.apps.anexplorer.provider;
 import static android.content.pm.PackageManager.GET_UNINSTALLED_PACKAGES;
 import static android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES;
 
-import static dev.dworks.apps.anexplorer.DocumentsApplication.isTelevision;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.text.TextUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import dev.dworks.apps.anexplorer.misc.Utils;
-import dev.dworks.apps.anexplorer.model.DocumentsContract;
 
 public class AppsProviderMy {
     public final static class MyResult {
@@ -25,10 +21,11 @@ public class AppsProviderMy {
         public String displayName;
         public String summary;
         public long size;
-        public String mimeType;
+//        public String mimeType;
         public long lastModified;
         public String path;
-        public int flags;
+//        public int flags;
+        public String packageName;
     };
 
     private static String getAppName(String packageName){
@@ -53,8 +50,11 @@ public class AppsProviderMy {
         return  TextUtils.isEmpty(packageVersion) ? "" : "-" + packageVersion;
     }
 
+    public static boolean hasNougat() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
     private static int getAppListFlag(){
-        return Utils.hasNougat() ? MATCH_UNINSTALLED_PACKAGES : GET_UNINSTALLED_PACKAGES;
+        return /*Utils.*/hasNougat() ? MATCH_UNINSTALLED_PACKAGES : GET_UNINSTALLED_PACKAGES;
     }
 
     public static String getDocIdForApp(String rootId, String packageName){
@@ -87,12 +87,12 @@ public class AppsProviderMy {
                 return;
             }
             final String path = appInfo.sourceDir;
-            final String mimeType = DocumentsContract.Document.MIME_TYPE_APK;
-
-            int flags = DocumentsContract.Document.FLAG_SUPPORTS_COPY | DocumentsContract.Document.FLAG_SUPPORTS_DELETE | DocumentsContract.Document.FLAG_SUPPORTS_THUMBNAIL;
-            if(isTelevision()) {
-                flags |= DocumentsContract.Document.FLAG_DIR_PREFERS_GRID;
-            }
+//            final String mimeType = DocumentsContract.Document.MIME_TYPE_APK;
+//
+//            int flags = DocumentsContract.Document.FLAG_SUPPORTS_COPY | DocumentsContract.Document.FLAG_SUPPORTS_DELETE | DocumentsContract.Document.FLAG_SUPPORTS_THUMBNAIL;
+//            if(isTelevision()) {
+//                flags |= DocumentsContract.Document.FLAG_DIR_PREFERS_GRID;
+//            }
 
             final long size = new File(appInfo.sourceDir).length();
             final long lastModified = packageInfo.lastUpdateTime;
@@ -107,10 +107,11 @@ public class AppsProviderMy {
             }
             row.summary = summary;
             row.size = size;
-            row.mimeType = mimeType;
+//            row.mimeType = mimeType;
             row.lastModified = lastModified;
             row.path = path;
-            row.flags = flags;
+            row.packageName = packageName;
+//            row.flags = flags;
         }
     }
 

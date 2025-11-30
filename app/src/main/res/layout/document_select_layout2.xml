@@ -4,12 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <com.tvg.AutoWrapViewGroup
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/autoWrapViewGroup"
+        android:layout_margin="10dp"
+        />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         >
-        <ListView
+        <GridView
             android:id="@+id/listView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -19,7 +25,9 @@
             android:dividerHeight="0dp"
             android:fadingEdge="none"
             android:fadingEdgeLength="0dp"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:numColumns="3"
+            />
 
         <TextView
             android:id="@+id/searchEmptyView"

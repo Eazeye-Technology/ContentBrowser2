@@ -7,27 +7,34 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.foobnix.model.AppProfile;
-import com.getdirectory.DirectoryFragment;
+import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
 import com.txkj.contentbrowser.ChatFragment;
 import com.txkj.contentbrowser.FirstFragment;
-import com.txkj.contentbrowser.HomeFragment;
 import com.txkj.contentbrowser.HomeFragment2;
 import com.txkj.contentbrowser.HomeFragment3;
 import com.txkj.contentbrowser.LibraryFragment2Book;
@@ -39,6 +46,7 @@ import com.txkj.contentbrowser2.R;
 import com.txkj.smartanswer.AnswerFragment;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -88,16 +96,48 @@ public class MainActivity2 extends AppCompatActivity {
         findViewById(R.id.btnSearch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
-                    findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
-                    findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
-                } else {
-                    findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
-                    findViewById(R.id.tvTitleText).setVisibility(View.GONE);
+                toggleSearch(false);
+            }
+        });
+        findViewById(R.id.btnMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!toggleSearch(true)) {
+                    showPopupMenu(view);
                 }
             }
         });
+        AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
+        searchEditTextGlobal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = "";
+                if (searchEditTextGlobal != null &&
+                        searchEditTextGlobal.getText() != null &&
+                        searchEditTextGlobal.getText().toString() != null) {
+                    text = searchEditTextGlobal.getText().toString();
+                }
+                if (text.length() >= 2 || text.length() == 0) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                    if (currentFragment instanceof LibraryFragment2Book) {
+                        ((LibraryFragment2Book)currentFragment).setSearch(text);
+                    } else if (currentFragment instanceof NoteFragment2) {
+                        ((NoteFragment2)currentFragment).setSearch(text);
+                    }
+                }
+            }
+        });
 
 
         //https://github.com/dibakarece/AndroidFileExplorer
@@ -119,8 +159,8 @@ public class MainActivity2 extends AppCompatActivity {
         mAnswerFragment = new AnswerFragment();
         mSystemSettingFragment = new SystemSettingFragment();
 
-        mDirectoryFragment = new DirectoryFragment();
-        mDirectoryFragment.setDelegate(new DirectoryFragment.DocumentSelectActivityDelegate() {
+        mDirectoryFragment = new DirectoryFragment2();
+        mDirectoryFragment.setDelegate(new DirectoryFragment2.DocumentSelectActivityDelegate() {
 
             @Override
             public void startDocumentSelectActivity() {
@@ -128,7 +168,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
 
             @Override
-            public void didSelectFiles(DirectoryFragment activity,
+            public void didSelectFiles(DirectoryFragment2 activity,
                                        ArrayList<String> files) {
 //                mDirectoryFragment.showErrorBox(files.get(0).toString());
                 if (false) {
@@ -186,23 +226,25 @@ public class MainActivity2 extends AppCompatActivity {
         this.findViewById(R.id.top_left_menu_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (false) {
-                    if (findViewById(R.id.left_menu) != null) {
-                        if (findViewById(R.id.left_menu).getVisibility() == View.VISIBLE) {
-                            findViewById(R.id.left_menu).setVisibility(View.GONE);
-                        } else {
-                            findViewById(R.id.left_menu).setVisibility(View.VISIBLE);
+                if (!toggleSearch(true)) {
+                    if (false) {
+                        if (findViewById(R.id.left_menu) != null) {
+                            if (findViewById(R.id.left_menu).getVisibility() == View.VISIBLE) {
+                                findViewById(R.id.left_menu).setVisibility(View.GONE);
+                            } else {
+                                findViewById(R.id.left_menu).setVisibility(View.VISIBLE);
+                            }
                         }
-                    }
-                } else {
-                    if (findViewById(R.id.leftmenu2).getVisibility() == View.GONE) {
-                        findViewById(R.id.leftmenu1).setVisibility(View.GONE);
-                        findViewById(R.id.leftmenu2).setVisibility(View.VISIBLE);
-                        ((ImageView) findViewById(R.id.top_left_menu_button_icon)).setImageResource(R.drawable.ic_baseline_menu_24);
                     } else {
-                        findViewById(R.id.leftmenu1).setVisibility(View.VISIBLE);
-                        findViewById(R.id.leftmenu2).setVisibility(View.GONE);
-                        ((ImageView) findViewById(R.id.top_left_menu_button_icon)).setImageResource(R.drawable.ic_baseline_menu_open_24);
+                        if (findViewById(R.id.leftmenu2).getVisibility() == View.GONE) {
+                            findViewById(R.id.leftmenu1).setVisibility(View.GONE);
+                            findViewById(R.id.leftmenu2).setVisibility(View.VISIBLE);
+                            ((ImageView) findViewById(R.id.top_left_menu_button_icon)).setImageResource(R.drawable.ic_baseline_menu_24);
+                        } else {
+                            findViewById(R.id.leftmenu1).setVisibility(View.VISIBLE);
+                            findViewById(R.id.leftmenu2).setVisibility(View.GONE);
+                            ((ImageView) findViewById(R.id.top_left_menu_button_icon)).setImageResource(R.drawable.ic_baseline_menu_open_24);
+                        }
                     }
                 }
             }
@@ -251,6 +293,20 @@ public class MainActivity2 extends AppCompatActivity {
             checkPermissioin();
         }
     }
+    private boolean toggleSearch(boolean forceShowSearchButton) {
+        boolean result = findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE;
+        if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
+            findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
+            findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
+            findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
+            findViewById(R.id.tvTitleText).setVisibility(View.GONE);
+            findViewById(R.id.btnSearch).setVisibility(View.GONE);
+            findViewById(R.id.filterLine_Library_global).requestFocus();
+        }
+        return result;
+    }
 
     private static final String STATE_STARTED = "STATE_STARTED";
     //原文链接：https://blog.csdn.net/zuo_er_lyf/article/details/82659426
@@ -290,7 +346,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private FragmentManager fragmentManager = null;
     private FragmentTransaction fragmentTransaction = null;
-    private DirectoryFragment mDirectoryFragment;
+    private DirectoryFragment2 mDirectoryFragment;
     private FirstFragment mFirstFragment;
     private SecondFragment mSecondFragment;
 
@@ -529,6 +585,37 @@ public class MainActivity2 extends AppCompatActivity {
             return R.id.menu_bar_item_7;
         }
         return 0;
+    }
+
+    private void showPopupMenu(View view) {
+        if (false) {
+            PopupMenu popup = new PopupMenu(this, view);
+            try {
+                Field field = popup.getClass().getDeclaredField("mPopup");
+                field.setAccessible(true);
+                MenuPopupHelper helper = (MenuPopupHelper) field.get(popup);
+                helper.setForceShowIcon(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int menuId = R.menu.popup_directory; //.popup_directory;
+            popup.getMenuInflater().inflate(menuId, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(android.view.MenuItem menuItem) {
+                    return false;
+                }
+            });
+            popup.show();
+        } else {
+            //see LineWidthDialog
+            CopyCutMenuDialog.show(this, view, new CopyCutMenuDialog.WidthChangedListener() {
+                @Override
+                public void onWidthChanged(float value) {
+
+                }
+            });
+        }
     }
 
 }

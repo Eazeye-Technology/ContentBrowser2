@@ -55,8 +55,12 @@ android:background="@android:color/transparent"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_app_name"/>
-                        <!--width and height should be 80dp x 100dp x times
+                            android:scaleType="fitXY"
+                            />
+                        <!--
+                        android:background="@drawable/ic_app_name"
+
+                        width and height should be 80dp x 100dp x times
                          so 134=168*80/100
                          -->
                     </androidx.cardview.widget.CardView>

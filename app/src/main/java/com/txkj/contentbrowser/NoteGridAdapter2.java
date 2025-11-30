@@ -1,12 +1,18 @@
 package com.txkj.contentbrowser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
@@ -20,6 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteGridAdapter2 extends BaseAdapter {
+    public int gridHeight = 0;
+    AdapterView.OnItemClickListener mListener = null;
+    public void setOnItemClickListener2(AdapterView.OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     public void clearItems() {
         if (dataList != null) {
             dataList.clear();
@@ -35,10 +47,13 @@ public class NoteGridAdapter2 extends BaseAdapter {
     private Context context;
     private GridViewHolder gridholder;
     private List<FileMeta> dataList;
+    DisplayMetrics DM = new DisplayMetrics();
 
     public NoteGridAdapter2(Context context, List<FileMeta> results) {
         this.context = context;
         this.dataList = results;
+
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(DM);
     }
 
     @Override
@@ -62,17 +77,39 @@ public class NoteGridAdapter2 extends BaseAdapter {
 
     //@see com.foobnix.ui2.adapter.FileMetaAdapter
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = View.inflate(this.context, R.layout.pagegridviewitem_note_grid2, null);
             gridholder = new GridViewHolder();
             gridholder.tfBookName = (TextView) convertView.findViewById(R.id.bookgrid_name_library);
             gridholder.ivCoverImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library);
 //            gridholder.ivCoverImageBack = (ImageView) convertView.findViewById(R.id.bookgrid_pic_backgroud);
+            gridholder.llGridTop = (LinearLayout) convertView.findViewById(R.id.llGridTop);
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
         }
+
+        if (true) {
+            ViewGroup.LayoutParams params2 = new AbsListView.LayoutParams(
+                    AbsListView.LayoutParams.MATCH_PARENT,
+                    AbsListView.LayoutParams.MATCH_PARENT);
+            if (DM.heightPixels > DM.widthPixels) {
+                params2.height = (int)(DM.heightPixels / 3.5);
+            } else {
+                params2.height = (int)(DM.widthPixels / 2.5);
+            }
+            convertView.setLayoutParams(params2);
+        }
+
+//        if (params2 != null) {
+//            if (DM.heightPixels > DM.widthPixels) {
+//                params2.height = DM.heightPixels / 3;//(int)(DM.ydpi / 3); //100; // 假设你想要的固定高度是100dp
+//            } else {
+//                params2.height = DM.widthPixels / 2;
+//            }
+//            convertView.setLayoutParams(params2);
+//        }
 
         if (dataList != null) {
             FileMeta fileMeta = dataList.get(position);
@@ -108,6 +145,24 @@ public class NoteGridAdapter2 extends BaseAdapter {
                 }
             }
         }
+        // 设置固定高度
+//        if (gridHeight != 0) {
+//            ViewGroup.LayoutParams params = convertView.getLayoutParams();
+//            if (params != null) {
+//                params.height = gridHeight; //100; // 假设你想要的固定高度是100dp
+//                convertView.setLayoutParams(params);
+//            }
+//        }
+//        convertView.findViewById(R.id.llGridTop).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //Toast.makeText(context, "note grid click", Toast.LENGTH_LONG).show();
+//                if (mListener != null) {
+//                    mListener.onItemClick(null, view, position, (long)position);
+//                }
+//            }
+//        });
+//        convertView.findViewById(R.id.llGridTop).requestFocus();
         return convertView;
     }
 
@@ -138,5 +193,6 @@ public class NoteGridAdapter2 extends BaseAdapter {
         private TextView tfBookName;
         private ImageView ivCoverImage;
         private ImageView ivCoverImageBack;
+        private LinearLayout llGridTop;
     }
 }

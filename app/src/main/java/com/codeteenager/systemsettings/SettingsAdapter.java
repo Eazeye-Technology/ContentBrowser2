@@ -15,10 +15,10 @@ import java.util.List;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder> {
     private Context mContext;
-    private List<String> mData;
+    private List<SystemSettingFragment.SettingItem> mData;
     private OnItemClickListener mItemClickListener;
 
-    public SettingsAdapter(Context mContext, List<String> data) {
+    public SettingsAdapter(Context mContext, List<SystemSettingFragment.SettingItem> data) {
         this.mContext = mContext;
         this.mData = data;
     }
@@ -33,7 +33,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.tvName.setText(mData.get(position));
+        holder.tvName.setText(mData.get(position).dataTitle);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

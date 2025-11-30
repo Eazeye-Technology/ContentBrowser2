@@ -1,5 +1,7 @@
 package com.foobnix.dao2;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.Nullable;
 
 import org.greenrobot.greendao.annotation.*;
@@ -357,4 +359,11 @@ public class FileMeta {
         this.readCount = readCount;
     }
 
+    private Bitmap tempBitmap;
+    public Bitmap getTempBitmap() {
+        return tempBitmap;
+    }
+    public void setTempBitmap(Bitmap bmp) {
+        this.tempBitmap = bmp;
+    }
 }

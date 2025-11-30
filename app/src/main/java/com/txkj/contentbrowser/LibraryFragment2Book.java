@@ -1437,4 +1437,10 @@ public class LibraryFragment2Book extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
         cacheItems = null;
     }
+
+    public void setSearch(String text) {
+        if (text != null) {
+            searchEditText.setText(text);
+        }
+    }
 }

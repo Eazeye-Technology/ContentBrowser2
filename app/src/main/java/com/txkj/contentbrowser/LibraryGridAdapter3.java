@@ -108,6 +108,12 @@ public class LibraryGridAdapter3 extends BaseAdapter {
                             }
                         }
                     });
+                } else {
+                    if (fileMeta != null && fileMeta.getTempBitmap() != null) {
+                        gridholder.ivCoverImage.setImageBitmap(fileMeta.getTempBitmap());
+                    } else {
+                        gridholder.ivCoverImage.setImageResource(R.drawable.ic_app_name);
+                    }
                 }
             }
         }

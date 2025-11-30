@@ -3,12 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
     android:background="@android:color/transparent"
     android:descendantFocusability="blocksDescendants"
+    android:id="@+id/llGridTop"
+    android:visibility="visible"
     >
+    <!--
+    -->
 <!--
 android:background="#fff6f3f2"
 android:descendantFocusability="blocksDescendants"
@@ -17,20 +21,20 @@ android:background="@drawable/toolbar_button"
 -->
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         >
         <androidx.cardview.widget.CardView
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="1dp">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center"
+                android:gravity="center|center_vertical"
                 android:padding="10dp"
                 >
                 <androidx.appcompat.widget.AppCompatImageView

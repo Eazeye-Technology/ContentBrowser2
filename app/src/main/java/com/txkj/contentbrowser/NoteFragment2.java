@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -171,10 +174,31 @@ class PreferencesKeys {
         //recentNoteView.setBackgroundColor(Color.WHITE);
         recentNoteAdapter = new NoteGridAdapter2(this.getContext(), recentNoteList);
         recentNoteView.setAdapter(recentNoteAdapter);
+//        recentNoteView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                if (recentNoteAdapter != null) {
+//                    Rect r = new Rect();
+//                    recentNoteView.getGlobalVisibleRect(r);
+//                    recentNoteAdapter.gridHeight = (int)(r.width() / recentNoteView.getNumColumns() / 210.0 * 297.0);
+//                    recentNoteAdapter.notifyDataSetChanged();
+//                }
+//                try {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                        recentNoteView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                    } else {
+//                        recentNoteView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                    }
+//                } catch (Throwable e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
         llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recentNoteView.setEmptyView(llEmpty1);
+        //recentNoteAdapter.
         recentNoteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -452,5 +476,11 @@ class PreferencesKeys {
         super.onResume();
         //notifyFragment();
         populate(); //FIXME:是否重复执行？
+    }
+
+    public void setSearch(String text) {
+        if (text != null) {
+            searchEditText.setText(text);
+        }
     }
 }

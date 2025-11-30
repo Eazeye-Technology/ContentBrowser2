@@ -1,9 +1,12 @@
 package com.txkj.contentbrowser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,10 +40,13 @@ public class LibraryGridAdapter2 extends BaseAdapter {
     private Context context;
     private GridViewHolder gridholder;
     private List<FileMeta> dataList;
+    DisplayMetrics DM = new DisplayMetrics();
 
     public LibraryGridAdapter2(Context context, List<FileMeta> results) {
         this.context = context;
         this.dataList = results;
+
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(DM);
     }
 
     @Override
@@ -75,6 +81,17 @@ public class LibraryGridAdapter2 extends BaseAdapter {
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
+        }
+        if (true) {
+            ViewGroup.LayoutParams params2 = new AbsListView.LayoutParams(
+                    AbsListView.LayoutParams.MATCH_PARENT,
+                    AbsListView.LayoutParams.MATCH_PARENT);
+            if (DM.heightPixels > DM.widthPixels) {
+                params2.height = (int)(DM.heightPixels / 3.5);
+            } else {
+                params2.height = (int)(DM.widthPixels / 2.5);
+            }
+            convertView.setLayoutParams(params2);
         }
 
         if (dataList != null) {
