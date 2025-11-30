@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.foobnix.model.AppProfile;
 import com.getdirectory.DirectoryFragment;
 import com.txkj.contentbrowser.AppsFragment;
@@ -35,6 +36,7 @@ import com.txkj.contentbrowser.NoteFragment2;
 import com.txkj.contentbrowser.SecondFragment;
 import com.txkj.contentbrowser.SettingFragment;
 import com.txkj.contentbrowser2.R;
+import com.txkj.smartanswer.AnswerFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -114,6 +116,8 @@ public class MainActivity2 extends AppCompatActivity {
         mChatFragment = new ChatFragment();
         mAppsFragment = new AppsFragment();
         mHome3Fragment = new HomeFragment3();
+        mAnswerFragment = new AnswerFragment();
+        mSystemSettingFragment = new SystemSettingFragment();
 
         mDirectoryFragment = new DirectoryFragment();
         mDirectoryFragment.setDelegate(new DirectoryFragment.DocumentSelectActivityDelegate() {
@@ -299,6 +303,8 @@ public class MainActivity2 extends AppCompatActivity {
     private ChatFragment mChatFragment;
     private AppsFragment mAppsFragment;
     private HomeFragment3 mHome3Fragment;
+    private AnswerFragment mAnswerFragment;
+    private SystemSettingFragment mSystemSettingFragment;
 
     private int currentTabId = R.id.function_bar_item_home;
     //@Override
@@ -308,8 +314,16 @@ public class MainActivity2 extends AppCompatActivity {
         for (int i = 0; i < icons.length; ++i) {
             View viewIcon = this.findViewById(icons[i]);
             if (viewIcon != null) {
-                ((CardView) viewIcon).setCardBackgroundColor(0x00888888);
-                ((CardView) viewIcon).setCardElevation(0.0f);
+                if (viewIcon.findViewWithTag("binding_0") != null) {
+                    View card = viewIcon.findViewWithTag("binding_0");
+                    if (card instanceof CardView) {
+                        ((CardView) card).setCardBackgroundColor(0x00888888);
+                        ((CardView) card).setCardElevation(0.0f);
+                    }
+                } else if (viewIcon instanceof CardView)  {
+                    ((CardView) viewIcon).setCardBackgroundColor(0x00888888);
+                    ((CardView) viewIcon).setCardElevation(0.0f);
+                }
                 if (viewIcon.findViewWithTag("binding_1") != null) {
                     ((AppCompatImageView)viewIcon.findViewWithTag("binding_1")).setBackgroundResource(getActiveIconId(icons[i], false));
                 }
@@ -319,26 +333,45 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }
         if (view != null) {
-            ((CardView) view).setCardBackgroundColor(0xFF888888);
-            ((CardView) view).setCardElevation(5.0f);
+            if (view.findViewWithTag("binding_0") != null) {
+                View card = view.findViewWithTag("binding_0");
+                if (card instanceof CardView) {
+                    ((CardView) card).setCardBackgroundColor(0xFF888888);
+                    ((CardView) card).setCardElevation(5.0f);
+                }
+            } else if (view instanceof CardView) {
+                ((CardView) view).setCardBackgroundColor(0xFF888888);
+                ((CardView) view).setCardElevation(5.0f);
+            }
 
             if (view.findViewWithTag("binding_1") != null) {
                 ((AppCompatImageView)view.findViewWithTag("binding_1")).setBackgroundResource(getActiveIconId(id, true));
             }
-            if (view.findViewWithTag("binding_5") != null) {
-                ((TextView)view.findViewWithTag("binding_5")).setTextColor(0xFFFFFFFF);
+            if (view.findViewWithTag("binding_0") == null) {
+                if (view.findViewWithTag("binding_5") != null) {
+                    ((TextView) view.findViewWithTag("binding_5")).setTextColor(0xFFFFFFFF);
+                }
             }
         }
         View viewR = findViewById(getEqualIconId(id));
         if (viewR != null) {
-            ((CardView) viewR).setCardBackgroundColor(0xFF888888);
-            ((CardView) viewR).setCardElevation(5.0f);
-
+            if (viewR.findViewWithTag("binding_0") != null) {
+                View card = viewR.findViewWithTag("binding_0");
+                if (card instanceof CardView) {
+                    ((CardView) card).setCardBackgroundColor(0xFF888888);
+                    ((CardView) card).setCardElevation(5.0f);
+                }
+            } else if (viewR instanceof CardView) {
+                ((CardView) viewR).setCardBackgroundColor(0xFF888888);
+                ((CardView) viewR).setCardElevation(5.0f);
+            }
             if (viewR.findViewWithTag("binding_1") != null) {
                 ((AppCompatImageView)viewR.findViewWithTag("binding_1")).setBackgroundResource(getActiveIconId(getEqualIconId(id), true));
             }
-            if (viewR.findViewWithTag("binding_5") != null) {
-                ((TextView)viewR.findViewWithTag("binding_5")).setTextColor(0xFFFFFFFF);
+            if (viewR.findViewWithTag("binding_0") == null) {
+                if (viewR.findViewWithTag("binding_5") != null) {
+                    ((TextView) viewR.findViewWithTag("binding_5")).setTextColor(0xFFFFFFFF);
+                }
             }
         }
 
@@ -347,7 +380,7 @@ public class MainActivity2 extends AppCompatActivity {
         TextView tvTitleText = (TextView) findViewById(R.id.tvTitleText);
         if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
             tvTitleText.setText("Home");
-            fragmentTransaction.replace(R.id.content_layout, mHome3Fragment); //mHomeFragment
+            fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);//mHome3Fragment); //mHomeFragment
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
             tvTitleText.setText("Notes");
@@ -371,7 +404,7 @@ public class MainActivity2 extends AppCompatActivity {
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_7 || id == R.id.menu_bar_item_7_R) {
             tvTitleText.setText("Settings");
-            fragmentTransaction.replace(R.id.content_layout, mSettingFragment);
+            fragmentTransaction.replace(R.id.content_layout, mSystemSettingFragment);//mSettingFragment);
             fragmentTransaction.commit();
         }
     }

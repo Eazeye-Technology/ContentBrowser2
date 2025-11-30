@@ -9,7 +9,7 @@
         app:cardCornerRadius="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:id="@+id/btnTitleNewBook"
+        android:id="@+id/btnTitleNewBook_R"
         >
         <!--
         -->
@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New note"
+                android:text=""
                 android:textColor="#ffffff"
                 android:textSize="14sp"
                 android:layout_gravity="center_vertical|center"
@@ -56,15 +56,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="5dp"
-                android:id="@+id/menu_bar_item_1"
+                android:id="@+id/menu_bar_item_1_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -80,7 +80,6 @@
                         android:textColor="#ffffff"
                         android:textSize="14sp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
@@ -94,15 +93,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="0dp"
-                android:id="@+id/menu_bar_item_2"
+                android:id="@+id/menu_bar_item_2_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -117,8 +116,7 @@
                         android:text="Notes"
                         android:textColor="#000000"
                         android:textSize="14sp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center|center_vertical"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
@@ -132,15 +130,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="0dp"
-                android:id="@+id/menu_bar_item_3"
+                android:id="@+id/menu_bar_item_3_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -156,7 +154,6 @@
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
@@ -170,15 +167,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="0dp"
-                android:id="@+id/menu_bar_item_4"
+                android:id="@+id/menu_bar_item_4_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -194,7 +191,6 @@
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
@@ -208,15 +204,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="0dp"
-                android:id="@+id/menu_bar_item_5"
+                android:id="@+id/menu_bar_item_5_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -232,7 +228,6 @@
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
@@ -246,15 +241,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="0dp"
-                android:id="@+id/menu_bar_item_6"
+                android:id="@+id/menu_bar_item_6_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -270,7 +265,6 @@
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
@@ -284,15 +278,15 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 app:cardElevation="0dp"
-                android:id="@+id/menu_bar_item_7"
+                android:id="@+id/menu_bar_item_7_R"
                 android:clickable="true"
                 >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center"
                     >
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
@@ -308,7 +302,6 @@
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
                         android:tag="binding_5"
                         />
                 </LinearLayout>
