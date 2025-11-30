@@ -1,0 +1,225 @@
+﻿@charset "utf-8";
+
+html{background:#fff;color:#000;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+audio,canvas,video {display:inline-block;*display:inline;*zoom:1;}
+body,button,select,textarea{font:12px/1.5 "\5fae\8f6f\96c5\9ed1",Tahoma,"\5b8b\4f53",Arial,Helvetica,sans-serif;}
+input,select,textarea{font-size:100%;}
+input{vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;}
+th{text-align:inherit;}
+fieldset,img{border:0;}
+iframe{display:block;}
+abbr,acronym{border:0;font-variant:normal;}
+del{text-decoration:line-through;}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500;}
+ol,ul{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{
+	/*
+	font-size:100%;
+	font-weight:500;
+	*/
+}
+q:before,q:after{content:'';}
+sub,sup{position:relative;font-size:75%;line-height:0;vertical-align:baseline;}
+sup{top:-0.5em;}
+sub{bottom:-0.25em;}
+ins,a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+.ClearFix:after {display:block;clear:both;height:0;visibility:hidden;font-size:0;content:" ";}
+.ClearFix{zoom:1;}
+.FnLeft,.FnRight{display:inline;}
+.FnLeft{float:left;}
+.FnRight{float:right;}
+
+.pr{position:relative;}
+
+
+/* headerBo */
+.headerBo{height:60px;background:#333;zoom:1;}
+.header{width:960px;margin:0 auto;}
+.logo{float:left;display:inline;width:204px;height:60px;overflow:hidden;background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/logo1.png?v=20150210001) no-repeat;}
+.logo a{display:block;width:204px;height:60px;line-height:180px;}
+.menuList{float:right;display:inline;}
+.menuList li{float:left;display:inline;margin:0 10px;}
+.menuList li a{float:left;height:57px;padding:0 10px;border-bottom:3px solid #333;line-height:57px;color:#fff;font-size:18px;}
+.menuList li a:hover{height:57px;background:#414141;border-bottom:3px solid #f24f08;text-decoration:none;}
+
+/* footer */
+.footer{background:#fff;}
+.sm_footer {padding:20px 0 50px;margin: 0 auto; text-align: center; width: 960px;}
+.sm_footer p {padding-top:5px; color: #9c9c9c; line-height: 28px;}
+.logoAc{float:left;width:143px;height:39px;background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/logoAc.png) no-repeat;border-right:1px dotted #f6f6f6;}
+.pic_link{margin-top:10px;text-align:center;}
+.pic_link a{display:inline-block;width:120px;height:49px;margin:0px 5px;line-height:0px;overflow:hidden;background-image:url(http://r.aicaicdn.com/images/commons/aicaipiao/head_foot/headfoot_public.png?v=20130820001A);background-repeat:no-repeat;}
+.pic_link a.foot_pic2{background-position:0px -539px;}
+.pic_link a.foot_pic1{background-position:0px -590px;}
+.pic_link a.foot_pic3{background-position:0px -641px;}
+.pic_link a.foot_pic4{background-position:0px -822px;}
+.pic_link a.foot_pic5{background-position:0px -875px;}
+.pic_link a.foot_pic6{background-position:0px -927px;}
+.pic_link a.foot_pic7{background-position:0px -979px;}
+
+.wraper{zoom:1;overflow:hidden;position:relative;}
+.applis li,.toolLisBo li,.logLis li,.icPoint,.icflow,.flowCount,.qdBtn,.redBall,.blueBall,.downList li,.logClose{background-image:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/bjmap.png?v=20150210001);background-repeat:no-repeat;}
+/* mainBo */
+.mainBo{width:960px;margin:0 auto;}
+.picBoLis{position:relative;width:960px;height:390px;}
+.picLis{position:absolute;left:-50%;top:0;width:2180px;height:390px;margin-left:-130px;overflow:hidden;}
+.picLis ul{position:absolute;left:0;top:0;}
+.picLis li{float:left;display:inline;width:2180px;height:390px;}
+.ctrlBo{position:absolute;left:0;bottom:45px;z-index:2;width:1000px;text-align:right;font-size:0;}
+.ctrlBo a{display:inline-block;width:10px;height:10px;margin:0 4px;overflow:hidden;background:#ccc;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%;border-radius:50%;}
+.ctrlBo a:hover{background:orange;}
+.ctrlBo a.on{background:orange;}
+
+.appAreaBo{position:relative;width:960px;height:328px;}
+.phoneBo{position:absolute;right:253px;top:-349px;width:480px;height:677px;background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/phone.png?v=20150210001) no-repeat;}
+.phoneTip{width:320px;height:564px;margin:55px 0 0 82px;background:rgba(0,0,0,.2);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33000000',endColorstr='#33000000');overflow:hidden;}
+.snyzBo{position:relative;width:274px;height:377px;margin:87px 0 0 16px;background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/snyz.png) no-repeat;}
+.lqbtn{position:absolute;left:43px;top:234px;width:184px;height:57px;overflow:hidden;text-indent:-10em;}
+.snclose{position:absolute;right:0;top:0;width:40px;height:40px;}
+.yzmBo,.sryzmBo{position:relative;width:274px;height:380px;margin:87px 0 0 16px;background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/yzm.png) no-repeat;}
+.sryzmBo{background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/sryzm.png) no-repeat;}
+.yzmctrl{position:absolute;left:12px;top:88px;}
+.yzmtxt{color:#ffd8ea;}
+.widgetEle{margin-top:18px;}
+.widText{width:110px;height:14px;padding:7px 10px;border:1px solid #ad0020;background:#fce6ea;color:#ff002f;font-size:14px;border-radius:2px;vertical-align:top;}
+.widBtn{display:inline-block;width:111px;height:30px;background:#fde638;text-align:center;line-height:30px;color:#d50525;font-size:14px;border-radius:2px;vertical-align:top;}
+.widBtndis{background:#ea5c30;color:#f5a29f;font-size:12px;}
+.yfstxt{padding:15px 0;color:#fff5a6;font-size:14px;}
+.labelEle{display:inline-block;height:30px;color:#ffd8ea;line-height:30px;}
+.lqmEle .widText{width:150px;}
+.qdBtnbo{padding:30px 0 0;text-align:center;}
+.qdBtn{display:inline-block;width:189px;height:55px;background-position:-291px -128px;text-align:center;line-height:50px;color:#be1301;font-size:26px;}
+.qdBtn:hover{color:#be1301;text-decoration:none;}
+.ssqTi{position:relative;width:274px;height:377px;margin:87px 0 0 16px;background:url(http://r.aicaicdn.com/styles/pages/vipactivity/mobileIndex/images/mobileClient/yzmbj.png) no-repeat;}
+.ssqtxt{position:absolute;left:80px;top:30px;color:#fff5a6;font-size:14px;}
+.ssqTico{position:absolute;top:88px;left:12px;}
+.ssqhm{height:31px;font-size:0;}
+.redBall,.blueBall{display:inline-block;width:31px;height:31px;margin-right:5px;text-align:center;line-height:31px;font-size:14px;font-weight:700;color:#fff5a6;}
+.redBall{background-position:-485px -128px;}
+.blueBall{margin-right:0;background-position:-522px -128px;}
+.cpmess{margin-top:10px;}
+.cpmestit{margin-bottom:8px;color:#fac3d5;}
+.cpmessuser{color:#fff5a6;}
+.downltxt{padding:19px 0;margin-top:10px;text-align:center;font-size:14px;color:#fff;}
+.downList{height:55px;}
+.downList li{position:relative;float:left;display:inline;width:120px;height:55px;margin:0 3px;background-position:-291px -184px;font-size:16px;color:#da012c;line-height:46px;text-align:center;}
+.downList li a{display:block;width:120px;height:55px;color:#da012c;}
+.downList li a:hover{color:#da012c;text-decoration:none;}
+.downList li .appTip{width:116px;height:120px;top:50px;left:2px;}
+.downtishi{padding:5px;color:#fac3d5;}
+
+.appConBo{position:absolute;left:7px;top:-36px;width:571px;}
+.applis{width:580px;height:66px;}
+.applis li{position:relative;float:left;display:inline;width:186px;height:66px;margin-right:7px;}
+.iphone{background-position:0 0;}
+.android{background-position:-193px 0;}
+.wphone{background-position:-385px 0;}
+.btnlnk{display:block;width:136px;height:58px;padding:8px 0 0 50px;color:#fff;}
+.btnlnk:hover{text-decoration:none;color:#fff;}
+.edltxt{font-size:18px;font-family:Arial;white-space:nowrap;}
+.dltxt{font-size:14px;}
+.appTip{display:none;position:absolute;left:0;top:66px;width:186px;height:132px;background:#ebebeb;}
+.ewm{width:80px;height:80px;margin:21px auto 19px;}
+.dlbtn{text-align:center;}
+.dlbtn a{display:inline-block;width:150px;height:34px;background:#f5f5f5;border:1px solid #f5c975;color:#feae24;font-size:18px;font-family:Arial;line-height:34px;border-radius:2px;}
+.dlbtn a:hover{color:#feae24;text-decoration:none;}
+
+.dlTishi{margin:28px 0 0 13px;color:#aaa;font-size:14px;}
+.dlTishi span{color:#34aadc;}
+
+.gcTool{margin-top:45px;}
+.gcTooltit{font-size:28px;color:#343434;}
+.toolLisBo{width:580px;height:60px;margin-top:30px;}
+.toolLisBo li{position:relative;float:left;display:inline;width:186px;height:60px;margin-right:7px;}
+.lis1{background-position:0 -67px;}
+.lis2{background-position:-193px -67px;}
+.lis3{background-position:-385px -67px;}
+.toolnk{display:block;width:186px;height:60px;text-align:center;color:#fff;}
+.toolnk:hover{color:#fff;text-decoration:none;}
+.tlp{font-size:24px;}
+.tlptxt{font-size:14px;}
+.toolTip{position:absolute;left:0;top:60px;width:186px;padding:5px 0;background:#ebebeb;}
+.toolTip p{padding:5px 0;}
+
+.mainMiddBo{height:314px;background:#fff;border-top:1px solid #e9e9ea;}
+.mainMidd{width:960px;height:272px;margin:21px auto 0;}
+.gcPoint{width:584px;height:272px;border-right:1px dotted #dcdcdc;}
+.versionUpdate{width:375px;height:272px;}
+.gcTit{padding-left:7px;font-size:28px;color:#343434;}
+.versionUpdate .gcTit{padding-left:15px;}
+.logLis{padding:0 15px;}
+.logLis li{height:45px;padding-left:20px;line-height:45px;font-size:14px;color:#343434;font-family:Tahoma;background-position:-576px 15px;}
+.logLis li a{color:#34aadc;}
+.logLis li a:hover{color:#34aadc;}
+.logLis span{float:right;color:#8b8b8b;}
+.pointCon{margin:25px 0 0 5px;}
+.pointCon li{float:left;display:inline;width:191px;height:100px;}
+.bordboth{border:1px dotted #dbdbdc;border-width:0 1px;}
+.icPoint{_position:relative;display:block;width:96px;height:96px;margin:-5px auto 0;}
+.icAq{background-position:0 -128px;}
+.icKind{background-position:-97px -128px;}
+.icSelect{background-position:-194px -128px;}
+.pointDoc{padding:30px 0 0 26px;_position:relative;_margin-bottom:-94px;}
+.docTit{font-size:16px;color:#343434;}
+.docco{color:#a9a9a9;line-height:20px;}
+
+.mainBottBo{height:256px;background:#f5f6f6;border-top:1px solid #f5f6f6;}
+.mainBott{width:960px;height:200px;margin:30px auto 0;}
+.gcFlow{width:584px;height:200px;border-right:1px dotted #dcdcdc;}
+.flowLis{}
+.flowLis li{float:left;display:inline;width:191px;height:102px;}
+.icflow{display:block;width:84px;height:102px;margin:0 auto;}
+.icSj{background-position:0 -225px;}
+.icUser{background-position:-85px -225px;}
+.icGif{background-position:-170px -225px;}
+.flowDoc{margin-top:30px;padding-left:5px;}
+*html .flowDoc{position:relative;margin-bottom:-78px;zoom:1;}
+.flowCount{float:left;width:31px;height:25px;margin-right:5px;}
+.fCount1{background-position:0 -328px;}
+.fCount2{background-position:-32px -328px;}
+.fCount3{background-position:-64px -328px;}
+.flowDoc p{font-size:16px;color:#343434;overflow:hidden;zoom:1;}
+
+
+.gcHelp{width:375px;height:200px;}
+.gcHelp .gcTit{padding-left:15px;}
+.questionLis{padding-left:15px;}
+.questionLis li{color:#9c9c9c;font-size:16px;line-height:40px;}
+.questionLis li a{color:#9c9c9c;}
+.questionLis li a:hover{color:#9c9c9c;}
+
+/* =tip=更新日志弹出框--------- */
+.coverTipBo{opacity:0;filter:alpha(opacity=0);}
+.coverDiv{position:fixed;left:0;top:0;z-index:10;width:100%;height:100%;background:rgba(0,0,0,.7);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#99000000',endColorstr='#99000000');}
+*html .coverDiv{position:absolute;}
+.logTipDiv{position:fixed;left:50%;top:50%;z-index:11;width:660px;height:520px;margin:-260px 0 0 -330px;background:#fff;border-radius:5px;}
+*html .logTipDiv{position:absolute;}
+.logTipTit{height:47px;padding-left:35px;border-bottom:1px solid #ccc;color:#020000;font-size:18px;line-height:47px;}
+.logClose{float:right;width:22px;height:22px;margin:10px;background-position:-554px -128px;}
+.logcon{width:600px;height:435px;margin:10px auto;overflow:hidden;}
+.logcon li{margin-bottom:20px;}
+.ptit{margin-bottom:10px;color:#020000;font-size:14px;}
+.ptit span{margin-left:10px;font-size:12px;color:#666;}
+.pcon{line-height:20px;color:#666;}
+
+/* =滚动条模拟---- */
+.scrollbar{position:absolute;right:10px;top:60px;width:15px;height:435px;background:#f0f0f0;overflow:hidden;}
+.scrollbar .handle{width:15px;height:50px;background:#cdcdcd;cursor:pointer;}
+.scrollbar .handle .mousearea{position:absolute;top:0;left:0;width:100%;height:100%;}
+
+/* =20140117-add-表单提示层---------- */
+.phoneCon{position:absolute;left:80px;top:53px;width:320px;height:564px;background:#fff;}
+.phoneTip{position:absolute;z-index:1;width:333px;margin-left:80px;}
+.widgetEle,.lqmEle{position:relative;}
+.txtTip{position:absolute;left:1px;top:30px;height:25px;padding:0 10px;background:#ffa800;line-height:25px;color:#f00;font-size:12px;white-space:nowrap;}
+.lqmEle .txtTip{left:77px;}
+.inpoi{position:absolute;left:30px;top:-10px;content:"";width:0;height:0;overflow:hidden;font-size:0;line-height:0;border:5px solid #ffa800;border-style:dashed dashed solid dashed;border-color:transparent transparent #ffa800 transparent;}
+
+
+
+.appConBo2{position:absolute;right:-300px;top:-36px;width:571px;}

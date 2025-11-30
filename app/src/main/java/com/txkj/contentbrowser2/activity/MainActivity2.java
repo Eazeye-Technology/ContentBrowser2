@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +22,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.foobnix.model.AppProfile;
 import com.getdirectory.DirectoryFragment;
+import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
 import com.txkj.contentbrowser.ChatFragment;
 import com.txkj.contentbrowser.FirstFragment;
 import com.txkj.contentbrowser.HomeFragment;
 import com.txkj.contentbrowser.HomeFragment2;
+import com.txkj.contentbrowser.HomeFragment3;
 import com.txkj.contentbrowser.LibraryFragment2Book;
 import com.txkj.contentbrowser.LibraryFragment2Pdf;
 import com.txkj.contentbrowser.NoteFragment2;
@@ -49,6 +52,15 @@ public class MainActivity2 extends AppCompatActivity {
             R.id.menu_bar_item_3,
             R.id.menu_bar_item_4,
             R.id.menu_bar_item_5,
+            R.id.menu_bar_item_6,
+            R.id.menu_bar_item_7,
+            R.id.menu_bar_item_1_R,
+            R.id.menu_bar_item_2_R,
+            R.id.menu_bar_item_3_R,
+            R.id.menu_bar_item_4_R,
+            R.id.menu_bar_item_5_R,
+            R.id.menu_bar_item_6_R,
+            R.id.menu_bar_item_7_R,
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +83,19 @@ public class MainActivity2 extends AppCompatActivity {
             viewIcon.findViewWithTag("binding_1").setActivated(true);
         }
 
+        findViewById(R.id.btnSearch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
+                    findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tvTitleText).setVisibility(View.GONE);
+                }
+            }
+        });
+
 
 
         //https://github.com/dibakarece/AndroidFileExplorer
@@ -87,6 +112,8 @@ public class MainActivity2 extends AppCompatActivity {
         mLibraryFragment2Book = new LibraryFragment2Book();
         mLibraryFragment2Pdf = new LibraryFragment2Pdf();
         mChatFragment = new ChatFragment();
+        mAppsFragment = new AppsFragment();
+        mHome3Fragment = new HomeFragment3();
 
         mDirectoryFragment = new DirectoryFragment();
         mDirectoryFragment.setDelegate(new DirectoryFragment.DocumentSelectActivityDelegate() {
@@ -155,17 +182,30 @@ public class MainActivity2 extends AppCompatActivity {
         this.findViewById(R.id.top_left_menu_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (findViewById(R.id.left_menu) != null) {
-                    if (findViewById(R.id.left_menu).getVisibility() == View.VISIBLE) {
-                        findViewById(R.id.left_menu).setVisibility(View.GONE);
+                if (false) {
+                    if (findViewById(R.id.left_menu) != null) {
+                        if (findViewById(R.id.left_menu).getVisibility() == View.VISIBLE) {
+                            findViewById(R.id.left_menu).setVisibility(View.GONE);
+                        } else {
+                            findViewById(R.id.left_menu).setVisibility(View.VISIBLE);
+                        }
+                    }
+                } else {
+                    if (findViewById(R.id.leftmenu2).getVisibility() == View.GONE) {
+                        findViewById(R.id.leftmenu1).setVisibility(View.GONE);
+                        findViewById(R.id.leftmenu2).setVisibility(View.VISIBLE);
+                        ((ImageView) findViewById(R.id.top_left_menu_button_icon)).setImageResource(R.drawable.ic_baseline_menu_24);
                     } else {
-                        findViewById(R.id.left_menu).setVisibility(View.VISIBLE);
+                        findViewById(R.id.leftmenu1).setVisibility(View.VISIBLE);
+                        findViewById(R.id.leftmenu2).setVisibility(View.GONE);
+                        ((ImageView) findViewById(R.id.top_left_menu_button_icon)).setImageResource(R.drawable.ic_baseline_menu_open_24);
                     }
                 }
             }
         });
         View button = this.findViewById(R.id.btnTitleNewBook);
-        button.setOnClickListener(new View.OnClickListener() {
+        View buttonR = this.findViewById(R.id.btnTitleNewBook_R);
+        View.OnClickListener onClickListenerNewBook = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -192,7 +232,11 @@ public class MainActivity2 extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
+        };
+        if (true) {
+            button.setOnClickListener(onClickListenerNewBook);
+            buttonR.setOnClickListener(onClickListenerNewBook);
+        }
 
         int stateStarted = 0;
         if (savedInstanceState != null) {
@@ -203,6 +247,7 @@ public class MainActivity2 extends AppCompatActivity {
             checkPermissioin();
         }
     }
+
     private static final String STATE_STARTED = "STATE_STARTED";
     //原文链接：https://blog.csdn.net/zuo_er_lyf/article/details/82659426
     //https://www.dev2qa.com/android-read-write-external-storage-file-example/
@@ -252,6 +297,8 @@ public class MainActivity2 extends AppCompatActivity {
     private LibraryFragment2Book mLibraryFragment2Book;
     private LibraryFragment2Pdf mLibraryFragment2Pdf;
     private ChatFragment mChatFragment;
+    private AppsFragment mAppsFragment;
+    private HomeFragment3 mHome3Fragment;
 
     private int currentTabId = R.id.function_bar_item_home;
     //@Override
@@ -282,37 +329,69 @@ public class MainActivity2 extends AppCompatActivity {
                 ((TextView)view.findViewWithTag("binding_5")).setTextColor(0xFFFFFFFF);
             }
         }
+        View viewR = findViewById(getEqualIconId(id));
+        if (viewR != null) {
+            ((CardView) viewR).setCardBackgroundColor(0xFF888888);
+            ((CardView) viewR).setCardElevation(5.0f);
+
+            if (viewR.findViewWithTag("binding_1") != null) {
+                ((AppCompatImageView)viewR.findViewWithTag("binding_1")).setBackgroundResource(getActiveIconId(getEqualIconId(id), true));
+            }
+            if (viewR.findViewWithTag("binding_5") != null) {
+                ((TextView)viewR.findViewWithTag("binding_5")).setTextColor(0xFFFFFFFF);
+            }
+        }
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         TextView tvTitleText = (TextView) findViewById(R.id.tvTitleText);
         switch (id) {
             case R.id.menu_bar_item_1:
-                tvTitleText.setText("Recent");
-                fragmentTransaction.replace(R.id.content_layout, mHomeFragment);
+            case R.id.menu_bar_item_1_R:
+                tvTitleText.setText("Home");
+                fragmentTransaction.replace(R.id.content_layout, mHome3Fragment); //mHomeFragment
                 fragmentTransaction.commit();
                 break;
 
             case R.id.menu_bar_item_2:
+            case R.id.menu_bar_item_2_R:
                 tvTitleText.setText("Notes");
                 fragmentTransaction.replace(R.id.content_layout, mNoteFragment);
                 fragmentTransaction.commit();
                 break;
 
             case R.id.menu_bar_item_3:
+            case R.id.menu_bar_item_3_R:
                 tvTitleText.setText("Books");
                 fragmentTransaction.replace(R.id.content_layout, mLibraryFragment2Book);
                 fragmentTransaction.commit();
                 break;
 
             case R.id.menu_bar_item_4:
+            case R.id.menu_bar_item_4_R:
                 tvTitleText.setText("PDFs");
                 fragmentTransaction.replace(R.id.content_layout, mLibraryFragment2Pdf);
                 fragmentTransaction.commit();
                 break;
 
             case R.id.menu_bar_item_5:
-                tvTitleText.setText("Paper 2");
-                fragmentTransaction.replace(R.id.content_layout, mBrowserFragment);
+            case R.id.menu_bar_item_5_R:
+                tvTitleText.setText("Storage");
+                fragmentTransaction.replace(R.id.content_layout, mDirectoryFragment);
+                fragmentTransaction.commit();
+                break;
+
+            case R.id.menu_bar_item_6:
+            case R.id.menu_bar_item_6_R:
+                tvTitleText.setText("Apps");
+                fragmentTransaction.replace(R.id.content_layout, mAppsFragment);
+                fragmentTransaction.commit();
+                break;
+
+            case R.id.menu_bar_item_7:
+            case R.id.menu_bar_item_7_R:
+                tvTitleText.setText("Settings");
+                fragmentTransaction.replace(R.id.content_layout, mSettingFragment);
                 fragmentTransaction.commit();
                 break;
         }
@@ -390,11 +469,34 @@ public class MainActivity2 extends AppCompatActivity {
 
     public int getActiveIconId(int id, boolean isActive) {
         switch (id) {
-            case R.id.menu_bar_item_1: return isActive ? R.drawable.ic_baseline_access_time_24_white: R.drawable.ic_baseline_access_time_24;
-            case R.id.menu_bar_item_2: return isActive ? R.drawable.ic_outline_sticky_note_2_24_white: R.drawable.ic_outline_sticky_note_2_24;
-            case R.id.menu_bar_item_3: return isActive ? R.drawable.ic_baseline_book_24_white: R.drawable.ic_baseline_book_24;
-            case R.id.menu_bar_item_4: return isActive ? R.drawable.ic_baseline_picture_as_pdf_24_white: R.drawable.ic_baseline_picture_as_pdf_24;
-            case R.id.menu_bar_item_5: return isActive ? R.drawable.ic_baseline_phone_android_24_white: R.drawable.ic_baseline_phone_android_24;
+            //case R.id.menu_bar_item_1: return isActive ? R.drawable.ic_baseline_access_time_24_white: R.drawable.ic_baseline_access_time_24;
+            case R.id.menu_bar_item_1: case R.id.menu_bar_item_1_R:  return isActive ? R.drawable.ic_baseline_home_24_white: R.drawable.ic_baseline_home_24;
+            case R.id.menu_bar_item_2: case R.id.menu_bar_item_2_R:  return isActive ? R.drawable.ic_outline_sticky_note_2_24_white: R.drawable.ic_outline_sticky_note_2_24;
+            case R.id.menu_bar_item_3: case R.id.menu_bar_item_3_R:  return isActive ? R.drawable.ic_baseline_book_24_white: R.drawable.ic_baseline_book_24;
+            case R.id.menu_bar_item_4: case R.id.menu_bar_item_4_R:  return isActive ? R.drawable.ic_baseline_picture_as_pdf_24_white: R.drawable.ic_baseline_picture_as_pdf_24;
+            case R.id.menu_bar_item_5: case R.id.menu_bar_item_5_R:  return isActive ? R.drawable.ic_baseline_phone_android_24_white: R.drawable.ic_baseline_phone_android_24;
+            case R.id.menu_bar_item_6: case R.id.menu_bar_item_6_R:  return isActive ? R.drawable.ic_sharp_apps_24_white: R.drawable.ic_sharp_apps_24;
+            case R.id.menu_bar_item_7: case R.id.menu_bar_item_7_R:  return isActive ? R.drawable.ic_outline_settings_24_white: R.drawable.ic_outline_settings_24;
+        }
+        return 0;
+    }
+    public int getEqualIconId(int id) {
+        switch (id) {
+            case R.id.menu_bar_item_1:  return R.id.menu_bar_item_1_R;
+            case R.id.menu_bar_item_2:  return R.id.menu_bar_item_2_R;
+            case R.id.menu_bar_item_3:  return R.id.menu_bar_item_3_R;
+            case R.id.menu_bar_item_4:  return R.id.menu_bar_item_4_R;
+            case R.id.menu_bar_item_5:  return R.id.menu_bar_item_5_R;
+            case R.id.menu_bar_item_6:  return R.id.menu_bar_item_6_R;
+            case R.id.menu_bar_item_7:  return R.id.menu_bar_item_7_R;
+
+            case R.id.menu_bar_item_1_R:  return R.id.menu_bar_item_1;
+            case R.id.menu_bar_item_2_R:  return R.id.menu_bar_item_2;
+            case R.id.menu_bar_item_3_R:  return R.id.menu_bar_item_3;
+            case R.id.menu_bar_item_4_R:  return R.id.menu_bar_item_4;
+            case R.id.menu_bar_item_5_R:  return R.id.menu_bar_item_5;
+            case R.id.menu_bar_item_6_R:  return R.id.menu_bar_item_6;
+            case R.id.menu_bar_item_7_R:  return R.id.menu_bar_item_7;
         }
         return 0;
     }

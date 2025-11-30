@@ -144,14 +144,37 @@ android:background="#f6f3f2"
             android:gravity="center"
             android:stretchMode="columnWidth"
             />
-        <TextView
-            android:id="@+id/tvEmpty1"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF000000"
-            android:text="No items."
+            android:id="@+id/llEmpty1"
+            android:orientation="vertical"
             android:layout_centerInParent="true"
-            />
+            android:gravity="center"
+            >
+            <ImageView
+                android:src="@drawable/ic_baseline_folder_copy_24"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                />
+            <TextView
+                android:id="@+id/tvEmpty1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF000000"
+                android:text="Nothing here yet"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF000000"
+                android:textSize="12sp"
+                android:text="This space is empty. Add files to get started-drag and drop files,\nupload from device, or create a new one."
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                />
+        </LinearLayout>
     </RelativeLayout>
 
 

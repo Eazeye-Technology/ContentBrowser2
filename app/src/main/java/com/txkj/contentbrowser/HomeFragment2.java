@@ -115,10 +115,11 @@ c.startActivity(intent);
 return uri;
  */
 public class HomeFragment2 extends Fragment {
-    private final static String STR_NO_ITEMS = "No items.";
+    private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
 
     private TextView tvEmpty1, tvEmpty2;
+    private LinearLayout llEmpty1, llEmpty2;
 
     private final static int MAX_RECENT = 10;
 
@@ -169,7 +170,8 @@ class PreferencesKeys {
         recyclerView.setAdapter(recentAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
-        recyclerView.setEmptyView(tvEmpty1);
+        llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
+        recyclerView.setEmptyView(llEmpty1);
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -273,7 +275,8 @@ class PreferencesKeys {
         recentNoteView.setAdapter(recentNoteAdapter);
         tvEmpty2 = view.findViewById(R.id.tvEmpty2);
         tvEmpty2.setText(STR_LOADING);
-        recentNoteView.setEmptyView(tvEmpty2);
+        llEmpty2 = view.findViewById(R.id.llEmpty2);
+        recentNoteView.setEmptyView(llEmpty2);
         recentNoteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

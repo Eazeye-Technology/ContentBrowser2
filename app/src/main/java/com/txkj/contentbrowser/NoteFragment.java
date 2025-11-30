@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,12 +58,13 @@ public class NoteFragment extends Fragment {
     public final static String APPNAME = "txkjnote";
     public final static String APPNAME_NEW = "txkjnote2";
 
-    private final static String STR_NO_ITEMS = "No items.";
+    private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
 
     AutoCompleteTextView searchEditText;
     TextView tvPageInfo;
     private TextView tvEmpty1;
+    private LinearLayout llEmpty1;
 
     private final static boolean USE_EXTERNAL_FILE = true;
 
@@ -173,7 +175,8 @@ class PreferencesKeys {
         recentNoteView.setAdapter(recentNoteAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
-        recentNoteView.setEmptyView(tvEmpty1);
+        llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
+        recentNoteView.setEmptyView(llEmpty1);
         recentNoteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

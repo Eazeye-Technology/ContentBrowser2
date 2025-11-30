@@ -178,7 +178,7 @@ https://blog.csdn.net/weixin_42168430/article/details/139764981
         }
  */
 public class LibraryFragment extends Fragment {
-    private final static String STR_NO_ITEMS = "No items.";
+    private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
 
     //find-add-folder
@@ -232,6 +232,7 @@ public class LibraryFragment extends Fragment {
     private GridView recyclerView;
     private LibraryGridAdapter bookGridAdapter;
     private TextView tvEmpty1;
+    private LinearLayout llEmpty1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -289,6 +290,7 @@ public class LibraryFragment extends Fragment {
         recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recyclerView.setEmptyView(tvEmpty1);
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
