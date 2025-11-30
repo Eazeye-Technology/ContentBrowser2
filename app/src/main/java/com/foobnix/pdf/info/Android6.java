@@ -29,10 +29,9 @@ public class Android6 {
 
     public static boolean canWrite(Context c) {
 
-	//FIXME:
-//        if (Build.VERSION.SDK_INT >= ANDROID_12_INT && Environment.isExternalStorageManager()) {
-//            return true;
-//        }
+        if (Build.VERSION.SDK_INT >= ANDROID_12_INT && Environment.isExternalStorageManager()) {
+            return true;
+        }
 
         if (Build.VERSION.SDK_INT >= 23) {
             return ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -41,31 +40,30 @@ public class Android6 {
     }
 
     public static void checkPermissions(final Activity a, boolean checkWhatIsNew) {
-	//FIXME:
-//        if (Build.VERSION.SDK_INT >= 30) {
-//            LOG.d("Environment.isExternalStorageManager()", Environment.isExternalStorageManager(), Build.VERSION.SDK_INT);
-//
-//            if (!Environment.isExternalStorageManager()) {
-//                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-//                Uri uri = Uri.fromParts("package", a.getPackageName(), null);
-//                intent.setData(uri);
-//                try {
-//                    a.startActivityForResult(intent, MY_PERMISSIONS_REQUEST_WES);
-//                } catch (Exception e) {
-//                    Toast.makeText(a, R.string.msg_unexpected_error, Toast.LENGTH_LONG).show();
-//                    try {
-//                        Intent intent2 = new Intent();
-//                        intent2.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-//                        a.startActivityForResult(intent2,MY_PERMISSIONS_REQUEST_WES);
-//                    } catch (Exception e2) {
-//                        Toast.makeText(a, R.string.msg_unexpected_error, Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            } else {
-//               FontExtractor.extractFonts(a);
-//            }
-//            return;
-//        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            LOG.d("Environment.isExternalStorageManager()", Environment.isExternalStorageManager(), Build.VERSION.SDK_INT);
+
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", a.getPackageName(), null);
+                intent.setData(uri);
+                try {
+                    a.startActivityForResult(intent, MY_PERMISSIONS_REQUEST_WES);
+                } catch (Exception e) {
+                    Toast.makeText(a, R.string.msg_unexpected_error, Toast.LENGTH_LONG).show();
+                    try {
+                        Intent intent2 = new Intent();
+                        intent2.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        a.startActivityForResult(intent2,MY_PERMISSIONS_REQUEST_WES);
+                    } catch (Exception e2) {
+                        Toast.makeText(a, R.string.msg_unexpected_error, Toast.LENGTH_LONG).show();
+                    }
+                }
+            } else {
+               FontExtractor.extractFonts(a);
+            }
+            return;
+        }
 
 
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(a, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -111,7 +109,7 @@ public class Android6 {
         LOG.d("onActivityResult", requestCode);
         if (requestCode == MY_PERMISSIONS_REQUEST_WES) {
             if (Build.VERSION.SDK_INT >= ANDROID_12_INT) {
-                if (false) { //FIXME:Environment.isExternalStorageManager()) {
+                if (Environment.isExternalStorageManager()) {
                     a.finish();
                     a.getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     a.startActivity(a.getIntent());

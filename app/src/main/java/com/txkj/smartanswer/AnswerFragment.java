@@ -106,6 +106,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class AnswerFragment extends
         Fragment {
 //        Activity {
+    private final static boolean NO_LOCATION_CHECK = true;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,8 @@ public class AnswerFragment extends
 //    private final static String FILENAME = "home/home.html";
 //    private final static String FILENAME = "http://42.192.233.179:8007/back/index.html";
 
-      private final static String FILENAME = "http://47.107.122.182/aifront/index.html";
+    private final static String FILENAME = "https://cbcx-sj.jmtxkj.cn/aifront/index.html";
+//      private final static String FILENAME = "http://47.107.122.182/aifront/index.html";
 //      private final static String FILENAME = "https://tx-ai.jmtxkj.cn/aifront/index.html"; //49.51.193.85 | cbcx-sj:47.107.122.182
 //    private final static String FILENAME = "http://www.jmtxkj.cn/test/uploader/index.html"; //测试上传文件
 //    private final static String FILENAME = "https://cbcx-sj.jmtxkj.cn/h5/index.html"; //"https://www.jmtxkj.cn/h5/index.html";
@@ -1623,7 +1625,11 @@ public class AnswerFragment extends
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_UPGRADE);
         prepareInstall(filter);
-        getActivity().registerReceiver(receiver, filter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            getActivity().registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            getActivity().registerReceiver(receiver, filter);
+        }
     }
     private void onDestroyUpdateReceiver() {
         if (this.receiver != null) {
@@ -1831,45 +1837,49 @@ public class AnswerFragment extends
     //@Override
     protected void requirePermission() {
         //super.onResume();
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                        Manifest.permission.RECORD_AUDIO)
-                        != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                        Manifest.permission.MODIFY_AUDIO_SETTINGS)
-                        != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                }, REQUEST_CODE_LOCATION_PERMISSION);
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                }, REQUEST_CODE_LOCATION_PERMISSION);
-            }
+        if (NO_LOCATION_CHECK) {
+            return;
         } else {
-            //setappDirection();
+            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                    Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                            Manifest.permission.RECORD_AUDIO)
+                            != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                            Manifest.permission.MODIFY_AUDIO_SETTINGS)
+                            != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                    }, REQUEST_CODE_LOCATION_PERMISSION);
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                    }, REQUEST_CODE_LOCATION_PERMISSION);
+                }
+            } else {
+                //setappDirection();
+            }
         }
     }
 
@@ -1997,19 +2007,27 @@ public class AnswerFragment extends
     }
 
     public static boolean statusCheck(Context context) {
-        final LocationManager manager;
-        manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            return false;
-        } else {
+        if (NO_LOCATION_CHECK) {
             return true;
+        } else {
+            final LocationManager manager;
+            manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
     public static boolean locationCheck(Context context) {
-        return ContextCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        if (NO_LOCATION_CHECK) {
+            return true;
+        } else {
+            return ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     public static boolean storageCheck(Context context) {

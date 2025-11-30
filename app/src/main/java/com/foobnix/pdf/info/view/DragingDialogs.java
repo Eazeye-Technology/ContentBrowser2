@@ -1839,7 +1839,7 @@ public class DragingDialogs {
                                         if (customList.contains(app)) {
                                             LOG.d("dict-intent", "customList");
 
-                                            if (Build.VERSION.SDK_INT < 33) { //Build.VERSION_CODES.TIRAMISU) { //FIXME:
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                                                 intentCustom.addCategory(Intent.CATEGORY_LAUNCHER);
                                             }
                                             intentCustom.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -1864,7 +1864,7 @@ public class DragingDialogs {
                                         } else if (proccessTextList.contains(app)) {
                                             LOG.d("dict-intent", "proccessTextList");
 
-                                            if (Build.VERSION.SDK_INT < 33) { //Build.VERSION_CODES.TIRAMISU) { //FIXME:
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                                                 intentProccessText.addCategory(Intent.CATEGORY_LAUNCHER);
                                             }
 
@@ -1884,7 +1884,7 @@ public class DragingDialogs {
                                             LOG.d("dict-intent", intentProccessText);
                                         } else if (searchList.contains(app)) {
                                             LOG.d("dict-intent", "searchList");
-                                            if (Build.VERSION.SDK_INT < 33) { //Build.VERSION_CODES.TIRAMISU) { //FIXME:
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                                                 intentSearch.addCategory(Intent.CATEGORY_LAUNCHER);
                                             }
                                             intentSearch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -1902,7 +1902,7 @@ public class DragingDialogs {
                                             LOG.d("dict-intent", intentSearch);
                                         } else if (sendList.contains(app)) {
                                             LOG.d("dict-intent", "sendList");
-                                            if (Build.VERSION.SDK_INT < 33) { //Build.VERSION_CODES.TIRAMISU) { //FIXME:
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                                                 intentSend.addCategory(Intent.CATEGORY_LAUNCHER);
                                             }
                                             intentSend.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -16,6 +19,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +34,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.foobnix.model.AppProfile;
+import com.foobnix.pdf.info.Android6;
+import com.foobnix.pdf.info.Android6Mod;
 import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
@@ -290,7 +296,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
 
         if (stateStarted == 0) {
-            checkPermissioin();
+            checkPermission();
         }
     }
     private boolean toggleSearch(boolean forceShowSearchButton) {
@@ -308,11 +314,22 @@ public class MainActivity2 extends AppCompatActivity {
         return result;
     }
 
+    /*
+com.foobnix.pdf.info.Android6
+if (!Android6.canWrite(this)) {
+	Android6.checkPermissions(this, true);
+	return;
+}
+@Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
+public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
+	Android6.onRequestPermissionsResult(this, i, strArr, iArr);
+}
+     */
     private static final String STATE_STARTED = "STATE_STARTED";
     //原文链接：https://blog.csdn.net/zuo_er_lyf/article/details/82659426
     //https://www.dev2qa.com/android-read-write-external-storage-file-example/
     private final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
-    private void checkPermissioin(){
+    private void checkPermission(){
         // Check whether this app has write external storage permission or not.
         int writeExternalStoragePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         // If do not grant write external storage permission.
@@ -325,12 +342,45 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Android6Mod.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             int grantResultsLength = grantResults.length;
             if (grantResultsLength > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Toast.makeText(getApplicationContext(), "You grant write external storage permission. Please click original button again to continue.", Toast.LENGTH_LONG).show();
+                getPermission2();
             } else {
                 //Toast.makeText(getApplicationContext(), "You denied write external storage permission.", Toast.LENGTH_LONG).show();
+                getPermission2();
+            }
+        }
+    }
+
+    private final static int REQUEST_CODE = 1111;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    // 权限已授予
+                } else {
+                    // 权限未授予
+                }
+            }
+        }
+    }
+    private void getPermission2(){
+        if (false) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (!Environment.isExternalStorageManager()) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
+            }
+        } else {
+            if (!Android6Mod.canWrite(this)) {
+                Android6Mod.checkPermissions(this, true);
+                return;
             }
         }
     }
@@ -590,14 +640,14 @@ public class MainActivity2 extends AppCompatActivity {
     private void showPopupMenu(View view) {
         if (false) {
             PopupMenu popup = new PopupMenu(this, view);
-            try {
-                Field field = popup.getClass().getDeclaredField("mPopup");
-                field.setAccessible(true);
-                MenuPopupHelper helper = (MenuPopupHelper) field.get(popup);
-                helper.setForceShowIcon(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Field field = popup.getClass().getDeclaredField("mPopup");
+//                field.setAccessible(true);
+//                MenuPopupHelper helper = (MenuPopupHelper) field.get(popup);
+//                helper.setForceShowIcon(true);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             int menuId = R.menu.popup_directory; //.popup_directory;
             popup.getMenuInflater().inflate(menuId, popup.getMenu());
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -5,15 +5,15 @@ plugins {
 android {
     namespace 'com.txkj.contentbrowser2'
     compileSdk {
-        version = release(36) //(35) //
+        version = release(35) //release(36) //(35) //
     }
 
     defaultConfig {
         applicationId "com.txkj.contentbrowser2"
-        minSdk 23 //24
-        targetSdk 36 //35 //
-        versionCode 114
-        versionName "1.14"
+        minSdk 21 //23 //24
+        targetSdk 35//36 //35 //
+        versionCode 116
+        versionName "1.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -30,7 +30,7 @@ Thanks to everyone who tried to help!
         //for jni so
         ndk {
             //https://www.cnblogs.com/zhangzhxb/p/14493600.html
-            abiFilters 'armeabi-v7a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
     }
 

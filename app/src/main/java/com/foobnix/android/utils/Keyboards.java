@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-//import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.foobnix.model.AppState;
 import com.foobnix.ui2.MainTabs2;
@@ -118,7 +118,7 @@ public class Keyboards {
                 return;
             }
             final Window window = a.getWindow();
-//            final WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(window, window.getDecorView());
+            final WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(window, window.getDecorView());
 
             final View decorView = a.getWindow().getDecorView();
             if (Build.VERSION.SDK_INT >= 19) {

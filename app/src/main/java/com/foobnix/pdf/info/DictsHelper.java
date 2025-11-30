@@ -200,7 +200,7 @@ public class DictsHelper {
                     // String name = app.activityInfo.loadLabel(c.getPackageManager()).toString();
                     if (dictHash == DictsHelper.getHash(app.activityInfo)) {
                         final ComponentName cName = new ComponentName(app.activityInfo.applicationInfo.packageName, app.activityInfo.name);
-                        if (Build.VERSION.SDK_INT < 33) {  //FIXME:Build.VERSION_CODES.TIRAMISU) {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                             intent.addCategory(Intent.CATEGORY_LAUNCHER);
                         }
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

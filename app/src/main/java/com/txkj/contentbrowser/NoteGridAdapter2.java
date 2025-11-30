@@ -95,9 +95,9 @@ public class NoteGridAdapter2 extends BaseAdapter {
                     AbsListView.LayoutParams.MATCH_PARENT,
                     AbsListView.LayoutParams.MATCH_PARENT);
             if (DM.heightPixels > DM.widthPixels) {
-                params2.height = (int)(DM.heightPixels / 3.5);
+                params2.height = (int)(DM.heightPixels / 2.8);//3.5);
             } else {
-                params2.height = (int)(DM.widthPixels / 2.5);
+                params2.height = (int)(DM.widthPixels / 2.0);//2.5);
             }
             convertView.setLayoutParams(params2);
         }

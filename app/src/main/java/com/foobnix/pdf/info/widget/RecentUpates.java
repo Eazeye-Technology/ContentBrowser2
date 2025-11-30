@@ -38,7 +38,7 @@ import java.util.Arrays;
 
 public class RecentUpates {
 
-    //@TargetApi(25)
+    @TargetApi(25)
     public static void updateAll() {
         Context c = LibreraApp.context;
         if (c == null) {

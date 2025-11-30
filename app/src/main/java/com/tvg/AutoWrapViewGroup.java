@@ -72,7 +72,8 @@ public class AutoWrapViewGroup extends ViewGroup {
 //			Log.d(TAG, "getMH getChildCount = " + count);
 //		}
 		int w = 0, h = 0;
-		for (int i = 0; i < count; i++) {
+        Resources res = this.getResources();
+        for (int i = 0; i < count; i++) {
 			final View child = this.getChildAt(i);
 			if ((child instanceof ViewGroup && ((ViewGroup) child).getChildCount() == 0)) {
 				lengthX = VIEW_MARGIN;
@@ -83,7 +84,8 @@ public class AutoWrapViewGroup extends ViewGroup {
 //				}
 			} else {
 				w = child.getMeasuredWidth();
-				h = child.getMeasuredHeight();
+				//h = res.getDimensionPixelSize(R.dimen.tinyTextSize);//child.getMeasuredHeight();
+                h = child.getMeasuredHeight();
 				lengthX += w + VIEW_MARGIN;
 				lengthY = row * (h + VIEW_MARGIN) + VIEW_MARGIN + h;
 				if (lengthX > maxWidth) {
@@ -110,7 +112,7 @@ public class AutoWrapViewGroup extends ViewGroup {
 		int lengthX = l; // right position of child relative to parent
 		int lengthY = t; // bottom position of child relative to parent
 		int w = 0, h = 0;
-		for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
 			final View child = this.getChildAt(i);
 			if ((child instanceof ViewGroup && ((ViewGroup) child).getChildCount() == 0)) {
 				lengthX = VIEW_MARGIN + l;
@@ -153,7 +155,7 @@ public class AutoWrapViewGroup extends ViewGroup {
 	        TextView textview2 = new TextView(this.getContext());
 	        textview2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	        textview2.setText(" > ");
-	        textview2.setTextSize(res.getDimension(R.dimen.tinyTextSize));
+	        textview2.setTextSize(res.getDimensionPixelSize(R.dimen.tinyTextSize));
 	        textview2.setTextColor(Color.GRAY);
 	        this.addView(textview2);
     	}
@@ -161,7 +163,7 @@ public class AutoWrapViewGroup extends ViewGroup {
         final TextView textview1 = new TextView(this.getContext());
         textview1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textview1.setText(title);
-        textview1.setTextSize(res.getDimension(R.dimen.tinyTextSize));
+        textview1.setTextSize(res.getDimensionPixelSize(R.dimen.tinyTextSize));
         textview1.setTextColor(Color.BLACK);//Color.BLUE);
         textview1.setFocusable(true);
         textview1.setOnClickListener(new OnClickListener() {

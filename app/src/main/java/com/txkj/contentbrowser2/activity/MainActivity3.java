@@ -29,6 +29,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.foobnix.model.AppProfile;
+import com.foobnix.pdf.info.Android6;
+import com.foobnix.pdf.info.Android6Mod;
 import com.getdirectory.DirectoryFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -250,16 +252,27 @@ public class MainActivity3 extends AppCompatActivity {
         }
 
         if (stateStarted == 0) {
-            checkPermissioin();
+            checkPermission();
         }
     }
 
 
+    /*
+com.foobnix.pdf.info.Android6
+if (!Android6.canWrite(this)) {
+	Android6.checkPermissions(this, true);
+	return;
+}
+@Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
+public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
+	Android6.onRequestPermissionsResult(this, i, strArr, iArr);
+}
+     */
     private static final String STATE_STARTED = "STATE_STARTED";
     //原文链接：https://blog.csdn.net/zuo_er_lyf/article/details/82659426
     //https://www.dev2qa.com/android-read-write-external-storage-file-example/
     private final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
-    private void checkPermissioin(){
+    private void checkPermission(){
         // Check whether this app has write external storage permission or not.
         int writeExternalStoragePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         // If do not grant write external storage permission.
@@ -272,6 +285,7 @@ public class MainActivity3 extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Android6Mod.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             int grantResultsLength = grantResults.length;
             if (grantResultsLength > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -289,18 +303,27 @@ public class MainActivity3 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-            if (Environment.isExternalStorageManager()) {
-                // 权限已授予
-            } else {
-                // 权限未授予
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    // 权限已授予
+                } else {
+                    // 权限未授予
+                }
             }
         }
     }
     private void getPermission2(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                startActivityForResult(intent, REQUEST_CODE);
+        if (false) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (!Environment.isExternalStorageManager()) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
+            }
+        } else {
+            if (!Android6Mod.canWrite(this)) {
+                Android6Mod.checkPermissions(this, true);
+                return;
             }
         }
     }

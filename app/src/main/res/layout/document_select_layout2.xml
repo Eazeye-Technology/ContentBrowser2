@@ -4,12 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <com.tvg.AutoWrapViewGroup
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/autoWrapViewGroup"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        />
+        >
+        <com.tvg.AutoWrapViewGroup
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalTextSize"
+            android:id="@+id/autoWrapViewGroup"
+            />
+    </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
