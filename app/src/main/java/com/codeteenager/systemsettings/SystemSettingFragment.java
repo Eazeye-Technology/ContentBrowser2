@@ -87,15 +87,17 @@ public class SystemSettingFragment extends Fragment {
         data.add(new SettingItem("Device Info Settings", Settings.ACTION_DEVICE_INFO_SETTINGS,
                 "About Device", "Paper 2", R.drawable.ic_my_setting_012));
 
-        //not used
-        data.add(new SettingItem("Settings", Settings.ACTION_SETTINGS,
-                "Settings", "Settings", R.drawable.ic_my_setting_001));
-        data.add(new SettingItem("Privacy Settings", Settings.ACTION_PRIVACY_SETTINGS,
-                "Privacy Settings", "Privacy Settings", R.drawable.ic_my_setting_001));
-        data.add(new SettingItem("Application Development Settings", Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS,
-                "Application Development Settings", "Application Development Settings", R.drawable.ic_my_setting_001));
-        data.add(new SettingItem("Location Source Settings", Settings.ACTION_LOCATION_SOURCE_SETTINGS,
-                "Location Source Settings", "Location Source Settings", R.drawable.ic_my_setting_001));
+        if (false) {
+            //not used
+            data.add(new SettingItem("Settings", Settings.ACTION_SETTINGS,
+                    "Settings", "Settings", R.drawable.ic_my_setting_001));
+            data.add(new SettingItem("Privacy Settings", Settings.ACTION_PRIVACY_SETTINGS,
+                    "Privacy Settings", "Privacy Settings", R.drawable.ic_my_setting_001));
+            data.add(new SettingItem("Application Development Settings", Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS,
+                    "Application Development Settings", "Application Development Settings", R.drawable.ic_my_setting_001));
+            data.add(new SettingItem("Location Source Settings", Settings.ACTION_LOCATION_SOURCE_SETTINGS,
+                    "Location Source Settings", "Location Source Settings", R.drawable.ic_my_setting_001));
+        }
     }
 
     private void initView(View view) {

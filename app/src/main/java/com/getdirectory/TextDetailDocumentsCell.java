@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TextDetailDocumentsCell extends FrameLayout {
+    private final static int SCALE = 1;
 
     private TextView textView;
     private TextView valueTextView;
@@ -31,7 +32,7 @@ public class TextDetailDocumentsCell extends FrameLayout {
 
         textView = new TextView(context);
         textView.setTextColor(0xff212121);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16 * SCALE);
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine(true);
@@ -48,7 +49,7 @@ public class TextDetailDocumentsCell extends FrameLayout {
 
         valueTextView = new TextView(context);
         valueTextView.setTextColor(0xff8a8a8a);
-        valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13 * SCALE);
         valueTextView.setLines(1);
         valueTextView.setMaxLines(1);
         valueTextView.setSingleLine(true);
@@ -69,7 +70,7 @@ public class TextDetailDocumentsCell extends FrameLayout {
         typeTextView.setGravity(Gravity.CENTER);
         typeTextView.setSingleLine(true);
         typeTextView.setTextColor(0xffd1d1d1);
-        typeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        typeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16 * SCALE);
         typeTextView.setTypeface(Typeface.DEFAULT_BOLD);
         addView(typeTextView);
         layoutParams = (LayoutParams) typeTextView.getLayoutParams();
