@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="9dp"
+    android:height="17dp"
+
+    android:autoMirrored="true"
+    android:viewportWidth="9"
+    android:viewportHeight="17"
+    tools:ignore="VectorRaster">
+<!--
+    android:width="@dimen/home_indicator_width"
+    android:height="@dimen/home_indicator_height"
+    -->
+    <path
+        android:fillColor="#ff000000"
+        android:fillType="evenOdd"
+        android:pathData="M9,-0.014L9,17l-9,-8.5Z" />
+</vector>

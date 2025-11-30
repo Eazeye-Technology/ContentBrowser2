@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:tag="binding_1"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_divider_line"
+        app:layout_constraintEnd_toStartOf="@+id/right_divider_line"
+        app:layout_constraintStart_toEndOf="@+id/left_divider_line"
+        app:layout_constraintTop_toBottomOf="@+id/top_divider_line">
+
+        <include
+            android:id="@+id/function_bar"
+            layout="@layout/function_bar"
+            android:layout_width="@dimen/function_bar_layout_height"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/viewCollapse"
+            android:layout_width="6dp"
+            android:layout_height="200dp"
+            android:background="@drawable/collapse_back"
+            android:tag="binding_4" />
+        <!--@color/normal_black-->
+        <View
+            android:visibility="gone"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/normal_black"
+            android:tag="binding_5" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/top_divider_line"
+        style="@style/main_activity_top_border_style"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--0-->
+
+    <View
+        android:id="@+id/bottom_divider_line"
+        style="@style/main_activity_top_border_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main" />
+
+    <View
+        android:id="@+id/left_divider_line"
+        android:layout_width="@dimen/main_activity_top_border"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/activity_main"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/right_divider_line"
+        android:layout_width="@dimen/main_activity_top_border"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/activity_main" />
+</androidx.constraintlayout.widget.ConstraintLayout>

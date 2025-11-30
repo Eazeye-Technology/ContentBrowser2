@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@android:color/transparent"
+    android:descendantFocusability="blocksDescendants"
+    >
+<!--
+android:background="#fff6f3f2"
+android:descendantFocusability="blocksDescendants"
+android:background="@android:color/transparent"
+android:background="@drawable/toolbar_button"
+-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <androidx.cardview.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="10dp"
+                >
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/browserItemIcon_library"
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    android:padding="10dp"
+                    />
+                <!--android:src="@drawable/book001"-->
+                <TextView
+                    android:id="@+id/bookgrid_name_library"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/book_name_height"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:textSize="10dp"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+</LinearLayout>

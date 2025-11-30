@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="color_black">#FF000000</color>
+    <color name="color_white">#FFFFFFFF</color>
+
+    <color name="main_activity_top_border_color">@color/normal_black</color>
+    <color name="normal_black">@android:color/black</color>
+    <color name="bright_foreground_disabled_device_default_light">#ffb2b2b2</color>
+    <color name="text_color_grey_other">#4d4d4d</color>
+
+    <color name="icon_disable_color">#999999</color>
+    <color name="icon_enable_color">#ff000000</color>
+
+
+
+    <!--HomePage-Design-Using-CardView-master-->
+    <color name="colorPrimary">#000000</color><!--#008577-->
+    <color name="colorPrimaryDark">#000000</color><!--#00574B-->
+    <color name="colorAccent">#D81B60</color><!--#D81B60-->
+
+
+    <!--HomePage-Design-Using-CardView-master-->
+    <color name="colorBackground">#FCFCFC</color>
+    <color name="colorPurple">#673AB7</color>
+    <color name="colorPink">#EC407A</color>
+    <color name="colorOrange">#FF9800</color>
+    <color name="colorGreen">#009688</color>
+    <color name="colorRed">#E64A19</color>
+    <color name="colorLightGrey">#EDEDED</color>
+</resources>

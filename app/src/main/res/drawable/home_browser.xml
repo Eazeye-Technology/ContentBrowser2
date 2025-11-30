@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/home_browser_activated_vector" android:state_activated="true"/>
+    <item android:state_enabled="false" android:drawable="@drawable/home_browser_disabled_vector"/>
+    <item android:drawable="@drawable/home_browser_vector_frame"/>
+</selector>

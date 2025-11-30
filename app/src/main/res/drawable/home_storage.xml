@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:drawable="@drawable/home_storage_disabled_vector"/>
+    <item android:drawable="@drawable/home_storage_activated" android:state_activated="true"/>
+    <item android:drawable="@drawable/home_storage_not_activated" android:state_activated="false"/>
+</selector>

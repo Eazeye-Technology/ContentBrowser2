@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_border_focus"
+    android:focusable="true"
+    android:tag="layout-sw745dp/function_bar_item_0"
+    >
+    <!--
+    android:id="@+id/function_bar_item_library"
+    -->
+        <LinearLayout
+            android:id="@+id/function_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <View
+                    android:id="@+id/view_gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/function_icon"
+                    android:layout_width="@dimen/function_bar_item_image_width"
+                    android:layout_height="@dimen/function_bar_item_image_height"
+                    android:layout_below="@+id/view_gone"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/function_bar_item_image_marge"
+                    android:layout_marginTop="@dimen/function_bar_item_image_marge"
+                    android:layout_marginEnd="@dimen/function_bar_item_image_marge"
+                    android:layout_marginBottom="@dimen/function_bar_item_image_marge"
+                    android:layout_centerInParent="true"
+                    android:tag="binding_1"
+                    app:srcCompat="@drawable/home_home" />
+
+                <View
+                    android:id="@+id/dot_icon"
+                    android:layout_width="@dimen/notification_dot_size"
+                    android:layout_height="@dimen/notification_dot_size"
+                    android:layout_alignTop="@+id/view_gone"
+                    android:layout_alignEnd="@+id/function_icon"
+                    android:layout_alignRight="@+id/function_icon"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="-4dp"
+                    android:layout_marginRight="-4dp"
+                    android:background="@drawable/bg_black_solid_dot"
+                    android:tag="binding_2"
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/function_title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:tag="binding_3"
+                android:text="Home"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/function_bar_item_title_size"
+                android:textStyle="bold" />
+            <!--书库-->
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/function_item"
+            android:layout_alignBottom="@+id/function_item"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:tag="binding_4">
+
+            <ImageView
+                android:layout_width="@dimen/function_bar_item_indicator_height"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:tag="binding_5"
+                app:srcCompat="@drawable/home_indicator"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/function_item"
+            android:layout_alignBottom="@+id/function_item"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:tag="binding_6">
+
+            <ImageView
+                android:layout_width="@dimen/function_bar_item_indicator_height"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:tag="binding_7"
+                app:srcCompat="@drawable/home_indicator_right"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+</RelativeLayout>

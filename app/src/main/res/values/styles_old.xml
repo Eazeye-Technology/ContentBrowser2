@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="main_activity_top_border_style">
+        <item name="android:background">@color/main_activity_top_border_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/main_activity_top_border</item>
+    </style>
+</resources>

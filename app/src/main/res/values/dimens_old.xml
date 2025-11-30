@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_activity_top_border">2px</dimen>
+
+    <dimen name="dialog_border_width">2dp</dimen>
+
+
+    <dimen name="function_bar_item_image_height">27dp</dimen>
+    <dimen name="function_bar_item_image_marge">3dp</dimen>
+    <dimen name="function_bar_item_image_margin">10dp</dimen>
+    <dimen name="function_bar_item_image_width">27dp</dimen>
+
+    <dimen name="notification_action_icon_size">32dp</dimen>
+    <dimen name="notification_action_text_size">13sp</dimen>
+    <dimen name="notification_big_circle_margin">12dp</dimen>
+    <dimen name="notification_content_margin_start">0dp</dimen>
+    <dimen name="notification_dot_margin">-2dp</dimen>
+    <dimen name="notification_dot_size">15dp</dimen>
+
+    <dimen name="function_bar_item_title_size">15sp</dimen>
+    <dimen name="function_bar_item_indicator_height">2dp</dimen>
+    <dimen name="function_bar_item_indicator_width">32dp</dimen>
+
+    <dimen name="function_bar_layout_height">78dp</dimen>
+
+    <dimen name="function_bar_border">2dp</dimen>
+    <dimen name="function_bar_height">67dp</dimen>
+    <dimen name="function_bar_icon_height">70dp</dimen>
+    <dimen name="function_bar_icon_width">70dp</dimen>
+
+    <dimen name="home_indicator_height">17dp</dimen>
+    <dimen name="home_indicator_width">9dp</dimen>
+</resources>

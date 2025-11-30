@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/svOuter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@color/colorBackground"
+        >
+        <!--tools:context=".MainActivity"-->
+
+        <!--
+        <GridView
+            android:id="@+id/bookgridview_home"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:numColumns="3"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            />
+         -->
+<!--
+            android:layout_width="1000dp"
+            android:layout_height="100dp"
+-->
+
+        <LinearLayout
+            android:id="@+id/llLibrary"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:minHeight="300dp"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/feedbackCard"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingBottom="0dp"
+                    android:paddingTop="10dp"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center|center_vertical"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="10dp"
+                        >
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/home_library_vector2"
+                            android:padding="10dp"
+                            android:background="@drawable/five"
+                            android:scaleType="center"
+                            />
+                        <TextView
+                            android:gravity="left"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Library"
+                            android:padding="5dp"
+                            />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgViewPdf"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_baseline_chevron_right_24"
+                            android:padding="10dp"
+                            android:background="@drawable/second_black"
+                            android:scaleType="center"
+                            android:scaleX="1"
+                            android:scaleY="1"
+                            android:layout_marginRight="15dp"
+                            android:layout_gravity="center_vertical"
+                            />
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLightGrey"
+                        android:layout_margin="10dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:minHeight="100dp"
+                        >
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:padding="0dp"
+                                android:layout_marginLeft="10dp"
+                                android:paddingBottom="0dp"
+                                android:gravity="center_vertical"
+                                >
+                                <GridView
+                                    android:id="@+id/bookgridview_home"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:numColumns="3"
+                                    android:paddingLeft="1dp"
+                                    android:paddingRight="1dp"
+                                    android:gravity="center"
+                                    android:stretchMode="columnWidth"
+                                    />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                        <TextView
+                            android:id="@+id/tvEmpty1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No items."
+                            android:textColor="#FF000000"
+                            android:layout_centerInParent="true"
+                            android:visibility="visible"
+                            />
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ideasCard"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/keep"
+                            android:padding="10dp"
+                            android:background="@drawable/third"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AI Chat"
+                            android:textStyle="bold"
+                            android:layout_marginTop="10dp"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/settingsCard"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp"
+                        android:layout_margin="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:src="@drawable/home_setting_vector2"
+                                android:padding="10dp"
+                                android:background="@drawable/four"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Settings"
+                                android:textStyle="bold"
+                                android:layout_marginTop="10dp"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                >
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/folderCard"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="top">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="0dp"
+                            >
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/home_note_vector2"
+                                android:padding="0dp"
+                                android:background="@drawable/second"
+                                android:scaleType="center"
+                                android:scaleX="0.9"
+                                android:scaleY="0.9"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                />
+                            <TextView
+                                android:gravity="left|center_vertical"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="Notes"
+                                android:padding="0dp"
+                                />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/ivJumpNote"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_baseline_chevron_right_24"
+                                android:padding="10dp"
+                                android:background="@drawable/second_black"
+                                android:scaleType="center"
+                                android:scaleX="1"
+                                android:scaleY="1"
+                                android:layout_marginRight="10dp"
+                                android:layout_gravity="center_vertical"
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorLightGrey"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
+
+                            <GridView
+                                android:id="@+id/notegridview_home"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:numColumns="1"
+                                android:stretchMode="columnWidth"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/tvEmpty2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="No items."
+                                android:textColor="#FF000000" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:id="@+id/llTab"
+        android:visibility="gone"
+        >
+        <LinearLayout
+            android:id="@+id/llTabWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvTabAll"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="ALL"
+                android:textColor="#FFFFFFFF"
+                android:background="@drawable/button_top2_black"
+                android:gravity="center_vertical|center"
+                />
+            <TextView
+                android:id="@+id/tvTabPdf"
+                android:layout_marginLeft="-5dp"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="PDF"
+                android:textColor="#FF000000"
+                android:background="@drawable/button_top3_white"
+                android:gravity="center_vertical|center"
+                />
+            <!--@drawable/button_top3-->
+            <TextView
+                android:id="@+id/tvTabEpub"
+                android:layout_marginLeft="-5dp"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="EPUB"
+                android:textColor="#FF000000"
+                android:background="@drawable/button_top4_white"
+                android:gravity="center_vertical|center"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:id="@+id/spaceVertical"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="right"
+            >
+            <!--
+            <AutoCompleteTextView
+                android:id="@+id/filterLine_Library"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Search"
+                android:layout_gravity="right"
+                />
+                -->
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rl_content_wx"
+                android:background="@drawable/bg_search_edit2"
+                android:padding="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_search_wx"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_right"
+                    >
+                    <AutoCompleteTextView
+                        android:gravity="top"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="#cccccc"
+                        android:background="@null"
+                        android:id="@+id/filterLine_Library"
+                        android:maxLines="1"
+                        android:hint="Search"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:id="@+id/iv_search_wx"
+                        android:src="@drawable/serch"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/iv_right"
+                    android:src="@mipmap/ic_launcher"
+                    android:visibility="gone"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#66CD00"
+                    android:layout_below="@+id/ll_search_wx"
+                    android:layout_marginTop="3dp"
+                    android:visibility="gone"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <GridView
+            android:id="@+id/bookgridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            />
+        <TextView
+            android:id="@+id/tvEmpty1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF000000"
+            android:text="No items."
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLightGrey"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/tvPageInfo"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/button_first"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+<!--
+android:text="Page 1 of 3"
+-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" &lt;&gt; "
+            android:visibility="gone"
+            />
+    </LinearLayout>
+</LinearLayout>

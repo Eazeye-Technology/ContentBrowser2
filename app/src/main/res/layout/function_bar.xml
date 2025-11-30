@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:tag="layout-sw745dp/function_bar_0">
+
+    <View
+        android:layout_width="@dimen/function_bar_border"
+        android:layout_height="match_parent"
+        android:background="@color/normal_black"
+        android:tag="binding_1" />
+<!--
+    <com.onyx.android.sdk.kui.view.SinglePageRecyclerView
+        android:id="@+id/function_bar_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:tag="binding_2" />
+-->
+    <LinearLayout
+        android:id="@+id/function_bar_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:tag="binding_2"
+        android:orientation="vertical"
+        >
+        <include
+            android:id="@+id/function_bar_item_home"
+            layout="@layout/function_bar_item_home"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <include
+            android:id="@+id/function_bar_item_library"
+            layout="@layout/function_bar_item_library"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+<!--        <include-->
+<!--            android:id="@+id/function_bar_item_shop"-->
+<!--            layout="@layout/function_bar_item_shop"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            />-->
+
+        <include
+            android:id="@+id/function_bar_item_note"
+            layout="@layout/function_bar_item_note"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <include
+            android:id="@+id/function_bar_item_storage"
+            layout="@layout/function_bar_item_storage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+<!--        <include-->
+<!--            android:id="@+id/function_bar_item_apps"-->
+<!--            layout="@layout/function_bar_item_apps"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            />-->
+
+        <include
+            android:id="@+id/function_bar_item_browser"
+            layout="@layout/function_bar_item_browser"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            />
+
+        <include
+            android:id="@+id/function_bar_item_chat"
+            layout="@layout/function_bar_item_chat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <include
+            android:id="@+id/function_bar_item_setting"
+            layout="@layout/function_bar_item_setting"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="@color/normal_black"
+        android:tag="binding_3" />
+
+
+    <!--@dimen/function_bar_border-->
+</LinearLayout>
