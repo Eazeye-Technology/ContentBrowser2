@@ -277,15 +277,12 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        switch (id) {
-            case R.id.function_bar_item_home:
-                fragmentTransaction.replace(R.id.content_layout, mHomeFragment);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.function_bar_item_library:
-                fragmentTransaction.replace(R.id.content_layout, mLibraryFragment);
-                fragmentTransaction.commit();
+        if (id == R.id.function_bar_item_home) {
+            fragmentTransaction.replace(R.id.content_layout, mHomeFragment);
+            fragmentTransaction.commit();
+        } else if (id == R.id.function_bar_item_library) {
+            fragmentTransaction.replace(R.id.content_layout, mLibraryFragment);
+            fragmentTransaction.commit();
 
 //                if (false) { //isClick) {
 //                    try {
@@ -302,14 +299,12 @@ public class MainActivity extends AppCompatActivity {
 //                        e.printStackTrace();
 //                    }
 //                }
-                break;
-
+        } else if (id == R.id.function_bar_item_note) {
             //R.id.function_bar_item_shop,
-            case R.id.function_bar_item_note:
-                fragmentTransaction.replace(R.id.content_layout, mNoteFragment);
-                fragmentTransaction.commit();
+            fragmentTransaction.replace(R.id.content_layout, mNoteFragment);
+            fragmentTransaction.commit();
 
-                if (isClick) {
+            if (isClick) {
 //                    try {
 //                        Intent intent = new Intent();
 ////                    intent.setAction(android.content.Intent.ACTION_VIEW);
@@ -319,58 +314,50 @@ public class MainActivity extends AppCompatActivity {
 //                    } catch (ActivityNotFoundException e) {
 //                        e.printStackTrace();
 //                    }
+            }
+        } else if (id == R.id.function_bar_item_storage) {
+            //R.id.function_bar_item_apps,
+            fragmentTransaction.replace(R.id.content_layout, mDirectoryFragment);
+            fragmentTransaction.commit();
+        } else if (id == R.id.function_bar_item_browser) {
+            fragmentTransaction.replace(R.id.content_layout, mBrowserFragment);
+            fragmentTransaction.commit();
+
+            if (isClick) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    Uri targetUrl = Uri.parse("about:blank");
+                    intent.setData(targetUrl);
+
+                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(intent);
+                } catch (Throwable e) {
+                    e.printStackTrace();
                 }
-                break;
+            }
+        } else if (id == R.id.function_bar_item_chat) {
+            fragmentTransaction.replace(R.id.content_layout, mChatFragment);
+            fragmentTransaction.commit();
 
-            case R.id.function_bar_item_storage:
-                //R.id.function_bar_item_apps,
-                fragmentTransaction.replace(R.id.content_layout, mDirectoryFragment);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.function_bar_item_browser:
-                fragmentTransaction.replace(R.id.content_layout, mBrowserFragment);
-                fragmentTransaction.commit();
-
-                if (isClick) {
-                    try {
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        Uri targetUrl = Uri.parse("about:blank");
-                        intent.setData(targetUrl);
-
-                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        startActivity(intent);
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-
-            case R.id.function_bar_item_chat:
-                fragmentTransaction.replace(R.id.content_layout, mChatFragment);
-                fragmentTransaction.commit();
-
-                if (isClick) {
-                    try {
-                        Intent intent = new Intent();
+            if (isClick) {
+                try {
+                    Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                        intent.setClassName("com.txkj.smartanswer",
-                                "com.txkj.smartanswer.MainActivity");
+                    intent.setClassName("com.txkj.smartanswer",
+                            "com.txkj.smartanswer.MainActivity");
 
-                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
                 }
-                break;
-
-            case R.id.function_bar_item_setting:
+            }
+        } else if (id == R.id.function_bar_item_setting) {
                 fragmentTransaction.replace(R.id.content_layout, mSettingFragment);
                 fragmentTransaction.commit();
 
@@ -387,7 +374,6 @@ public class MainActivity extends AppCompatActivity {
                         eee.printStackTrace();
                     }
                 }
-                break;
         }
     }
 

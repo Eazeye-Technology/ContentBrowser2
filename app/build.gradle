@@ -1,20 +1,22 @@
 plugins {
-    id 'com.android.application'
+    alias(libs.plugins.android.application)
 }
 
 android {
     namespace 'com.txkj.contentbrowser2'
-    compileSdk 29//34 //compileSdk 32
+    compileSdk {
+        version = release(36) //(35) //
+    }
 
     defaultConfig {
         applicationId "com.txkj.contentbrowser2"
-        minSdk 21
-        //noinspection ExpiredTargetSdkVersion
-        targetSdk 29//34 //targetSdk 32
-        versionCode 108
-        versionName "1.8"
+        minSdk 23 //24
+        targetSdk 36 //35 //
+        versionCode 110
+        versionName "1.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
 /*
 https://java.tutorialink.com/android-file-listfiles-returns-only-subdirectories/
 My fault, I missed something. In Android 11, you can only access media files. In my case,
@@ -39,8 +41,14 @@ Thanks to everyone who tried to help!
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11 //don't use VERSION_8
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    //---------------
+    //added for BuildConfig Not Found
+    buildFeatures {
+        buildConfig = true
     }
 
     //-----------------------
@@ -61,17 +69,31 @@ Thanks to everyone who tried to help!
             jniLibs.srcDirs = ['libs']
         }
     }
+
+    //for AnExplorer
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-
-    implementation 'androidx.appcompat:appcompat:1.0.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+//
     //1.4.1
     //implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -104,7 +126,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     //FIXME:???
-    implementation 'androidx.work:work-runtime:2.3.4'
+    //implementation 'androidx.work:work-runtime:2.3.4'
+    //https://stackoverflow.com/questions/68473542/mediasessioncompattargeting-s-version-31-and-above-requires-that-one-of-flag
+    //Targeting S+ (version 31 and above) requires that one of FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
     //2.9.0 //https://mvnrepository.com/artifact/androidx.work/work-runtime
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -127,4 +153,22 @@ dependencies {
     implementation 'com.github.albfernandez:juniversalchardet:2.5.0'
 
     implementation 'com.github.axet:lame:1.0.9'
+
+
+    //AnExplorer
+    implementation 'com.jaredrummler:android-processes:1.1.1'
+    implementation 'com.github.mjdev:libaums:0.5.5'
+    implementation 'org.apache.ftpserver:ftpserver-core:1.1.1'
+    implementation 'commons-net:commons-net:3.6'
+    implementation 'com.zsoltsafrany:needle:1.0.0'
+    implementation 'com.cloudrail:cloudrail-si-android:2.22.4'
+    //implementation 'androidx.appcompat:appcompat:1.0.0'
+    //implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+    //implementation 'com.github.javiersantos:AppUpdater:2.6.5'
+
+
+    //smartanswer
+    implementation 'pub.devrel:easypermissions:3.0.0'
 }

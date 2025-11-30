@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2024 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+    android:id="@+id/action_page_1"
+    android:enabled="true"
+    android:icon="@drawable/ic_baseline_home_24"
+    android:title="Home"/>
+  <item
+    android:id="@+id/action_page_2"
+    android:enabled="true"
+    android:icon="@drawable/ic_outline_sticky_note_2_24"
+    android:title="Notes"/>
+  <item
+    android:id="@+id/action_page_3"
+    android:enabled="true"
+    android:icon="@drawable/ic_baseline_book_24"
+    android:title="Books"/>
+  <item
+    android:id="@+id/action_page_4"
+    android:enabled="true"
+    android:icon="@drawable/ic_baseline_picture_as_pdf_24"
+    android:title="PDFs"/>
+  <item
+    android:id="@+id/action_page_5"
+    android:enabled="true"
+    android:icon="@drawable/ic_baseline_phone_android_24"
+    android:title="Storage"/>
+  <item
+    android:id="@+id/action_page_6"
+    android:enabled="true"
+    android:icon="@drawable/ic_sharp_apps_24"
+    android:title="Apps"/>
+  <item
+    android:id="@+id/action_page_7"
+    android:enabled="true"
+    android:icon="@drawable/ic_outline_settings_24"
+    android:title="Settings"/>
+</menu>

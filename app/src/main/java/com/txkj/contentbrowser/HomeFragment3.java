@@ -20,7 +20,11 @@ public class HomeFragment3 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home3, container, false);
 
         wv = (WebView) view.findViewById(R.id.webView1);
-        wv.loadUrl("file:///android_asset/" + FILENAME_VIEW);
+        if (true) {
+            wv.loadUrl("file:///android_asset/" + FILENAME_VIEW);
+        } else {
+            wv.loadUrl("http://47.107.122.182/aifront");
+        }
         return view;
     }
 

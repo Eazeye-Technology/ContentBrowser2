@@ -345,55 +345,34 @@ public class MainActivity2 extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         TextView tvTitleText = (TextView) findViewById(R.id.tvTitleText);
-        switch (id) {
-            case R.id.menu_bar_item_1:
-            case R.id.menu_bar_item_1_R:
-                tvTitleText.setText("Home");
-                fragmentTransaction.replace(R.id.content_layout, mHome3Fragment); //mHomeFragment
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.menu_bar_item_2:
-            case R.id.menu_bar_item_2_R:
-                tvTitleText.setText("Notes");
-                fragmentTransaction.replace(R.id.content_layout, mNoteFragment);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.menu_bar_item_3:
-            case R.id.menu_bar_item_3_R:
-                tvTitleText.setText("Books");
-                fragmentTransaction.replace(R.id.content_layout, mLibraryFragment2Book);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.menu_bar_item_4:
-            case R.id.menu_bar_item_4_R:
-                tvTitleText.setText("PDFs");
-                fragmentTransaction.replace(R.id.content_layout, mLibraryFragment2Pdf);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.menu_bar_item_5:
-            case R.id.menu_bar_item_5_R:
-                tvTitleText.setText("Storage");
-                fragmentTransaction.replace(R.id.content_layout, mDirectoryFragment);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.menu_bar_item_6:
-            case R.id.menu_bar_item_6_R:
-                tvTitleText.setText("Apps");
-                fragmentTransaction.replace(R.id.content_layout, mAppsFragment);
-                fragmentTransaction.commit();
-                break;
-
-            case R.id.menu_bar_item_7:
-            case R.id.menu_bar_item_7_R:
-                tvTitleText.setText("Settings");
-                fragmentTransaction.replace(R.id.content_layout, mSettingFragment);
-                fragmentTransaction.commit();
-                break;
+        if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
+            tvTitleText.setText("Home");
+            fragmentTransaction.replace(R.id.content_layout, mHome3Fragment); //mHomeFragment
+            fragmentTransaction.commit();
+        } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
+            tvTitleText.setText("Notes");
+            fragmentTransaction.replace(R.id.content_layout, mNoteFragment);
+            fragmentTransaction.commit();
+        } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
+            tvTitleText.setText("Books");
+            fragmentTransaction.replace(R.id.content_layout, mLibraryFragment2Book);
+            fragmentTransaction.commit();
+        } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
+            tvTitleText.setText("PDFs");
+            fragmentTransaction.replace(R.id.content_layout, mLibraryFragment2Pdf);
+            fragmentTransaction.commit();
+        } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
+            tvTitleText.setText("Storage");
+            fragmentTransaction.replace(R.id.content_layout, mDirectoryFragment);
+            fragmentTransaction.commit();
+        } else if (id == R.id.menu_bar_item_6 || id == R.id.menu_bar_item_6_R) {
+            tvTitleText.setText("Apps");
+            fragmentTransaction.replace(R.id.content_layout, mAppsFragment);
+            fragmentTransaction.commit();
+        } else if (id == R.id.menu_bar_item_7 || id == R.id.menu_bar_item_7_R) {
+            tvTitleText.setText("Settings");
+            fragmentTransaction.replace(R.id.content_layout, mSettingFragment);
+            fragmentTransaction.commit();
         }
     }
 
@@ -468,35 +447,53 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     public int getActiveIconId(int id, boolean isActive) {
-        switch (id) {
-            //case R.id.menu_bar_item_1: return isActive ? R.drawable.ic_baseline_access_time_24_white: R.drawable.ic_baseline_access_time_24;
-            case R.id.menu_bar_item_1: case R.id.menu_bar_item_1_R:  return isActive ? R.drawable.ic_baseline_home_24_white: R.drawable.ic_baseline_home_24;
-            case R.id.menu_bar_item_2: case R.id.menu_bar_item_2_R:  return isActive ? R.drawable.ic_outline_sticky_note_2_24_white: R.drawable.ic_outline_sticky_note_2_24;
-            case R.id.menu_bar_item_3: case R.id.menu_bar_item_3_R:  return isActive ? R.drawable.ic_baseline_book_24_white: R.drawable.ic_baseline_book_24;
-            case R.id.menu_bar_item_4: case R.id.menu_bar_item_4_R:  return isActive ? R.drawable.ic_baseline_picture_as_pdf_24_white: R.drawable.ic_baseline_picture_as_pdf_24;
-            case R.id.menu_bar_item_5: case R.id.menu_bar_item_5_R:  return isActive ? R.drawable.ic_baseline_phone_android_24_white: R.drawable.ic_baseline_phone_android_24;
-            case R.id.menu_bar_item_6: case R.id.menu_bar_item_6_R:  return isActive ? R.drawable.ic_sharp_apps_24_white: R.drawable.ic_sharp_apps_24;
-            case R.id.menu_bar_item_7: case R.id.menu_bar_item_7_R:  return isActive ? R.drawable.ic_outline_settings_24_white: R.drawable.ic_outline_settings_24;
+        //case R.id.menu_bar_item_1: return isActive ? R.drawable.ic_baseline_access_time_24_white: R.drawable.ic_baseline_access_time_24;
+        if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
+            return isActive ? R.drawable.ic_baseline_home_24_white: R.drawable.ic_baseline_home_24;
+        } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
+            return isActive ? R.drawable.ic_outline_sticky_note_2_24_white: R.drawable.ic_outline_sticky_note_2_24;
+        } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
+            return isActive ? R.drawable.ic_baseline_book_24_white: R.drawable.ic_baseline_book_24;
+        } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
+            return isActive ? R.drawable.ic_baseline_picture_as_pdf_24_white: R.drawable.ic_baseline_picture_as_pdf_24;
+        } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
+            return isActive ? R.drawable.ic_baseline_phone_android_24_white: R.drawable.ic_baseline_phone_android_24;
+        } else if (id == R.id.menu_bar_item_6 || id == R.id.menu_bar_item_6_R) {
+            return isActive ? R.drawable.ic_sharp_apps_24_white: R.drawable.ic_sharp_apps_24;
+        } else if (id == R.id.menu_bar_item_7 || id == R.id.menu_bar_item_7_R) {
+            return isActive ? R.drawable.ic_outline_settings_24_white : R.drawable.ic_outline_settings_24;
         }
         return 0;
     }
     public int getEqualIconId(int id) {
-        switch (id) {
-            case R.id.menu_bar_item_1:  return R.id.menu_bar_item_1_R;
-            case R.id.menu_bar_item_2:  return R.id.menu_bar_item_2_R;
-            case R.id.menu_bar_item_3:  return R.id.menu_bar_item_3_R;
-            case R.id.menu_bar_item_4:  return R.id.menu_bar_item_4_R;
-            case R.id.menu_bar_item_5:  return R.id.menu_bar_item_5_R;
-            case R.id.menu_bar_item_6:  return R.id.menu_bar_item_6_R;
-            case R.id.menu_bar_item_7:  return R.id.menu_bar_item_7_R;
-
-            case R.id.menu_bar_item_1_R:  return R.id.menu_bar_item_1;
-            case R.id.menu_bar_item_2_R:  return R.id.menu_bar_item_2;
-            case R.id.menu_bar_item_3_R:  return R.id.menu_bar_item_3;
-            case R.id.menu_bar_item_4_R:  return R.id.menu_bar_item_4;
-            case R.id.menu_bar_item_5_R:  return R.id.menu_bar_item_5;
-            case R.id.menu_bar_item_6_R:  return R.id.menu_bar_item_6;
-            case R.id.menu_bar_item_7_R:  return R.id.menu_bar_item_7;
+        if (id == R.id.menu_bar_item_1) {
+            return R.id.menu_bar_item_1_R;
+        } else if (id == R.id.menu_bar_item_2) {
+            return R.id.menu_bar_item_2_R;
+        } else if (id == R.id.menu_bar_item_3) {
+            return R.id.menu_bar_item_3_R;
+        } else if (id == R.id.menu_bar_item_4) {
+            return R.id.menu_bar_item_4_R;
+        } else if (id == R.id.menu_bar_item_5) {
+            return R.id.menu_bar_item_5_R;
+        } else if (id == R.id.menu_bar_item_6) {
+            return R.id.menu_bar_item_6_R;
+        } else if (id == R.id.menu_bar_item_7) {
+            return R.id.menu_bar_item_7_R;
+        } else if (id == R.id.menu_bar_item_1_R) {
+            return R.id.menu_bar_item_1;
+        } else if (id == R.id.menu_bar_item_2_R) {
+            return R.id.menu_bar_item_2;
+        } else if (id == R.id.menu_bar_item_3_R) {
+            return R.id.menu_bar_item_3;
+        } else if (id == R.id.menu_bar_item_4_R) {
+            return R.id.menu_bar_item_4;
+        } else if (id == R.id.menu_bar_item_5_R) {
+            return R.id.menu_bar_item_5;
+        } else if (id == R.id.menu_bar_item_6_R) {
+            return R.id.menu_bar_item_6;
+        } else if (id == R.id.menu_bar_item_7_R) {
+            return R.id.menu_bar_item_7;
         }
         return 0;
     }

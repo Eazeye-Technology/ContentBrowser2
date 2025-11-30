@@ -32,34 +32,38 @@
 <!--    </queries>-->
     <!--END-->
 
-
-
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
     <application
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ContentBrowser"
-
-
+        android:theme="@style/Theme.ContentBrowser2"
         android:name="com.foobnix.LibreraApp"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:vmSafeMode="false"
         >
+
+        <!--
+        -->
         <!--android:name="com.getdirectory.ApplicationLoader"-->
 <!--
 tools:targetApi="31"
 android:dataExtractionRules="@xml/data_extraction_rules"
 -->
         <activity
-            android:name="com.txkj.contentbrowser2.activity.MainActivity2"
+            android:name="com.txkj.contentbrowser2.activity.MainActivity3"
             android:exported="true">
+            <!--com.txkj.contentbrowser2.activity.MainActivity2-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
