@@ -54,6 +54,7 @@ public class AppsFragment extends Fragment {
     private GridView recyclerView;
     private LibraryGridAdapter3 bookGridAdapter;
     private TextView tvEmpty1;
+    private View progressLoading1, loadingContent1;
     private LinearLayout llEmpty1;
 
     private ExecutorService newFixedThreadPool;
@@ -82,6 +83,11 @@ public class AppsFragment extends Fragment {
         recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        progressLoading1 = view.findViewById(R.id.progressLoading1);
+        loadingContent1 = view.findViewById(R.id.loadingContent1);
+        progressLoading1.setVisibility(View.VISIBLE);
+        loadingContent1.setVisibility(View.GONE);
+
         llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recyclerView.setEmptyView(llEmpty1);
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,7 +156,11 @@ public class AppsFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... objects) {
-            List<AppsProviderMy.MyResult> results = AppsProviderMy.getUserApps(getContext(), true);
+            List<AppsProviderMy.MyResult> results = new ArrayList<>();
+            List<AppsProviderMy.MyResult> resultsSystem = AppsProviderMy.getUserApps(getContext(), false);
+            List<AppsProviderMy.MyResult> resultsUser = AppsProviderMy.getUserApps(getContext(), true);
+            results.addAll(resultsSystem);
+            results.addAll(resultsUser);
             for (AppsProviderMy.MyResult item : results) {
                 if (item != null) {
                     FileMeta meta = new FileMeta();
@@ -182,6 +192,8 @@ public class AppsFragment extends Fragment {
             pageList.addAll(fileMetas);
             bookGridAdapter.notifyDataSetChanged();
             tvEmpty1.setText(STR_NO_ITEMS);
+            progressLoading1.setVisibility(View.GONE);
+            loadingContent1.setVisibility(View.VISIBLE);
         }
     }
 

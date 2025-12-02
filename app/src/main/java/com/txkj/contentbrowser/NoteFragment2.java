@@ -65,6 +65,7 @@ public class NoteFragment2 extends Fragment {
     AutoCompleteTextView searchEditText;
     TextView tvPageInfo;
     private TextView tvEmpty1;
+    private View progressLoading1, loadingContent1;
     private LinearLayout llEmpty1;
 
     private final static boolean USE_EXTERNAL_FILE = true;
@@ -196,6 +197,10 @@ class PreferencesKeys {
 //        });
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        progressLoading1 = view.findViewById(R.id.progressLoading1);
+        loadingContent1 = view.findViewById(R.id.loadingContent1);
+        progressLoading1.setVisibility(View.VISIBLE);
+        loadingContent1.setVisibility(View.GONE);
         llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recentNoteView.setEmptyView(llEmpty1);
         //recentNoteAdapter.
@@ -448,6 +453,8 @@ class PreferencesKeys {
     //@Override
     public void populateDataInUI(List<FileMeta> items) {
         tvEmpty1.setText(STR_NO_ITEMS);
+        progressLoading1.setVisibility(View.GONE);
+        loadingContent1.setVisibility(View.VISIBLE);
 
         recentNoteAdapter.notifyDataSetChanged();
         if (tvPageInfo != null) {

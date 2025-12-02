@@ -232,6 +232,7 @@ public class LibraryFragment extends Fragment {
     private GridView recyclerView;
     private LibraryGridAdapter bookGridAdapter;
     private TextView tvEmpty1;
+    private View progressLoading1, loadingContent1;
     private LinearLayout llEmpty1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -290,6 +291,10 @@ public class LibraryFragment extends Fragment {
         recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        progressLoading1 = view.findViewById(R.id.progressLoading1);
+        loadingContent1 = view.findViewById(R.id.loadingContent1);
+        progressLoading1.setVisibility(View.VISIBLE);
+        loadingContent1.setVisibility(View.GONE);
         llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recyclerView.setEmptyView(tvEmpty1);
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1230,6 +1235,8 @@ public class LibraryFragment extends Fragment {
     //@Override
     public void populateDataInUI(List<FileMeta> items) {
         tvEmpty1.setText(STR_NO_ITEMS);
+        progressLoading1.setVisibility(View.GONE);
+        loadingContent1.setVisibility(View.VISIBLE);
 
         cacheItems = items;
         handler.removeCallbacks(sortAndSeach);

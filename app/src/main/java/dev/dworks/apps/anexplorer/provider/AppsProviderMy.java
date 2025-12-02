@@ -5,11 +5,14 @@ import static android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,11 +69,32 @@ public class AppsProviderMy {
                 & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
     }
 
+    private static boolean isCanLaunch(ApplicationInfo appInfo, PackageManager packageManager) {
+        Intent intent = packageManager.getLaunchIntentForPackage(appInfo.packageName);
+        if (intent != null) {
+            if (isIntentAvailable(intent, packageManager)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isIntentAvailable(Intent intent, PackageManager packageManager) {
+        List<ResolveInfo> list =
+                packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list != null && list.size() > 0;
+    }
+
     private static void includeAppFromPackage(List<MyResult> result, String docId, PackageInfo packageInfo,
                                        boolean showSystem, String query, PackageManager packageManager) {
 
         ApplicationInfo appInfo = packageInfo.applicationInfo;
         if(showSystem == isSystemApp(appInfo)){
+            if (showSystem) {
+                if (!isCanLaunch(appInfo, packageManager)) {
+                    return;
+                }
+            }
             String displayName = "";
             final String packageName = packageInfo.packageName;
             String summary = packageName;
@@ -118,17 +142,31 @@ public class AppsProviderMy {
     //getRunningAppProcessInfo
     public static List<MyResult> getUserApps(Context context, boolean isUserApp) {
         final List<MyResult> result = new ArrayList<MyResult>();
+        if (context == null) return result;
         PackageManager packageManager = context.getPackageManager();
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
         if (isUserApp) {
-            String docId = "system_apps:";
+            String docId = "user_apps:";
+//            List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+//            List<ApplicationInfo> packages2 = new ArrayList<>();
+//            for (ApplicationInfo packageInfo : packages) {
+//                if ((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+//                    packages2.add(packageInfo);
+//                }
+//                Log.d("InstalledPackages", "Installed package :" + packageInfo.packageName);
+//            }
+            /*
+            https://zhuanlan.zhihu.com/p/699413398
+            android 14 need android.permission.QUERY_ALL_PACKAGES permission
+             */
+
             List<PackageInfo> allAppList = packageManager.getInstalledPackages(getAppListFlag());
             for (PackageInfo packageInfo : allAppList) {
                 includeAppFromPackage(result, docId, packageInfo, false, null, packageManager);
             }
         } else {
-            String docId = "user_apps:";
+            String docId = "system_apps:";
             List<PackageInfo> allAppList = packageManager.getInstalledPackages( getAppListFlag());
             for (PackageInfo packageInfo : allAppList) {
                 includeAppFromPackage(result, docId, packageInfo, true, null, packageManager);

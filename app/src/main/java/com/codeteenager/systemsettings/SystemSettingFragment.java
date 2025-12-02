@@ -1,7 +1,13 @@
 package com.codeteenager.systemsettings;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +57,7 @@ public class SystemSettingFragment extends Fragment {
         return view;
     }
 
+    //https://blog.csdn.net/yuhui77268769/article/details/128144540
     private void initData() {
         data.clear();
         data.add(new SettingItem("WIFI Settings", Settings.ACTION_WIFI_SETTINGS,
@@ -60,18 +67,17 @@ public class SystemSettingFragment extends Fragment {
 
         data.add(new SettingItem("Application Settings", Settings.ACTION_APPLICATION_SETTINGS,
                 "Apps", "Assistant, recent apps, default...", R.drawable.ic_my_setting_003));
-        data.add(new SettingItem("Data Roaming Settings", Settings.ACTION_DATA_ROAMING_SETTINGS,
+        data.add(new SettingItem("Data Roaming Settings", Settings.ACTION_ALL_APPS_NOTIFICATION_SETTINGS,
                 "Notifications", "Notification history, conversations", R.drawable.ic_my_setting_004));
-        //notify
 
-        //battery
-        data.add(new SettingItem("Date Settings", Settings.ACTION_DATE_SETTINGS,
-                "Battery", "100%", R.drawable.ic_my_setting_005));
+        data.add(new SettingItem("Date Settings", Settings.ACTION_BATTERY_SAVER_SETTINGS,
+                "Battery", /*"100%"*/getPowerLevel(getActivity()) + "%", R.drawable.ic_my_setting_005));
+        String extStorage = Environment.getExternalStorageDirectory().getAbsolutePath();
+        //String extStorage = Environment.getRootDirectory().getAbsolutePath();//"/";
         data.add(new SettingItem("Internal Storage Settings", Settings.ACTION_INTERNAL_STORAGE_SETTINGS,
-                "Storage", "38% - 4.98 GB free", R.drawable.ic_my_setting_006));
+                "Storage", /*"38% - 4.98 GB free"*/getRootSubtitle(extStorage), R.drawable.ic_my_setting_006));
 
-        //sound
-        data.add(new SettingItem("Input Method Settings", Settings.ACTION_INPUT_METHOD_SETTINGS,
+        data.add(new SettingItem("Input Method Settings", Settings.ACTION_SOUND_SETTINGS,
                 "Sound & viration", "Volume, haptics, Do not Disturb", R.drawable.ic_my_setting_007));
         data.add(new SettingItem("Display Settings", Settings.ACTION_DISPLAY_SETTINGS,
                 "Display", "Font size, brightness", R.drawable.ic_my_setting_008));
@@ -81,11 +87,11 @@ public class SystemSettingFragment extends Fragment {
         data.add(new SettingItem("Security Settings", Settings.ACTION_SECURITY_SETTINGS,
                 "Security & privacy", "App security, device lock", R.drawable.ic_my_setting_010));
 
-        //system
-        data.add(new SettingItem("Memory Card Settings", Settings.ACTION_MEMORY_CARD_SETTINGS,
+        data.add(new SettingItem("Memory Card Settings", Settings.ACTION_SETTINGS,
                 "System", "Languages, gestures, time, backup", R.drawable.ic_my_setting_011));
+        //https://blog.csdn.net/godcok/article/details/108636231
         data.add(new SettingItem("Device Info Settings", Settings.ACTION_DEVICE_INFO_SETTINGS,
-                "About Device", "Paper 2", R.drawable.ic_my_setting_012));
+                "About Device", /*"Paper 2"*/"" + Build.MODEL, R.drawable.ic_my_setting_012));
 
         if (false) {
             //not used
@@ -97,6 +103,15 @@ public class SystemSettingFragment extends Fragment {
                     "Application Development Settings", "Application Development Settings", R.drawable.ic_my_setting_001));
             data.add(new SettingItem("Location Source Settings", Settings.ACTION_LOCATION_SOURCE_SETTINGS,
                     "Location Source Settings", "Location Source Settings", R.drawable.ic_my_setting_001));
+
+            data.add(new SettingItem("Date Settings", Settings.ACTION_DATE_SETTINGS,
+                    "Battery", "100%", R.drawable.ic_my_setting_005));
+            data.add(new SettingItem("Input Method Settings", Settings.ACTION_INPUT_METHOD_SETTINGS,
+                    "Sound & viration", "Volume, haptics, Do not Disturb", R.drawable.ic_my_setting_007));
+            data.add(new SettingItem("Memory Card Settings", Settings.ACTION_MEMORY_CARD_SETTINGS,
+                    "System", "Languages, gestures, time, backup", R.drawable.ic_my_setting_011));
+            data.add(new SettingItem("Data Roaming Settings", Settings.ACTION_DATA_ROAMING_SETTINGS,
+                    "Notifications", "Notification history, conversations", R.drawable.ic_my_setting_004));
         }
     }
 
@@ -117,5 +132,52 @@ public class SystemSettingFragment extends Fragment {
         Intent mIntent = new Intent(intent);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mIntent);
+    }
+
+    public static int getPowerLevel(Activity a) {
+        try {
+            final Intent batteryIntent = a.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            final int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            final int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+            return level * 100 / scale;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    //https://stackoverflow.com/questions/79497730/how-to-get-the-total-internal-storage-size-including-system-usage-in-android-ko
+    //https://stackoverflow.com/questions/8133417/android-get-free-size-of-internal-external-memory
+    private String getRootSubtitle(String path) {
+        StatFs stat = new StatFs(path);
+        long total = 0;
+        long free = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            total = stat.getBlockCountLong() * stat.getBlockSizeLong();
+            free = stat.getAvailableBlocksLong() * stat.getBlockSizeLong();
+        } else {
+            total = (long)stat.getBlockCount() * (long)stat.getBlockSize();
+            free = (long)stat.getAvailableBlocks() * (long)stat.getBlockSize();
+        }
+        //return "Free " + formatFileSize(free) + " of " + formatFileSize(total);
+        //"38% - 4.98 GB free"
+        if (total == 0) {
+            return "0% - " + formatFileSize(free) + " free";
+        } else {
+            return String.format("%.2f", ((double) (total - free) / (double) total * 100)) + "% - " + formatFileSize(free) + " free";
+        }
+    }
+
+    public static String formatFileSize(long size) {
+        if (size < 1024) {
+            return String.format("%d B", size);
+        } else if (size < 1024 * 1024) {
+            return String.format("%.1f KB", size / 1024.0f);
+        } else if (size < 1024 * 1024 * 1024) {
+            return String.format("%.1f MB", size / 1024.0f / 1024.0f);
+        } else {
+            return String.format("%.1f GB", size / 1024.0f / 1024.0f / 1024.0f);
+        }
     }
 }
