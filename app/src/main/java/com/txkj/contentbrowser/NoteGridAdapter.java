@@ -123,7 +123,9 @@ public class NoteGridAdapter extends BaseAdapter {
         if (path.endsWith(".xopp")) {
             path = path.substring(0, path.length() - ".xopp".length());
         }
-        holder.tfBookName.setText(path);
+        String name = fileMeta.getTitle();
+        //holder.tfBookName.setText(path);
+        holder.tfBookName.setText(name != null ? name : "");
 //      holder.ivCoverImage.setImageBitmap(page.getThumbnail());
 //      holder.ivCoverImageBack.setImageBitmap(page.getBgThumbnail());
         if (true) { //if (AppState.get().isCropBookCovers) {

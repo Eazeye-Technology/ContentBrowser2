@@ -280,6 +280,8 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             // Request user to grant write external storage permission.
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        } else {
+            getPermission2();
         }
     }
     @Override

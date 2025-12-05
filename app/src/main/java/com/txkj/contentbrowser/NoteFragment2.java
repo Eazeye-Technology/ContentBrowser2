@@ -1,5 +1,6 @@
 package com.txkj.contentbrowser;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -172,6 +174,13 @@ class PreferencesKeys {
         recentNoteList = new ArrayList<FileMeta>();
         recentNoteView = (GridView) view.findViewById(R.id.notegridview_note);
         recentNoteView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        DisplayMetrics DM = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
+        if (DM.heightPixels > DM.widthPixels) {
+            recentNoteView.setNumColumns(3);
+        } else {
+            recentNoteView.setNumColumns(4);
+        }
         //recentNoteView.setBackgroundColor(Color.WHITE);
         recentNoteAdapter = new NoteGridAdapter2(this.getContext(), recentNoteList);
         recentNoteView.setAdapter(recentNoteAdapter);
@@ -402,9 +411,11 @@ class PreferencesKeys {
                         String path = item.optString("path");
                         String createTime = item.optString("createTime");
                         String updateTime = item.optString("updateTime");
+                        String dispName = item.optString("dispName");
 
                         FileMeta fileMeta = new FileMeta();
                         fileMeta.setPathTxt(path);
+                        fileMeta.setTitle((dispName != null && dispName.length() > 0) ? dispName : name);
                         if (updateTime != null) {
                             String updateTimeStr = null;
                             if (updateTime != null && updateTime.length() > 0) {
@@ -486,7 +497,7 @@ class PreferencesKeys {
     }
 
     public void setSearch(String text) {
-        if (text != null) {
+        if (text != null && searchEditText != null) {
             searchEditText.setText(text);
         }
     }

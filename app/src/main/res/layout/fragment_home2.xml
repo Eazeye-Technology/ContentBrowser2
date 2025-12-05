@@ -10,14 +10,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="0dp"
-        android:background="#f6f3f2"
+        android:background="#F1EDEC"
         >
+        <!--#f6f3f2-->
         <!--@color/colorBackground-->
         <!--tools:context=".MainActivity"-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/top_action_bar_height"
             android:orientation="horizontal"
             android:layout_margin="0dp"
             android:gravity="center_vertical"
@@ -69,13 +70,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Home"
-                        android:textSize="24sp"
+                        android:textSize="22dp"
                         android:textColor="#000000"
-                        android:textStyle="bold"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/tvTitleText"
                         android:layout_centerVertical="true"
+                        android:visibility="visible"
                         />
+                    <!--
+                    android:textStyle="bold"
+                    -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -85,19 +89,42 @@
                         android:layout_centerVertical="true"
                         android:visibility="gone"
                         >
-                        <AutoCompleteTextView
-                            android:gravity="top"
+                        <!--EditText-->
+                        <androidx.cardview.widget.CardView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:textSize="16sp"
-                            android:textColor="#cccccc"
-                            android:background="@null"
-                            android:id="@+id/filterLine_Library_global"
-                            android:maxLines="1"
-                            android:hint="Search"
-                            android:layout_marginLeft="10dp"
-                            />
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            >
+                            <AutoCompleteTextView
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textSize="22dp"
+                                android:textColor="#000000"
+                                android:background="@null"
+                                android:id="@+id/filterLine_Library_global"
+                                android:maxLines="1"
+                                android:hint="Search"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="left|center_vertical"
+                                android:paddingLeft="22dp"
+                                android:singleLine="true"
+                                android:lines="1"
+                                />
+                        </androidx.cardview.widget.CardView>
+<!--                        <com.google.android.material.search.SearchView-->
+<!--                            android:hint="Search"-->
+<!--                            android:id="@+id/filterLine_Library_global__"-->
+<!--                            android:gravity="top"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:backgroundTint="?attr/colorSurface"-->
+<!--                            />-->
 
                         <ImageView
                             android:layout_width="12dp"
@@ -131,6 +158,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:padding="0dp"
+                    android:id="@+id/ll_btnSearch"
                     >
                     <androidx.cardview.widget.CardView
                         android:foreground="?android:attr/selectableItemBackground"
@@ -210,7 +238,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp">
                     <LinearLayout
-                        android:layout_width="120dp"
+                        android:layout_width="@dimen/left_nav_bar_expand_width"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="top"
@@ -223,7 +251,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="80dp"
+                        android:layout_width="@dimen/left_nav_bar_collapse_width"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="top"

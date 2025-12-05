@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -276,6 +277,16 @@ public class LibraryFragment2Book extends Fragment {
         recyclerView = (GridView) view.findViewById(R.id.bookgridview);
         recyclerView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         //recyclerView.setBackgroundColor(Color.WHITE);
+
+        DisplayMetrics DM = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
+        if (DM.heightPixels > DM.widthPixels) {
+            recyclerView.setNumColumns(3);
+        } else {
+            recyclerView.setNumColumns(4);
+        }
+
+
         bookGridAdapter = new LibraryGridAdapter2(this.getContext(), pageList);
         recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
@@ -1446,7 +1457,7 @@ public class LibraryFragment2Book extends Fragment {
     }
 
     public void setSearch(String text) {
-        if (text != null) {
+        if (text != null && searchEditText != null) {
             searchEditText.setText(text);
         }
     }

@@ -25,13 +25,14 @@ public class Android6Mod {
 
     public static final int ANDROID_12_INT = 30;//30
 
-
     public static boolean canWrite(Context c) {
-
-        if (Build.VERSION.SDK_INT >= ANDROID_12_INT && Environment.isExternalStorageManager()) {
-            return true;
+        if (Build.VERSION.SDK_INT >= ANDROID_12_INT) {
+            if (Environment.isExternalStorageManager()) {
+                return true;
+            } else {
+                return false;
+            }
         }
-
         if (Build.VERSION.SDK_INT >= 23) {
             return ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         }
@@ -39,9 +40,8 @@ public class Android6Mod {
     }
 
     public static void checkPermissions(final Activity a, boolean checkWhatIsNew) {
-        if (Build.VERSION.SDK_INT >= 30) {
+        if (Build.VERSION.SDK_INT >= ANDROID_12_INT) {
             Log.d(TAG, "Environment.isExternalStorageManager() " + Environment.isExternalStorageManager() + " " + Build.VERSION.SDK_INT);
-
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 Uri uri = Uri.fromParts("package", a.getPackageName(), null);
@@ -59,15 +59,12 @@ public class Android6Mod {
                     }
                 }
             } else {
-               //FontExtractor.extractFonts(a);
+                //FontExtractor.extractFonts(a);
             }
             return;
         }
-
-
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(a, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(a, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(a);
                 builder.setCancelable(false);
                 builder.setMessage("Please grant access to external storage");
@@ -92,7 +89,6 @@ public class Android6Mod {
                     }
                 });
                 builder.show();
-
             } else {
                 ActivityCompat.requestPermissions(a, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WES);
             }

@@ -1,17 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ContentBrowser2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.ContentBrowser2" parent="Theme.MaterialComponents.Light"><!--Theme.MaterialComponents.DayNight.DarkActionBar-->
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#FCFCFC</item><!--@color/purple_200-->
-        <item name="colorPrimaryVariant">#FCFCFC</item><!--״̬��,@color/purple_700-->
-        <item name="colorOnPrimary">@color/black</item><!--״̬��,@color/black-->
+        <item name="colorPrimary">#000000</item><!--@color/purple_200,#FCFCFC-->
+        <item name="colorPrimaryVariant">#FCFCFC</item><!--color/purple_700-->
+        <item name="colorOnPrimary">@color/black</item><!--@color/black-->
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/black</item><!--@color/teal_200-->
         <item name="colorSecondaryVariant">@color/black</item><!--@color/teal_200-->
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:windowLightStatusBar">true</item> <!-- ����Ϊ��ɫ -->
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

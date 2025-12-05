@@ -962,9 +962,11 @@ class PreferencesKeys {
                             String path = item.optString("path");
                             String createTime = item.optString("createTime");
                             String updateTime = item.optString("updateTime");
+                            String dispName = item.optString("dispName");
 
                             FileMeta fileMeta = new FileMeta();
                             fileMeta.setPathTxt(path);
+                            fileMeta.setTitle((dispName != null && dispName.length() > 0) ? dispName : name);
                             if (updateTime != null) {
                                 String updateTimeStr = null;
                                 if (updateTime != null && updateTime.length() > 0) {

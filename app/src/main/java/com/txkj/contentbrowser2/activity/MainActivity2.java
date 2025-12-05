@@ -1,8 +1,10 @@
 package com.txkj.contentbrowser2.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,8 +13,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
@@ -109,7 +113,13 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!toggleSearch(true)) {
-                    showPopupMenu(view);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                    if (currentFragment instanceof DirectoryFragment2) {
+                        ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
+                    } else {
+                        //showPopupMenu(view);
+                    }
                 }
             }
         });
@@ -135,11 +145,13 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 if (text.length() >= 2 || text.length() == 0) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
-                    if (currentFragment instanceof LibraryFragment2Book) {
-                        ((LibraryFragment2Book)currentFragment).setSearch(text);
-                    } else if (currentFragment instanceof NoteFragment2) {
-                        ((NoteFragment2)currentFragment).setSearch(text);
+                    if (fragmentManager.getFragments().size() > 0) {
+                        Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                        if (currentFragment instanceof LibraryFragment2Book) {
+                            ((LibraryFragment2Book) currentFragment).setSearch(text);
+                        } else if (currentFragment instanceof NoteFragment2) {
+                            ((NoteFragment2) currentFragment).setSearch(text);
+                        }
                     }
                 }
             }
@@ -305,10 +317,16 @@ public class MainActivity2 extends AppCompatActivity {
             findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
             findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
             findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
+            findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+            AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
+            if (searchEditTextGlobal != null) {
+                searchEditTextGlobal.setText("");
+            }
         } else {
             findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
             findViewById(R.id.tvTitleText).setVisibility(View.GONE);
             findViewById(R.id.btnSearch).setVisibility(View.GONE);
+            findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
             findViewById(R.id.filterLine_Library_global).requestFocus();
         }
         return result;
@@ -337,6 +355,8 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             // Request user to grant write external storage permission.
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        } else {
+            getPermission2();
         }
     }
     @Override
@@ -416,6 +436,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     //@Override
     public void onClick2(int id, boolean isClick) {
         this.currentTabId = id;
+        toggleSearch(true);
         View view = findViewById(id);
         for (int i = 0; i < icons.length; ++i) {
             View viewIcon = this.findViewById(icons[i]);
@@ -588,19 +609,19 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     public int getActiveIconId(int id, boolean isActive) {
         //case R.id.menu_bar_item_1: return isActive ? R.drawable.ic_baseline_access_time_24_white: R.drawable.ic_baseline_access_time_24;
         if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
-            return isActive ? R.drawable.ic_baseline_home_24_white: R.drawable.ic_baseline_home_24;
+            return isActive ? R.drawable.ic_my_nav_home_001_w: R.drawable.ic_my_nav_home_001;
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
-            return isActive ? R.drawable.ic_outline_sticky_note_2_24_white: R.drawable.ic_outline_sticky_note_2_24;
+            return isActive ? R.drawable.ic_my_nav_note_002_w: R.drawable.ic_my_nav_note_002;
         } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
-            return isActive ? R.drawable.ic_baseline_book_24_white: R.drawable.ic_baseline_book_24;
+            return isActive ? R.drawable.ic_my_nav_book_003_w: R.drawable.ic_my_nav_book_003;
         } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
-            return isActive ? R.drawable.ic_baseline_picture_as_pdf_24_white: R.drawable.ic_baseline_picture_as_pdf_24;
+            return isActive ? R.drawable.ic_my_nav_pdf_004_w: R.drawable.ic_my_nav_pdf_004;
         } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
-            return isActive ? R.drawable.ic_baseline_phone_android_24_white: R.drawable.ic_baseline_phone_android_24;
+            return isActive ? R.drawable.ic_my_nav_file_005_w: R.drawable.ic_my_nav_file_005;
         } else if (id == R.id.menu_bar_item_6 || id == R.id.menu_bar_item_6_R) {
-            return isActive ? R.drawable.ic_sharp_apps_24_white: R.drawable.ic_sharp_apps_24;
+            return isActive ? R.drawable.ic_my_nav_apps_006_w: R.drawable.ic_my_nav_apps_006;
         } else if (id == R.id.menu_bar_item_7 || id == R.id.menu_bar_item_7_R) {
-            return isActive ? R.drawable.ic_outline_settings_24_white : R.drawable.ic_outline_settings_24;
+            return isActive ? R.drawable.ic_my_nav_setting_007_w : R.drawable.ic_my_nav_setting_007;
         }
         return 0;
     }
@@ -667,5 +688,4 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             });
         }
     }
-
 }

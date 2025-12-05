@@ -97,7 +97,7 @@ public class NoteGridAdapter2 extends BaseAdapter {
             if (DM.heightPixels > DM.widthPixels) {
                 params2.height = (int)(DM.heightPixels / 2.8);//3.5);
             } else {
-                params2.height = (int)(DM.widthPixels / 2.0);//2.5);
+                params2.height = (int)(DM.widthPixels / 2.0 / 1.6);//2.5);
             }
             convertView.setLayoutParams(params2);
         }
@@ -178,7 +178,9 @@ public class NoteGridAdapter2 extends BaseAdapter {
         if (path.endsWith(".xopp")) {
             path = path.substring(0, path.length() - ".xopp".length());
         }
-        holder.tfBookName.setText(path);
+        String name = fileMeta.getTitle();
+        //holder.tfBookName.setText(path);
+        holder.tfBookName.setText(name != null ? name : "");
 //      holder.ivCoverImage.setImageBitmap(page.getThumbnail());
 //      holder.ivCoverImageBack.setImageBitmap(page.getBgThumbnail());
         if (true) { //if (AppState.get().isCropBookCovers) {

@@ -151,7 +151,8 @@ public class AutoWrapViewGroup extends ViewGroup {
     	
     	Resources res = this.getResources();
     	
-    	if (this.getChildCount() > 0) {
+    	//if (this.getChildCount() > 0) {
+        if (this.getChildCount() > 1) {
 	        TextView textview2 = new TextView(this.getContext());
 	        textview2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	        textview2.setText(" > ");

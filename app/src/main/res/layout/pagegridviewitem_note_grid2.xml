@@ -30,13 +30,15 @@ android:background="@drawable/toolbar_button"
             android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="1dp">
+            android:layout_margin="1dp"
+            app:cardCornerRadius="20dp"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center|center_vertical"
-                android:padding="10dp"
+                android:padding="20dp"
                 >
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/browserItemIcon_library"
@@ -53,7 +55,7 @@ android:background="@drawable/toolbar_button"
                     android:maxLines="2"
                     android:text=""
                     android:textStyle="bold"
-                    android:textSize="24dp"
+                    android:textSize="16dp"
                     android:gravity="left|top"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
