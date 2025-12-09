@@ -13,6 +13,8 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class FileMeta {
+    public boolean checkShow = false;
+    public boolean checkSelect = false;
 
     @Id
     @Index(name = "path_desc", unique = true)

@@ -1,8 +1,10 @@
 package com.txkj.contentbrowser;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,6 +20,8 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -27,7 +31,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -41,6 +47,7 @@ import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
+import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser2.R;
 
 import org.librera.JSONArray;
@@ -96,8 +103,7 @@ class PreferencesKeys {
 
 
 
-
-
+    private boolean isCheckMode = false;
     private List<FileMeta> recentNoteList;
     private GridView recentNoteView;
     NoteGridAdapter2 recentNoteAdapter;
@@ -212,40 +218,64 @@ class PreferencesKeys {
         loadingContent1.setVisibility(View.GONE);
         llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recentNoteView.setEmptyView(llEmpty1);
+        recentNoteView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                for (FileMeta meta : recentNoteList) {
+                    if (meta != null) {
+                        meta.checkShow = true;
+                        meta.checkSelect = false;
+                    }
+                }
+                if (!isCheckMode) {
+                    isCheckMode = true;
+                }
+                recentNoteAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
         //recentNoteAdapter.
         recentNoteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //int bookType = bookInfoList.get(position).getBookType();
+                if (isCheckMode) {
+                    FileMeta meta = recentNoteList.get(position);
+                    if (meta != null) {
+                        meta.checkSelect = !meta.checkSelect;
+                    }
+                    recentNoteAdapter.notifyDataSetChanged();
+                } else {
+                    //int bookType = bookInfoList.get(position).getBookType();
 //                int pageIdx = position;
 //                Intent intent = new Intent(BookListActivity.this, BookActivity.class);
 //                intent.setData(((FastFile)files.get(pageIdx)).getUri());
 //                startActivity(intent);
 
-                try {
-                    Intent intent = new Intent();
+                    try {
+                        Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                    if (false) {
-                        intent.setClassName("com.txkj.notemobile2",
-                                "com.txkj.notemobile2.BookListActivity");
-                    } else if (false) {
-                        intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
-                                "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
-                    } else {
-                        intent.setClassName("com.txkj.drawingapp",
-                                "com.txkj.notemobile2.BookListActivity");
+                        if (false) {
+                            intent.setClassName("com.txkj.notemobile2",
+                                    "com.txkj.notemobile2.BookListActivity");
+                        } else if (false) {
+                            intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
+                                    "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
+                        } else {
+                            intent.setClassName("com.txkj.drawingapp",
+                                    "com.txkj.notemobile2.BookListActivity");
+                        }
+                        FileMeta meta = recentNoteList.get(position);
+                        String APP_FILE = meta.getPathTxt();
+                        intent.putExtra("APP_FILE", APP_FILE);
+                        Log.d(TAG, "APP_FILE: " + APP_FILE);
+
+                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
                     }
-                    FileMeta meta = recentNoteList.get(position);
-                    String APP_FILE = meta.getPathTxt();
-                    intent.putExtra("APP_FILE", APP_FILE);
-                    Log.d(TAG, "APP_FILE: " + APP_FILE);
-
-                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -500,5 +530,47 @@ class PreferencesKeys {
         if (text != null && searchEditText != null) {
             searchEditText.setText(text);
         }
+    }
+
+    MenuItem deleteMenu;
+    MenuItem cancelmenu;
+    public void showPopupMenuNoteFragment2(View view) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_note2, popupMenu.getMenu());
+        Menu menu = popupMenu.getMenu();
+        deleteMenu = menu.findItem(R.id.delete);
+        deleteMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                if (isCheckMode) {
+                    for (FileMeta meta : recentNoteList) {
+                        if (meta != null && meta.checkShow && meta.checkSelect) {
+                            String path = meta.getPathTxt();
+                            Toast.makeText(getActivity(), "path : " + path, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+                recentNoteAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+        cancelmenu = menu.findItem(R.id.cancelmenu);
+        cancelmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                for (FileMeta meta : recentNoteList) {
+                    if (meta != null) {
+                        meta.checkShow = false;
+                        meta.checkSelect = false;
+                    }
+                }
+                if (isCheckMode) {
+                    isCheckMode = false;
+                }
+                recentNoteAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 }

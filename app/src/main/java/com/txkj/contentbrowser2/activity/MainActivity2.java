@@ -117,6 +117,8 @@ public class MainActivity2 extends AppCompatActivity {
                     Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
                     if (currentFragment instanceof DirectoryFragment2) {
                         ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
+                    } else if (currentFragment instanceof NoteFragment2) {
+                        ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
                     } else {
                         //showPopupMenu(view);
                     }
@@ -316,8 +318,8 @@ public class MainActivity2 extends AppCompatActivity {
         if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
             findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
             findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
-            findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
-            findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+            //findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
             AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
             if (searchEditTextGlobal != null) {
                 searchEditTextGlobal.setText("");
@@ -325,8 +327,8 @@ public class MainActivity2 extends AppCompatActivity {
         } else {
             findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
             findViewById(R.id.tvTitleText).setVisibility(View.GONE);
-            findViewById(R.id.btnSearch).setVisibility(View.GONE);
-            findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+            //findViewById(R.id.btnSearch).setVisibility(View.GONE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
             findViewById(R.id.filterLine_Library_global).requestFocus();
         }
         return result;

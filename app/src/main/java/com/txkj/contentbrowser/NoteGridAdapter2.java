@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -85,6 +86,7 @@ public class NoteGridAdapter2 extends BaseAdapter {
             gridholder.ivCoverImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library);
 //            gridholder.ivCoverImageBack = (ImageView) convertView.findViewById(R.id.bookgrid_pic_backgroud);
             gridholder.llGridTop = (LinearLayout) convertView.findViewById(R.id.llGridTop);
+            gridholder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
@@ -188,6 +190,16 @@ public class NoteGridAdapter2 extends BaseAdapter {
         } else {
             holder.ivCoverImage.setScaleType(ImageView.ScaleType.FIT_CENTER); //
         }
+        if (fileMeta.checkShow) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+        } else {
+            holder.checkBox.setVisibility(View.GONE);
+        }
+        if (fileMeta.checkSelect) {
+            holder.checkBox.setChecked(true);
+        } else {
+            holder.checkBox.setChecked(false);
+        }
         return fileMeta;
     }
 
@@ -196,5 +208,6 @@ public class NoteGridAdapter2 extends BaseAdapter {
         private ImageView ivCoverImage;
         private ImageView ivCoverImageBack;
         private LinearLayout llGridTop;
+        private CheckBox checkBox;
     }
 }
