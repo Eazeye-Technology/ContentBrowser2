@@ -53,15 +53,22 @@ import com.txkj.contentbrowser2.R;
 import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import gm.com.dosya.utils.FileTransactions;
 
 public class NoteFragment2 extends Fragment {
     public final static boolean USE_NEW_NOTE = true;
@@ -231,7 +238,7 @@ class PreferencesKeys {
                     isCheckMode = true;
                 }
                 recentNoteAdapter.notifyDataSetChanged();
-                return true;
+                return false;
             }
         });
         //recentNoteAdapter.
@@ -314,6 +321,11 @@ class PreferencesKeys {
         return prepareDataInBackground();
     }
     public void populate() {
+        if (isCheckMode) {
+            LOG.d("isCheckMode == true, stop update");
+            return;
+        }
+
         if (inProgress) {
             LOG.d("IN_PROGRESS");
             return;
@@ -543,14 +555,29 @@ class PreferencesKeys {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
                 if (isCheckMode) {
+                    List<String> arrPaths = new ArrayList<>();
                     for (FileMeta meta : recentNoteList) {
                         if (meta != null && meta.checkShow && meta.checkSelect) {
                             String path = meta.getPathTxt();
-                            Toast.makeText(getActivity(), "path : " + path, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getActivity(), "path : " + path, Toast.LENGTH_LONG).show();
+                            String rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                            FileTransactions.DeleteRecursive(new File(rootPath, path));
+                            arrPaths.add(path);
                         }
                     }
+                    removeRecent(arrPaths);
+                }
+                for (FileMeta meta : recentNoteList) {
+                    if (meta != null) {
+                        meta.checkShow = false;
+                        meta.checkSelect = false;
+                    }
+                }
+                if (isCheckMode) {
+                    isCheckMode = false;
                 }
                 recentNoteAdapter.notifyDataSetChanged();
+                populate();
                 return true;
             }
         });
@@ -572,5 +599,83 @@ class PreferencesKeys {
             }
         });
         popupMenu.show();
+    }
+
+    public void removeRecent(List<String> arrPaths) {
+        String recentFiles = "";
+        if (USE_EXTERNAL_FILE) {
+            try {
+                String rootPath = null;
+                if (USE_NEW_NOTE) {
+                    rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                } else {
+                    rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME).toString();
+                }
+                boolean kkk = new File(rootPath).mkdirs();
+                if (new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt").exists()) {
+                    InputStream fis = new FileInputStream(new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt"));
+                    InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+                    BufferedReader reader = new BufferedReader(isr);
+                    StringBuffer recentFilesBuffer = new StringBuffer();
+                    while (true) {
+                        String line = reader.readLine();
+                        if (line != null) {
+                            recentFilesBuffer.append(line);
+                            recentFilesBuffer.append("\n");
+                        } else {
+                            break;
+                        }
+                    }
+                    recentFiles = recentFilesBuffer.toString();
+                    reader.close();
+                    isr.close();
+                    fis.close();
+                }
+            } catch (Throwable eee) {
+                eee.printStackTrace();
+            }
+        }
+        //Log.e(TAG, "recentFiles: " + recentFiles);
+        JSONArray jsonArray2 = new JSONArray();
+        try {
+            JSONArray jsonArray = new JSONArray(recentFiles);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                LinkedJSONObject item = jsonArray.getJSONObject(i);
+                if (item != null) {
+                    String preview = item.optString("preview");
+                    String name = item.optString("name");
+                    String path = item.optString("path");
+                    String createTime = item.optString("createTime");
+                    String updateTime = item.optString("updateTime");
+                    String dispName = item.optString("dispName");
+                    if (path != null && arrPaths.contains(path)) {
+                        //skip, removed
+                    } else {
+                        //written
+                        jsonArray2.put(item);
+                    }
+                }
+            }
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
+        try {
+            String rootPath = null;
+            if (USE_NEW_NOTE) {
+                rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+            } else {
+                rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME).toString();
+            }
+            FileOutputStream fout = new FileOutputStream(new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt"));
+            OutputStreamWriter osw = new OutputStreamWriter(fout, "UTF-8");
+            BufferedWriter writer = new BufferedWriter(osw);
+            writer.write(jsonArray2.toString());
+            writer.flush();
+            writer.close();
+            osw.close();
+            fout.close();
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
     }
 }

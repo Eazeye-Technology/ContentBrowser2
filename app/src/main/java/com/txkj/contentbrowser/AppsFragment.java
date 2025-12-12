@@ -39,6 +39,7 @@ import com.txkj.contentbrowser2.R;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,7 +47,7 @@ import java.util.concurrent.Executors;
 import dev.dworks.apps.anexplorer.provider.AppsProviderMy;
 
 public class AppsFragment extends Fragment {
-    private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
+    private final static String STR_NO_ITEMS = "No apps here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
 
     private List<FileMeta> pageList;
@@ -157,8 +158,24 @@ public class AppsFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... objects) {
             List<AppsProviderMy.MyResult> results = new ArrayList<>();
+            Comparator<AppsProviderMy.MyResult> comparator = new Comparator<AppsProviderMy.MyResult>() {
+                @Override
+                public int compare(AppsProviderMy.MyResult t1, AppsProviderMy.MyResult t2) {
+                    String n1 = "";
+                    String n2 = "";
+                    if (t1 != null && t1.displayName != null) {
+                        n1 = t1.displayName;
+                    }
+                    if (t2 != null && t2.displayName != null) {
+                        n2 = t2.displayName;
+                    }
+                    return n1.compareTo(n2);
+                }
+            };
             List<AppsProviderMy.MyResult> resultsSystem = AppsProviderMy.getUserApps(getContext(), false);
             List<AppsProviderMy.MyResult> resultsUser = AppsProviderMy.getUserApps(getContext(), true);
+            resultsSystem.sort(comparator);
+            resultsUser.sort(comparator);
             results.addAll(resultsSystem);
             results.addAll(resultsUser);
             for (AppsProviderMy.MyResult item : results) {

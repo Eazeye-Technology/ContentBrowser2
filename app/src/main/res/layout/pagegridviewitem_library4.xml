@@ -49,26 +49,27 @@ android:background="@android:color/transparent"
                     android:orientation="vertical"
                     >
                     <!--https://blog.csdn.net/qq_42618969/article/details/107863798-->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/img_item_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginRight="0dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="0dp">
-                        <!--browserItemIcon_library-->
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:id="@+id/img_item_card"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="0dp"-->
+<!--                        android:layout_marginBottom="0dp"-->
+<!--                        android:layout_marginRight="0dp"-->
+<!--                        app:cardCornerRadius="10dp"-->
+<!--                        app:cardElevation="0dp">-->
+<!--                    </androidx.cardview.widget.CardView>-->
+                    <!--browserItemIcon_library-->
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/browserItemIcon_library"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:padding="0dp"
+                            android:scaleType="fitXY"
                             />
                         <!--width and height should be 80dp x 100dp x times
                          so 134=168*80/100
                          -->
-                    </androidx.cardview.widget.CardView>
                     <TextView
                         android:id="@+id/tvSuffix"
                         android:layout_width="wrap_content"
@@ -87,37 +88,85 @@ android:background="@android:color/transparent"
                         />
                 </LinearLayout>
                 <!--android:src="@drawable/book001"-->
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical|left"
                     >
-                    <TextView
-                        android:id="@+id/bookgrid_name_library"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:text="title1"
-                        android:textStyle="bold"
-                        android:layout_marginTop="5dp"
-                        android:textSize="16dp"
-                        android:gravity="left|bottom"
-                        android:textColor="#1C1C1C"
-                        />
-                    <TextView
-                        android:id="@+id/bookgrid_name_library2"
+                        android:visibility="invisible"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="not used"
+                            android:layout_marginTop="5dp"
+                            android:textSize="18dp"
+                            android:gravity="left|bottom"
+                            android:textColor="#1C1C1C"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            />
+                        <!--android:textStyle="bold"
+                            -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="not used"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="16dp"
+                            android:gravity="left|top"
+                            android:textColor="#444444"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            />
+                        <!--android:textStyle="bold"
+                            -->
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:text="title2"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="5dp"
-                        android:textSize="16dp"
-                        android:gravity="left|top"
-                        android:textColor="#444444"
-                        />
-                </LinearLayout>
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical|left"
+                        >
+                        <TextView
+                            android:id="@+id/bookgrid_name_library"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="title1"
+                            android:layout_marginTop="0dp"
+                            android:textSize="18dp"
+                            android:gravity="left|top"
+                            android:textColor="#1C1C1C"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            />
+                        <!--android:textStyle="bold"
+                            -->
+                        <TextView
+                            android:id="@+id/bookgrid_name_library2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="title2"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="16dp"
+                            android:gravity="left|center"
+                            android:textColor="#444444"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            />
+                        <!--android:textStyle="bold"
+                            -->
+                    </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

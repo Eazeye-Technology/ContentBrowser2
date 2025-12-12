@@ -156,6 +156,8 @@
             android:paddingRight="1dp"
             android:gravity="center"
             android:stretchMode="columnWidth"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -184,7 +186,7 @@
                 android:visibility="gone"
                 >
                 <ImageView
-                    android:src="@drawable/ic_baseline_folder_copy_24"
+                    android:src="@drawable/ic_my_nav_apps_006"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginBottom="10dp"
@@ -194,15 +196,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
-                    android:text="Nothing here yet"
-                    android:textSize="24sp"
+                    android:text="No apps here yet"
+                    android:textSize="24dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
-                    android:textSize="24sp"
-                    android:text="This space is empty. Add files to get started—drag and drop files,\nupload from device, or create a new one."
+                    android:textSize="24dp"
+                    android:text="Download apps to get started—upload from device, or browse the\n store to install apps."
                     android:gravity="center"
                     android:layout_marginTop="10dp"
                     />

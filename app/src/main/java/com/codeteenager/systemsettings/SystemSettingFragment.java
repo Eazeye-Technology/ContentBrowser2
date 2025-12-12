@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class SystemSettingFragment extends Fragment {
                 "Connected Devices", "Bluetooth, pairing", R.drawable.ic_my_setting_002));
 
         data.add(new SettingItem("Application Settings", Settings.ACTION_APPLICATION_SETTINGS,
-                "Apps", "Assistant, recent apps, default...", R.drawable.ic_my_setting_003));
+                "Apps", "Assistant, recent apps, default apps", R.drawable.ic_my_setting_003));
         data.add(new SettingItem("Data Roaming Settings", Settings.ACTION_ALL_APPS_NOTIFICATION_SETTINGS,
                 "Notifications", "Notification history, conversations", R.drawable.ic_my_setting_004));
 
@@ -87,11 +88,12 @@ public class SystemSettingFragment extends Fragment {
         data.add(new SettingItem("Security Settings", Settings.ACTION_SECURITY_SETTINGS,
                 "Security & privacy", "App security, device lock", R.drawable.ic_my_setting_010));
 
-        data.add(new SettingItem("Memory Card Settings", Settings.ACTION_SETTINGS,
-                "System", "Languages, gestures, time, backup", R.drawable.ic_my_setting_011));
         //https://blog.csdn.net/godcok/article/details/108636231
         data.add(new SettingItem("Device Info Settings", Settings.ACTION_DEVICE_INFO_SETTINGS,
                 "About Device", /*"Paper 2"*/"" + Build.MODEL, R.drawable.ic_my_setting_012));
+
+        data.add(new SettingItem("Memory Card Settings", Settings.ACTION_SETTINGS,
+                "All Settings", "", R.drawable.ic_my_setting_011));
 
         if (false) {
             //not used
@@ -116,7 +118,14 @@ public class SystemSettingFragment extends Fragment {
     }
 
     private void initView(View view) {
-        mRecyclerView = view.findViewById(R.id.recyclerview);
+        mRecyclerView = (GridView) view.findViewById(R.id.recyclerview);
+        DisplayMetrics DM = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
+        if (DM.heightPixels > DM.widthPixels) {
+            mRecyclerView.setNumColumns(2);
+        } else {
+            mRecyclerView.setNumColumns(3);
+        }
         settingsAdapter = new LibraryGridAdapter4(getActivity(), data);
         // 设置adapter
         mRecyclerView.setAdapter(settingsAdapter);

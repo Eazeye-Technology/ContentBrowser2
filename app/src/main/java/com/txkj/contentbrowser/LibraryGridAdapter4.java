@@ -103,7 +103,13 @@ public class LibraryGridAdapter4 extends BaseAdapter {
         String text2 = fileMeta.title2 != null ? fileMeta.title2 : "";
 
         holder.tfBookName.setText(text1);//path);
-        holder.tfBookName2.setText(text2);//path);
+        if (text2 != null && text2.length() > 0) {
+            holder.tfBookName2.setText(text2);//path);
+            holder.tfBookName2.setVisibility(View.VISIBLE);
+        } else {
+            holder.tfBookName2.setText("");//path);
+            holder.tfBookName2.setVisibility(View.GONE);
+        }
         if (fileMeta.drawable != 0) {
             holder.ivCoverImage.setImageResource(fileMeta.drawable);
         }

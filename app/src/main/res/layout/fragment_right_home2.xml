@@ -265,13 +265,13 @@
                         android:layout_height="wrap_content"
                         android:textColor="#FF000000"
                         android:text="Nothing here yet"
-                        android:textSize="24sp"
+                        android:textSize="24dp"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#FF000000"
-                        android:textSize="24sp"
+                        android:textSize="24dp"
                         android:text="This space is empty. Add files to get started—drag and drop files,\nupload from device, or create a new one."
                         android:gravity="center"
                         android:layout_marginTop="10dp"
@@ -322,13 +322,13 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
                     android:text="Nothing here yet"
-                    android:textSize="24sp"
+                    android:textSize="24dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
-                    android:textSize="24sp"
+                    android:textSize="24dp"
                     android:text="This space is empty. Add files to get started—drag and drop files,\nupload from device, or create a new one."
                     android:gravity="center"
                     android:layout_marginTop="10dp"
