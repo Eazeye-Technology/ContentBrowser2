@@ -6,14 +6,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:clickable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="#FFFF0000"
-        app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="20dp"
+        android:background="@drawable/note_grid_item_list_outline"
         app:cardElevation="0dp"
         >
         <FrameLayout
@@ -92,5 +90,5 @@
                 android:visibility="gone"
                 />
     </FrameLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 </LinearLayout>

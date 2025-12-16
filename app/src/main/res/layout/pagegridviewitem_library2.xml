@@ -20,13 +20,13 @@ android:background="@android:color/transparent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <androidx.cardview.widget.CardView
-            android:foreground="?android:attr/selectableItemBackground"
+        <LinearLayout
             android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
-            app:cardCornerRadius="20dp"
+            android:background="@drawable/note_grid_item_list_outline"
+            android:elevation="2dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@ android:background="@android:color/transparent"
                     android:minHeight="50dp"
                     />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
 
     </LinearLayout>

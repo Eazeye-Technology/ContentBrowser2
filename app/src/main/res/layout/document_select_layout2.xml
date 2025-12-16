@@ -9,11 +9,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
-        <com.tvg.AutoWrapViewGroup
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/normalTextSize"
-            android:id="@+id/autoWrapViewGroup"
-            />
+            android:layout_height="wrap_content">
+            <com.tvg.AutoWrapViewGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/autoWrapViewGroup"
+                />
+        </HorizontalScrollView>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
