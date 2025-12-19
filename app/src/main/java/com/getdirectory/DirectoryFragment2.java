@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -48,7 +49,10 @@ import java.util.concurrent.Executors;
 import gm.com.dosya.utils.FileTransactions;
 
 public class DirectoryFragment2 extends Fragment {
-    boolean click = true;
+    private final static boolean SHOW_DOUBLE_DOTS = false;
+    private final static boolean USE_RECEIVER = false;
+
+    boolean clickMode = true;
     boolean cpy = false;
     boolean paste = false;
     boolean tasi = false;
@@ -61,6 +65,7 @@ public class DirectoryFragment2 extends Fragment {
     private GridView listView;
     private ListAdapter listAdapter;
     private TextView emptyView;
+    private LinearLayout loadingContent1;
 
     private DocumentSelectActivityDelegate delegate;
 
@@ -114,12 +119,14 @@ public class DirectoryFragment2 extends Fragment {
     }
 
     public void onFragmentDestroy() {
-        try {
-            if (receiverRegistered) {
-                getActivity().unregisterReceiver(receiver);
+        if (USE_RECEIVER) {
+            try {
+                if (receiverRegistered) {
+                    getActivity().unregisterReceiver(receiver);
+                }
+            } catch (Exception e) {
+                Log.e("tmessages", e.toString());
             }
-        } catch (Exception e) {
-            Log.e("tmessages", e.toString());
         }
     }
 
@@ -166,21 +173,22 @@ public class DirectoryFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        if (!receiverRegistered) {
-            receiverRegistered = true;
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL);
-            filter.addAction(Intent.ACTION_MEDIA_CHECKING);
-            filter.addAction(Intent.ACTION_MEDIA_EJECT);
-            filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-            filter.addAction(Intent.ACTION_MEDIA_NOFS);
-            filter.addAction(Intent.ACTION_MEDIA_REMOVED);
-            filter.addAction(Intent.ACTION_MEDIA_SHARED);
-            filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE);
-            filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-            filter.addDataScheme("file");
-            getActivity().registerReceiver(receiver, filter);
+        if (USE_RECEIVER) {
+            if (!receiverRegistered) {
+                receiverRegistered = true;
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL);
+                filter.addAction(Intent.ACTION_MEDIA_CHECKING);
+                filter.addAction(Intent.ACTION_MEDIA_EJECT);
+                filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+                filter.addAction(Intent.ACTION_MEDIA_NOFS);
+                filter.addAction(Intent.ACTION_MEDIA_REMOVED);
+                filter.addAction(Intent.ACTION_MEDIA_SHARED);
+                filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE);
+                filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+                filter.addDataScheme("file");
+                getActivity().registerReceiver(receiver, filter);
+            }
         }
         if (fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.document_select_layout2,
@@ -189,6 +197,10 @@ public class DirectoryFragment2 extends Fragment {
             autoWrapViewGroup.setOnItemClickListener(new AutoWrapViewGroup.OnItemClickListener() {
                 @Override
                 public void onItemClick(String title, String id) {
+                    for (int count = 0; count < items.size(); count++) {
+                        items.get(count).visible = false;
+                    }
+                    clickMode = true;
                     File file = null;
                     //if id==/, show storages instead of root '/' path
                     if (id != null && id.length() > 0 && !id.equals("/")) {
@@ -199,16 +211,17 @@ public class DirectoryFragment2 extends Fragment {
             });
             updatePathView();
             listAdapter = new ListAdapter(getActivity());
-            emptyView = (TextView) fragmentView
-                    .findViewById(R.id.searchEmptyView);
+            emptyView = (TextView) fragmentView.findViewById(R.id.searchEmptyView);
             emptyView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     return true;
                 }
             });
+            loadingContent1 = (LinearLayout) fragmentView.findViewById(R.id.loadingContent1);
             listView = (GridView) fragmentView.findViewById(R.id.listView);
-            listView.setEmptyView(emptyView);
+            //listView.setEmptyView(emptyView);
+            listView.setEmptyView(loadingContent1);
             listView.setAdapter(listAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -218,7 +231,7 @@ public class DirectoryFragment2 extends Fragment {
                     if (i < 0 || i >= items.size()) {
                         return;
                     }
-                    if (click) {
+                    if (clickMode) {
                         ListItem item = items.get(i);
                         changeDir(item.file, item.title);
                     } else {
@@ -241,7 +254,7 @@ public class DirectoryFragment2 extends Fragment {
                         items.get(count).visible = true;
                         cpy = true;
                     }
-                    click = false;
+                    clickMode = false;
                     listAdapter.notifyDataSetChanged();
                     return false;
                 }
@@ -273,7 +286,11 @@ public class DirectoryFragment2 extends Fragment {
         } else if (file.isDirectory()) {
             HistoryEntry he = new HistoryEntry();
             he.scrollItem = listView.getFirstVisiblePosition();
-            he.scrollOffset = listView.getChildAt(0).getTop();
+            if (listView.getChildCount() > 0 && listView.getChildAt(0) != null) {
+                he.scrollOffset = listView.getChildAt(0).getTop();
+            } else {
+                he.scrollOffset = 0;
+            }
             he.dir = currentDir;
             he.title = title_.toString();
             updateName(title_);
@@ -425,6 +442,10 @@ public class DirectoryFragment2 extends Fragment {
     }
 
     private boolean listFiles(File dir) {
+//        if (currentDir == null) {
+//            listRoots();
+//            return true;
+//        }
         if (!dir.canRead()) {
             if (dir.getAbsolutePath().startsWith(
                     Environment.getExternalStorageDirectory().toString())
@@ -502,12 +523,14 @@ public class DirectoryFragment2 extends Fragment {
             }
             items.add(item);
         }
-        ListItem item = new ListItem();
-        item.title = "..";
-        item.subtitle = "Folder";
-        item.icon = R.drawable.ic_directory;
-        item.file = dir.getParentFile(); //null;
-        items.add(0, item);
+        if (SHOW_DOUBLE_DOTS) {
+            ListItem item = new ListItem();
+            item.title = "..";
+            item.subtitle = "Folder";
+            item.icon = R.drawable.ic_directory;
+            item.file = dir.getParentFile(); //null;
+            items.add(0, item);
+        }
         clearDrawableAnimation(listView);
         // scrolling = true;
         listAdapter.notifyDataSetChanged();
@@ -818,7 +841,7 @@ public class DirectoryFragment2 extends Fragment {
                             items.get(count).visible = false;
                         }
                         listAdapter.notifyDataSetChanged();
-                        click = true;
+                        clickMode = true;
                         cpy = false;
                         if (CHANGE_VISIBLE) {
                             copymenu.setVisible(false);
@@ -845,7 +868,7 @@ public class DirectoryFragment2 extends Fragment {
                             items.get(count).visible = false;
                         }
                         listAdapter.notifyDataSetChanged();
-                        click = true;
+                        clickMode = true;
                         cpy = false;
                         if (CHANGE_VISIBLE) {
                             copymenu.setVisible(false);
@@ -929,7 +952,7 @@ public class DirectoryFragment2 extends Fragment {
                     });
                     AlertDialog alertDialog = ad.create();
                     alertDialog.show();
-                    click = true;
+                    clickMode = true;
                     return false;
                 } catch (Exception e) {
                     showErrorBox("The deletion operation could not be performed.");
@@ -1069,7 +1092,7 @@ public class DirectoryFragment2 extends Fragment {
             }
         } else {
             cpy = true;
-            click = false;
+            clickMode = false;
             for (int count = 0; count < items.size(); count++) {
                 items.get(count).visible = true;
                 cpy = true;

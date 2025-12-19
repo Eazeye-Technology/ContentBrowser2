@@ -106,6 +106,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class AnswerFragment extends
         Fragment {
 //        Activity {
+    private final static boolean USE_CACHE = true;
     private final static boolean NO_LOCATION_CHECK = true;
 
 //    @Override
@@ -329,11 +330,15 @@ public class AnswerFragment extends
         wv.setNetworkAvailable(true);
 
         //FIXME:优化速度：解决webview调用 goBack() 返回上一页自动刷新闪白的情况
-        if (stateStarted == 0) {
-            wv.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        if (USE_CACHE) {
+            wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         } else {
+            if (stateStarted == 0) {
+                wv.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            } else {
 //        wv.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-            wv.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+                wv.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            }
         }
 
         //wv.getSettings().setDisplayZoomControls(true);
