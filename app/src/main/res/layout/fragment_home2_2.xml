@@ -4,18 +4,18 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/left_nav_bar_collapse_padding"
+    android:padding="16px"
     >
     <View
-        android:layout_width="10dp"
-        android:layout_height="@dimen/left_nav_bar_collapse_button_item_top_height"
+        android:layout_width="20px"
+        android:layout_height="20px"
         />
     <androidx.cardview.widget.CardView
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/left_nav_bar_collapse_button_item_height"
+        android:layout_height="60px"
         app:cardBackgroundColor="#000000"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="10px"
         android:clickable="true"
         android:focusable="true"
         android:id="@+id/btnTitleNewBook_R"
@@ -30,9 +30,9 @@
             android:layout_gravity="center_vertical|center"
             >
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:padding="10dp"
+                android:layout_width="24px"
+                android:layout_height="24px"
+                android:padding="10px"
                 android:background="@drawable/ic_baseline_add_24_white"
                 />
             <TextView
@@ -40,14 +40,14 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#ffffff"
-                android:textSize="14sp"
+                android:textSize="14px"
                 android:layout_gravity="center_vertical|center"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <View
-        android:layout_width="10dp"
-        android:layout_height="@dimen/left_nav_bar_collapse_button_item_bottom_height"
+        android:layout_width="20px"
+        android:layout_height="20px"
         />
     <ScrollView
         android:layout_width="match_parent"
@@ -66,11 +66,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="5dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="5px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -82,9 +82,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_baseline_home_24_white"
                             android:tag="binding_1"
                             />
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="Home"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -109,11 +109,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="0px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -125,9 +125,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_outline_sticky_note_2_24"
                             android:tag="binding_1"
                             />
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:text="Notes"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center|center_vertical"
                     android:tag="binding_5"
                     />
@@ -152,11 +152,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="0px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -168,9 +168,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_baseline_book_24"
                             android:tag="binding_1"
                             />
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:text="Books"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -195,11 +195,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="0px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -211,9 +211,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_baseline_picture_as_pdf_24"
                             android:tag="binding_1"
                             />
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:text="PDFs"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -238,11 +238,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="0px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -254,9 +254,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_baseline_phone_android_24"
                             android:tag="binding_1"
                             />
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:text="Storage"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -281,11 +281,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="0px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -297,9 +297,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_sharp_apps_24"
                             android:tag="binding_1"
                             />
@@ -310,7 +310,7 @@
                     android:layout_height="wrap_content"
                     android:text="Apps"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -324,11 +324,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/left_nav_bar_collapse_simple_item_height"
+                    android:layout_height="40px"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="@dimen/left_nav_bar_collapse_simple_item_radius"
-                    android:layout_marginTop="@dimen/left_nav_bar_collapse_simple_item_marginTop"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20px"
+                    android:layout_marginTop="5px"
+                    app:cardElevation="0px"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -340,9 +340,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:padding="10dp"
+                            android:layout_width="24px"
+                            android:layout_height="24px"
+                            android:padding="10px"
                             android:background="@drawable/ic_outline_settings_24"
                             android:tag="binding_1"
                             />
@@ -353,7 +353,7 @@
                     android:layout_height="wrap_content"
                     android:text="Settings"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="14px"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
