@@ -55,7 +55,7 @@ import java.util.ArrayList;
 
 import io.material.catalog.navigationrail.NavigationRailSubMenuDemoFragment;
 
-public class MainActivity3 extends AppCompatActivity {
+public class MainActivity3NotUsed extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context context) {
         AppProfile.init(context); //for recent files search

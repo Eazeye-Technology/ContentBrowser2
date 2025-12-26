@@ -19,7 +19,9 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -60,6 +62,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
+    AutoCompleteTextView searchEditTextGlobal;
+
     @Override
     protected void attachBaseContext(Context context) {
         AppProfile.init(context); //for recent files search
@@ -125,7 +129,7 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
-        AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
+        searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
         searchEditTextGlobal.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
@@ -139,23 +143,25 @@ public class MainActivity2 extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String text = "";
-                if (searchEditTextGlobal != null &&
-                        searchEditTextGlobal.getText() != null &&
-                        searchEditTextGlobal.getText().toString() != null) {
-                    text = searchEditTextGlobal.getText().toString();
-                }
-                if (text.length() >= 2 || text.length() == 0) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    if (fragmentManager.getFragments().size() > 0) {
-                        Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
-                        if (currentFragment instanceof LibraryFragment2Book) {
-                            ((LibraryFragment2Book) currentFragment).setSearch(text);
-                        } else if (currentFragment instanceof NoteFragment2) {
-                            ((NoteFragment2) currentFragment).setSearch(text);
-                        }
+                sendMessage();
+            }
+        });
+        //https://developer.android.google.cn/develop/ui/views/touch-and-input/keyboard-input/style?hl=zh-cn#java
+        searchEditTextGlobal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //close ime
+                    if (searchEditTextGlobal != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(searchEditTextGlobal.getWindowToken(), 0);
+                        searchEditTextGlobal.clearFocus();
                     }
+                    sendMessage();
+                    handled = true;
                 }
+                return handled;
             }
         });
 
@@ -320,7 +326,7 @@ public class MainActivity2 extends AppCompatActivity {
             findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
             //findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
             findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
+            //AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
             if (searchEditTextGlobal != null) {
                 searchEditTextGlobal.setText("");
             }
@@ -329,9 +335,31 @@ public class MainActivity2 extends AppCompatActivity {
             findViewById(R.id.tvTitleText).setVisibility(View.GONE);
             //findViewById(R.id.btnSearch).setVisibility(View.GONE);
             findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
-            findViewById(R.id.filterLine_Library_global).requestFocus();
+            if (searchEditTextGlobal != null) {
+                searchEditTextGlobal.requestFocus();
+            }
         }
         return result;
+    }
+
+    private void sendMessage() {
+        String text = "";
+        if (searchEditTextGlobal != null &&
+                searchEditTextGlobal.getText() != null &&
+                searchEditTextGlobal.getText().toString() != null) {
+            text = searchEditTextGlobal.getText().toString();
+        }
+        if (text.length() >= 2 || text.length() == 0) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getFragments().size() > 0) {
+                Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                if (currentFragment instanceof LibraryFragment2Book) {
+                    ((LibraryFragment2Book) currentFragment).setSearch(text);
+                } else if (currentFragment instanceof NoteFragment2) {
+                    ((NoteFragment2) currentFragment).setSearch(text);
+                }
+            }
+        }
     }
 
     /*

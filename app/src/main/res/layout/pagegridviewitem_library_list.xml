@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="20px"
     android:background="@drawable/toolbar_button"
     android:gravity="center_vertical"
     >
@@ -17,13 +17,13 @@ android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="10px"
         android:layout_gravity="center_vertical"
         >
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_margin="0dp"
+            android:layout_height="200px"
+            android:layout_margin="0px"
             android:layout_gravity="center"
             >
             <!--https://blog.csdn.net/qq_42618969/article/details/107863798-->
@@ -31,31 +31,31 @@ android:background="@android:color/transparent"
                 android:id="@+id/img_item_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginRight="0dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="0px"
+                android:layout_marginBottom="0px"
+                android:layout_marginRight="0px"
+                app:cardCornerRadius="10px"
+                app:cardElevation="0px">
                 <ImageView
                     android:id="@+id/browserItemIcon_library"
-                    android:layout_width="160dp"
-                    android:layout_height="200dp"
+                    android:layout_width="160px"
+                    android:layout_height="200px"
                     android:background="@drawable/pdf_back"
                     />
             </androidx.cardview.widget.CardView>
             <TextView
                 android:id="@+id/tvSuffix"
                 android:layout_width="wrap_content"
-                android:layout_height="15dp"
+                android:layout_height="15px"
                 android:background="@drawable/pdf_text_back"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:text="PDF"
-                android:textSize="8dp"
+                android:textSize="8px"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"
                 />
         </RelativeLayout>
 
@@ -66,8 +66,8 @@ android:background="@android:color/transparent"
             android:maxLines="2"
             android:text=""
             android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:textSize="10dp"
+            android:layout_marginTop="5px"
+            android:textSize="10px"
             android:gravity="center"
             />
         <!--Mind, Society, and Behavior-->

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
+        android:padding="10px"
         android:background="@color/colorBackground"
         >
         <!--tools:context=".MainActivity"-->
@@ -18,17 +18,17 @@
         <GridView
             android:id="@+id/bookgridview_home"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="100px"
             android:numColumns="3"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
+            android:paddingLeft="1px"
+            android:paddingRight="1px"
             android:gravity="center"
             android:stretchMode="columnWidth"
             />
          -->
 <!--
-            android:layout_width="1000dp"
-            android:layout_height="100dp"
+            android:layout_width="1000px"
+            android:layout_height="100px"
 -->
 
         <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:minHeight="300dp"
+            android:minHeight="300px"
             >
 
             <androidx.cardview.widget.CardView
@@ -46,14 +46,14 @@
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp">
+                android:layout_margin="10px">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:paddingBottom="0dp"
-                    android:paddingTop="10dp"
+                    android:paddingBottom="0px"
+                    android:paddingTop="10px"
                     >
 
                     <LinearLayout
@@ -61,38 +61,38 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center|center_vertical"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0px"
+                        android:layout_marginLeft="10px"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30px"
+                            android:layout_height="30px"
                             android:src="@drawable/home_library_vector2"
-                            android:padding="10dp"
+                            android:padding="10px"
                             android:background="@drawable/five"
                             android:scaleType="center"
                             />
                         <TextView
                             android:gravity="left"
                             android:layout_gravity="center_vertical"
-                            android:layout_width="0dp"
+                            android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Library"
-                            android:padding="5dp"
+                            android:padding="5px"
                             />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgViewPdf"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="22px"
+                            android:layout_height="22px"
                             android:src="@drawable/ic_baseline_chevron_right_24"
-                            android:padding="10dp"
+                            android:padding="10px"
                             android:background="@drawable/second_black"
                             android:scaleType="center"
                             android:scaleX="1"
                             android:scaleY="1"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginRight="15px"
                             android:layout_gravity="center_vertical"
                             />
                     </LinearLayout>
@@ -100,14 +100,14 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="1px"
                         android:background="@color/colorLightGrey"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="10px"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:minHeight="100dp"
+                        android:minHeight="100px"
                         >
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -117,9 +117,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal"
-                                android:padding="0dp"
-                                android:layout_marginLeft="10dp"
-                                android:paddingBottom="0dp"
+                                android:padding="0px"
+                                android:layout_marginLeft="10px"
+                                android:paddingBottom="0px"
                                 android:gravity="center_vertical"
                                 >
                                 <GridView
@@ -127,8 +127,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:numColumns="3"
-                                    android:paddingLeft="1dp"
-                                    android:paddingRight="1dp"
+                                    android:paddingLeft="1px"
+                                    android:paddingRight="1px"
                                     android:gravity="center"
                                     android:stretchMode="columnWidth"
                                     />
@@ -144,13 +144,13 @@
                             >
                         <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
                             android:id="@+id/progressLoading1"
-                            app:mlpb_progress_stoke_width="8dp"
+                            app:mlpb_progress_stoke_width="8px"
                             app:mlpb_progress_color="#000000"
                             app:mlpb_enable_circle_background="false"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
+                            android:layout_width="200px"
+                            android:layout_height="200px"
                             android:visibility="visible"/>
-                        <!--3dp, 36dp, #566da9-->
+                        <!--3px, 36px, #566da9-->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -162,9 +162,9 @@
                             >
                                 <ImageView
                                     android:src="@drawable/ic_baseline_folder_copy_24"
-                                    android:layout_width="200dp"
-                                    android:layout_height="200dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_width="300px"
+                                    android:layout_height="300px"
+                                    android:layout_marginBottom="10px"
                                     />
                                 <TextView
                                     android:id="@+id/tvEmpty1"
@@ -172,16 +172,16 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="#FF000000"
                                     android:text="Nothing here yet"
-                                    android:textSize="24dp"
+                                    android:textSize="32px"
                                     />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="#FF000000"
-                                    android:textSize="24dp"
+                                    android:textSize="24px"
                                     android:text="This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one."
                                     android:gravity="center"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_marginTop="10px"
                                     />
                         </LinearLayout>
                         </LinearLayout>
@@ -201,7 +201,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -211,25 +211,25 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:layout_width="match_parent"
-                    android:layout_height="190dp"
-                    android:layout_margin="10dp">
+                    android:layout_height="190px"
+                    android:layout_margin="10px">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center">
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
+                            android:layout_width="64px"
+                            android:layout_height="64px"
                             android:src="@drawable/keep"
-                            android:padding="10dp"
+                            android:padding="10px"
                             android:background="@drawable/third"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="AI Chat"
                             android:textStyle="bold"
-                            android:layout_marginTop="10dp"/>
+                            android:layout_marginTop="10px"/>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -247,25 +247,25 @@
                         android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:layout_width="match_parent"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp">
+                        android:layout_height="190px"
+                        android:layout_margin="10px">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center">
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
+                                android:layout_width="64px"
+                                android:layout_height="64px"
                                 android:src="@drawable/home_setting_vector2"
-                                android:padding="10dp"
+                                android:padding="10px"
                                 android:background="@drawable/four"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Settings"
                                 android:textStyle="bold"
-                                android:layout_marginTop="10dp"/>
+                                android:layout_marginTop="10px"/>
 
                         </LinearLayout>
 
@@ -277,7 +277,7 @@
 
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="0px"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 >
@@ -288,7 +288,7 @@
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10px">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -298,52 +298,52 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="0dp"
+                            android:layout_marginTop="10px"
+                            android:layout_marginLeft="0px"
                             >
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30px"
+                                android:layout_height="30px"
                                 android:src="@drawable/home_note_vector2"
-                                android:padding="0dp"
+                                android:padding="0px"
                                 android:background="@drawable/second"
                                 android:scaleType="center"
                                 android:scaleX="0.9"
                                 android:scaleY="0.9"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginLeft="10px"
+                                android:layout_marginRight="10px"
                                 />
                             <TextView
                                 android:gravity="left|center_vertical"
-                                android:layout_width="0dp"
+                                android:layout_width="0px"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:text="Notes"
-                                android:padding="0dp"
+                                android:padding="0px"
                                 />
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/ivJumpNote"
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
+                                android:layout_width="22px"
+                                android:layout_height="22px"
                                 android:src="@drawable/ic_baseline_chevron_right_24"
-                                android:padding="10dp"
+                                android:padding="10px"
                                 android:background="@drawable/second_black"
                                 android:scaleType="center"
                                 android:scaleX="1"
                                 android:scaleY="1"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginRight="10px"
                                 android:layout_gravity="center_vertical"
                                 />
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height="1px"
                             android:background="@color/colorLightGrey"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10px"
+                            android:layout_marginRight="10px"
+                            android:layout_marginTop="10px"
                             />
 
                         <RelativeLayout
@@ -357,9 +357,9 @@
                                 android:layout_height="wrap_content"
                                 android:numColumns="1"
                                 android:stretchMode="columnWidth"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="10px"
+                                android:layout_marginRight="10px"
+                                android:layout_marginBottom="10px"
                                 />
 
                             <LinearLayout
@@ -372,9 +372,9 @@
                                 >
                                 <ImageView
                                     android:src="@drawable/ic_baseline_folder_copy_24"
-                                    android:layout_width="200dp"
-                                    android:layout_height="200dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_width="300px"
+                                    android:layout_height="300px"
+                                    android:layout_marginBottom="10px"
                                     />
                                 <TextView
                                     android:id="@+id/tvEmpty2"
@@ -382,16 +382,16 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="#FF000000"
                                     android:text="Nothing here yet"
-                                    android:textSize="24sp"
+                                    android:textSize="32px"
                                     />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="#FF000000"
-                                    android:textSize="24sp"
+                                    android:textSize="24px"
                                     android:text="This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one."
                                     android:gravity="center"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_marginTop="10px"
                                     />
                             </LinearLayout>
                         </RelativeLayout>

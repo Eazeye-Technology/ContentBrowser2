@@ -115,7 +115,11 @@
                                 android:paddingLeft="16px"
                                 android:singleLine="true"
                                 android:lines="1"
+                                android:imeOptions="actionSearch"
+                                android:inputType="text"
                                 />
+                            <!--android:imeOptions="actionSend"
+                                -->
                         </androidx.cardview.widget.CardView>
 <!--                        <com.google.android.material.search.SearchView-->
 <!--                            android:hint="Search"-->

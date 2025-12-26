@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="10dp"
+        android:layout_margin="10px"
         >
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="30px"
+            android:layout_height="30px"
             android:src="@drawable/home_note_vector"
             />
         <TextView
@@ -24,11 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notes"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="20px"
             />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/rl_content_wx"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="50px"
                 >
 
                 <LinearLayout
@@ -60,35 +60,35 @@
                     android:gravity="center_vertical"
                     android:layout_toLeftOf="@+id/iv_right"
                     android:background="@drawable/bg_search_edit2"
-                    android:padding="5dp"
+                    android:padding="5px"
                     >
                     <AutoCompleteTextView
                         android:gravity="top"
-                        android:layout_width="0dp"
+                        android:layout_width="0px"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="16sp"
+                        android:textSize="16px"
                         android:textColor="#cccccc"
                         android:background="@null"
                         android:id="@+id/filterLine_Library"
                         android:maxLines="1"
                         android:hint="Search"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="10px"
                         />
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="12px"
+                        android:layout_height="12px"
                         android:id="@+id/iv_search_wx"
                         android:src="@drawable/serch"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="10px"
                         android:layout_gravity="center_vertical"
                         />
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="24px"
+                    android:layout_height="24px"
                     android:layout_alignParentRight="true"
                     android:id="@+id/iv_right"
                     android:src="@mipmap/ic_launcher"
@@ -97,10 +97,10 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="#66CD00"
                     android:layout_below="@+id/ll_search_wx"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="3px"
                     android:visibility="gone"
                     />
 
@@ -109,26 +109,26 @@
 
         <ImageButton
             android:id="@+id/buttonNewBook"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="30px"
+            android:layout_height="30px"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:background="@drawable/toolbar_button"
             android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingLeft="5px"
+            android:paddingRight="5px"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_add_24"
             android:text="NEW BOOK"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textSize="11sp" />
+            android:textSize="11px" />
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0px"
         android:layout_weight="1"
         >
         <GridView
@@ -136,8 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="3"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
+            android:paddingLeft="1px"
+            android:paddingRight="1px"
             android:gravity="center"
             android:stretchMode="columnWidth"
             />
@@ -151,13 +151,13 @@
             >
             <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
                 android:id="@+id/progressLoading1"
-                app:mlpb_progress_stoke_width="8dp"
+                app:mlpb_progress_stoke_width="8px"
                 app:mlpb_progress_color="#000000"
                 app:mlpb_enable_circle_background="false"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="300px"
+                android:layout_height="300px"
                 android:visibility="visible"/>
-            <!--3dp, 36dp, #566da9-->
+            <!--3px, 36px, #566da9-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,9 +169,9 @@
                 >
                 <ImageView
                     android:src="@drawable/ic_baseline_folder_copy_24"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:layout_marginBottom="10px"
                     />
                 <TextView
                     android:id="@+id/tvEmpty1"
@@ -179,16 +179,16 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
                     android:text="Nothing here yet"
-                    android:textSize="24dp"
+                    android:textSize="32px"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
-                    android:textSize="24dp"
+                    android:textSize="24px"
                     android:text="This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one."
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="10px"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -197,20 +197,20 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/colorLightGrey"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10px"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10px"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
         >
         <TextView
             android:id="@+id/tvPageInfo"
-            android:layout_width="0dp"
+            android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text=""
