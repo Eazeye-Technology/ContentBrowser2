@@ -224,6 +224,10 @@ public class LibraryFragment2Book extends Fragment {
     private TextView tvEmpty1;
     private View progressLoading1, loadingContent1;
     private LinearLayout llEmpty1;
+
+    private TextView tvEmpty2;
+    private ImageView ivEmpty1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -291,6 +295,8 @@ public class LibraryFragment2Book extends Fragment {
         recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        tvEmpty2 = view.findViewById(R.id.tvEmpty2);
+        ivEmpty1 = view.findViewById(R.id.ivEmpty1);
         progressLoading1 = view.findViewById(R.id.progressLoading1);
         loadingContent1 = view.findViewById(R.id.loadingContent1);
         progressLoading1.setVisibility(View.VISIBLE);
@@ -1385,6 +1391,8 @@ public class LibraryFragment2Book extends Fragment {
         if (searchAdapter != null) {
             tvPageInfo.setText("Total item(s) : " + searchAdapter.getCount() + "");
         }
+
+        updateSearchEmpty();
     }
 
     private void sortByPopup(final View view) {
@@ -1459,6 +1467,18 @@ public class LibraryFragment2Book extends Fragment {
     public void setSearch(String text) {
         if (text != null && searchEditText != null) {
             searchEditText.setText(text);
+        }
+    }
+
+    private void updateSearchEmpty() {
+        if (searchEditText != null && searchEditText.getText().toString().length() > 0) {
+            ivEmpty1.setImageResource(R.drawable.glyphicons_28_search);
+            tvEmpty1.setText("No results");
+            tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
+        } else {
+            ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
+            tvEmpty1.setText("Nothing here yet");
+            tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
         }
     }
 }

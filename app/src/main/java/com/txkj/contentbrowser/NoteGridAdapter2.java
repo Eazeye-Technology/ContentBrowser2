@@ -113,7 +113,7 @@ public class NoteGridAdapter2 extends BaseAdapter {
 //            convertView.setLayoutParams(params2);
 //        }
 
-        if (dataList != null) {
+        if (dataList != null && position >= 0 && position < dataList.size()) {
             FileMeta fileMeta = dataList.get(position);
             if (fileMeta != null) {
                 bindFileMetaView(gridholder, position);

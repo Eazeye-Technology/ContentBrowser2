@@ -1,17 +1,12 @@
 package com.txkj.contentbrowser;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,16 +19,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -47,13 +41,11 @@ import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
-import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser2.R;
 
 import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -61,7 +53,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,6 +74,8 @@ public class NoteFragment2 extends Fragment {
     private TextView tvEmpty1;
     private View progressLoading1, loadingContent1;
     private LinearLayout llEmpty1;
+    private TextView tvEmpty2;
+    private ImageView ivEmpty1;
 
     private final static boolean USE_EXTERNAL_FILE = true;
 
@@ -219,6 +212,8 @@ class PreferencesKeys {
 //        });
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        tvEmpty2 = view.findViewById(R.id.tvEmpty2);
+        ivEmpty1 = view.findViewById(R.id.ivEmpty1);
         progressLoading1 = view.findViewById(R.id.progressLoading1);
         loadingContent1 = view.findViewById(R.id.loadingContent1);
         progressLoading1.setVisibility(View.VISIBLE);
@@ -513,6 +508,7 @@ class PreferencesKeys {
         if (tvPageInfo != null) {
             tvPageInfo.setText("Total item(s) : " + recentNoteAdapter.getCount() + "");
         }
+        updateSearchEmpty();
     }
 
     private final TextWatcher filterTextWatcher = new TextWatcher() {
@@ -676,6 +672,18 @@ class PreferencesKeys {
             fout.close();
         } catch (Throwable eee) {
             eee.printStackTrace();
+        }
+    }
+
+    private void updateSearchEmpty() {
+        if (searchEditText != null && searchEditText.getText().toString().length() > 0) {
+            ivEmpty1.setImageResource(R.drawable.glyphicons_28_search);
+            tvEmpty1.setText("No results");
+            tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
+        } else {
+            ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
+            tvEmpty1.setText("Nothing here yet");
+            tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
         }
     }
 }

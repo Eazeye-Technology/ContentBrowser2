@@ -171,6 +171,7 @@ android:background="#f6f3f2"
                 android:visibility="gone"
                 >
                 <ImageView
+                    android:id="@+id/ivEmpty1"
                     android:src="@drawable/ic_baseline_folder_copy_24"
                     android:layout_width="300px"
                     android:layout_height="300px"
@@ -185,6 +186,7 @@ android:background="#f6f3f2"
                     android:textSize="32px"
                     />
                 <TextView
+                    android:id="@+id/tvEmpty2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"
