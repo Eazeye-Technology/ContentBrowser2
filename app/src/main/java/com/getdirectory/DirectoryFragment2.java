@@ -48,6 +48,9 @@ import java.util.concurrent.Executors;
 
 import gm.com.dosya.utils.FileTransactions;
 
+//FIXME:changeDir, listView.setOnItemClickListener
+//FIXME:listRoots()
+//FIXME:listFiles(new File(extStorage));
 public class DirectoryFragment2 extends Fragment {
     private final static boolean SHOW_DOUBLE_DOTS = false;
     private final static boolean USE_RECEIVER = false;
@@ -259,7 +262,19 @@ public class DirectoryFragment2 extends Fragment {
                     return false;
                 }
             });
-            listRoots();
+            if (true) {
+                String extStorage = "/";
+                ListItem ext;
+                try {
+                    extStorage = Environment.getExternalStorageDirectory().getAbsolutePath();
+                } catch (Throwable eee) {
+                    eee.printStackTrace();
+                }
+                //Internal Storage
+                listFiles(new File(extStorage));
+            } else {
+                listRoots();
+            }
         } else {
             ViewGroup parent = (ViewGroup) fragmentView.getParent();
             if (parent != null) {
@@ -274,7 +289,11 @@ public class DirectoryFragment2 extends Fragment {
         if (file == null) {
             HistoryEntry he = new HistoryEntry();
             he.scrollItem = listView.getFirstVisiblePosition();
-            he.scrollOffset = listView.getChildAt(0).getTop();
+            if (listView.getChildCount() > 0 && listView.getChildAt(0) != null) {
+                he.scrollOffset = listView.getChildAt(0).getTop();
+            } else {
+                he.scrollOffset = 0;
+            }
             he.dir = currentDir;
             he.title = title_.toString();
             listRoots();
@@ -348,11 +367,10 @@ public class DirectoryFragment2 extends Fragment {
             extStorage = Environment.getExternalStorageDirectory()
                     .getAbsolutePath();
             ext = new ListItem();
-            if (Build.VERSION.SDK_INT < 9
-                    || Environment.isExternalStorageRemovable()) {
+            if (Build.VERSION.SDK_INT < 9 || Environment.isExternalStorageRemovable()) {
                 ext.title = "SdCard";
             } else {
-                ext.title = "InternalStorage";
+                ext.title = "Internal Storage";
             }
             ext.icon = Build.VERSION.SDK_INT < 9
                     || Environment.isExternalStorageRemovable() ? R.drawable.ic_external_storage
@@ -705,20 +723,47 @@ public class DirectoryFragment2 extends Fragment {
     }
 
     public void updatePathView() {
+        //internal storage
+        String extStorage = "/";
+        try {
+            extStorage = Environment.getExternalStorageDirectory().getAbsolutePath();
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
         if (autoWrapViewGroup != null) {
             if (currentDir == null || currentDir.getAbsolutePath() == null) {
                 autoWrapViewGroup.clearViews();
-                autoWrapViewGroup.output("Storage: ", "/");
+                autoWrapViewGroup.output("Storage: ", extStorage);//"/");
             } else {
                 autoWrapViewGroup.clearViews();
-                autoWrapViewGroup.output("Storage: ", "/");
+                autoWrapViewGroup.output("Storage: ", extStorage);//"/");
                 String absPath = currentDir.getAbsolutePath();
                 if (absPath != null) {
-                    if (absPath.startsWith("/")) {
-                        absPath = absPath.substring(1);
+                    boolean isStartWithExtStorage = false;
+                    if (true) {
+                        //internal storage
+                        try {
+                            //String extStorage = Environment.getExternalStorageDirectory().getAbsolutePath();
+                            if (extStorage != null && absPath.startsWith(extStorage)) {
+                                absPath = absPath.substring(extStorage.length());
+                                isStartWithExtStorage = true;
+                            }
+                        } catch (Throwable eee) {
+                            eee.printStackTrace();
+                        }
+                        if (absPath.startsWith("/")) {
+                            absPath = absPath.substring(1);
+                        }
+                    } else {
+                        if (absPath.startsWith("/")) {
+                            absPath = absPath.substring(1);
+                        }
                     }
                     String[] pathStr = absPath.split("/");
                     String strPath = "";
+                    if (isStartWithExtStorage) {
+                        strPath += extStorage + strPath;
+                    }
                     for (int i = 0; i < pathStr.length; ++i) {
                         String str = pathStr[i];
                         strPath += "/" + str;

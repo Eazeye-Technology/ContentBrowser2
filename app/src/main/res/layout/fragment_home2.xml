@@ -116,7 +116,7 @@
                                 android:singleLine="true"
                                 android:lines="1"
                                 android:imeOptions="actionSearch"
-                                android:inputType="text"
+                                android:inputType="textNoSuggestions"
                                 />
                             <!--android:imeOptions="actionSend"
                                 -->
