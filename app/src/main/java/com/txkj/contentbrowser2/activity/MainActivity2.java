@@ -357,6 +357,11 @@ public class MainActivity2 extends AppCompatActivity {
                     ((LibraryFragment2Book) currentFragment).setSearch(text);
                 } else if (currentFragment instanceof NoteFragment2) {
                     ((NoteFragment2) currentFragment).setSearch(text);
+                } else if (currentFragment instanceof AppsFragment) {
+                    //search function
+                    ((AppsFragment) currentFragment).setSearch(text);
+                } else if (currentFragment instanceof DirectoryFragment2) {
+                    ((DirectoryFragment2) currentFragment).setSearch(text);
                 }
             }
         }

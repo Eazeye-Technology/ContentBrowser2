@@ -5,12 +5,16 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:paddingTop="5px"
+    android:paddingBottom="5px"
+    android:paddingLeft="5px"
+    android:paddingRight="5px"
     android:background="@android:color/transparent"
     android:descendantFocusability="blocksDescendants"
     android:id="@+id/llGridTop"
     android:visibility="visible"
     >
+    <!--L:12px-->
     <!--
     -->
 <!--
@@ -29,23 +33,23 @@ android:background="@drawable/toolbar_button"
             android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
+            android:layout_margin="1px"
             android:background="@drawable/note_grid_item_list_outline"
-            android:elevation="2dp"
+            android:elevation="2px"
             >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center|center_vertical"
-                android:padding="20dp"
+                android:padding="20px"
                 >
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/browserItemIcon_library"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="0px"
                     android:layout_weight="1"
-                    android:padding="10dp"
+                    android:padding="10px"
                     />
                 <!--android:src="@drawable/book001"-->
                 <LinearLayout
@@ -55,18 +59,20 @@ android:background="@drawable/toolbar_button"
                     >
                     <TextView
                         android:id="@+id/bookgrid_name_library"
-                        android:layout_width="0dp"
+                        android:layout_width="0px"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:maxLines="2"
                         android:text=""
-                        android:textStyle="bold"
-                        android:textSize="16dp"
+                        android:textSize="16px"
                         android:gravity="left|top"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:minHeight="50dp"
+                        android:layout_marginTop="16px"
+                        android:layout_marginBottom="16px"
+                        android:minHeight="44px"
+                        android:textColor="#FF000000"
                         />
+                    <!--android:textStyle="bold"
+                        -->
                     <CheckBox
                         android:id="@+id/checkbox"
                         android:layout_width="wrap_content"

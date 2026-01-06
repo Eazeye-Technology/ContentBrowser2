@@ -746,19 +746,19 @@ public class AnswerFragment extends
 
 
         if (isMain()) {
-            onCreateUpdateReceiver();
-            if (urlType == null || urlType.equals("")) {
-                if (stateStarted == 0) {
-                    checkVersion();
-                }
-            }
+//            onCreateUpdateReceiver();
+//            if (urlType == null || urlType.equals("")) {
+//                if (stateStarted == 0) {
+//                    checkVersion();
+//                }
+//            }
 
             if (stateStarted == 0) {
                 //checkPermissioin();
-                requirePermission();
+//                requirePermission();
             }
 
-            checkGps();
+//            checkGps();
         }
         return view;
     }
@@ -776,39 +776,39 @@ public class AnswerFragment extends
 
     }
 
-    private void checkGps() {
-        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        // 显示 gps 状态
-        boolean gpsEnabled = false;
-
-        /* 防止BITA平台兼容性测试时潜在的权限禁止问题导致测试失败 */
-        try {
-            gpsEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception e) {
-            gpsEnabled = false;
-        }
-        //mGps.setText(String.format(getString(R.string.gps), gpsEnabled ? "开启" : "关闭"));
-        if (!gpsEnabled) {
-            //开wifi开gps：有经纬度
-            //开wifi关gps：没有经纬度
-            //关wifi开gps：有经纬度？
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("温馨提示")
-                    .setMessage("位置信息关闭，无法获取定位信息，请打开位置信息！")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            try {
-                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            } catch (Throwable eee) {
-                                eee.printStackTrace();
-                            }
-                        }
-                    })
-                    .show();
-        }
-    }
+//    private void checkGps() {
+//        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//
+//        // 显示 gps 状态
+//        boolean gpsEnabled = false;
+//
+//        /* 防止BITA平台兼容性测试时潜在的权限禁止问题导致测试失败 */
+//        try {
+//            gpsEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//        } catch (Exception e) {
+//            gpsEnabled = false;
+//        }
+//        //mGps.setText(String.format(getString(R.string.gps), gpsEnabled ? "开启" : "关闭"));
+//        if (!gpsEnabled) {
+//            //开wifi开gps：有经纬度
+//            //开wifi关gps：没有经纬度
+//            //关wifi开gps：有经纬度？
+//            new AlertDialog.Builder(getActivity())
+//                    .setTitle("温馨提示")
+//                    .setMessage("位置信息关闭，无法获取定位信息，请打开位置信息！")
+//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            try {
+//                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                            } catch (Throwable eee) {
+//                                eee.printStackTrace();
+//                            }
+//                        }
+//                    })
+//                    .show();
+//        }
+//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -1152,9 +1152,9 @@ public class AnswerFragment extends
         }
         //end see https://androidexample.com/file-chooser-with-camera-option-webview
         //--------------------
-        if (onActivityResult2(requestCode, resultCode, data)) {
-            return;
-        }
+//        if (onActivityResult2(requestCode, resultCode, data)) {
+//            return;
+//        }
         if (requestCode == INPUT_FILE_REQUEST_CODE) {
             Uri[] results = null;
             // Check that the response is a good one
@@ -1600,7 +1600,7 @@ public class AnswerFragment extends
         }
 
         super.onDestroy();
-        onDestroyUpdateReceiver();
+//        onDestroyUpdateReceiver();
 
     }
 
@@ -1624,43 +1624,43 @@ public class AnswerFragment extends
 
 
 
-    private MyReceiver receiver;
-    private void onCreateUpdateReceiver() {
-        receiver = new MyReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_UPGRADE);
-        prepareInstall(filter);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            getActivity().registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            getActivity().registerReceiver(receiver, filter);
-        }
-    }
-    private void onDestroyUpdateReceiver() {
-        if (this.receiver != null) {
-            getActivity().unregisterReceiver(receiver);
-        }
-    }
+//    private MyReceiver receiver;
+//    private void onCreateUpdateReceiver() {
+//        receiver = new MyReceiver();
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(ACTION_UPGRADE);
+////        prepareInstall(filter);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//            getActivity().registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+//        } else {
+//            getActivity().registerReceiver(receiver, filter);
+//        }
+//    }
+//    private void onDestroyUpdateReceiver() {
+//        if (this.receiver != null) {
+//            getActivity().unregisterReceiver(receiver);
+//        }
+//    }
 
 
-    private class MyReceiver extends BroadcastReceiver {
-        private long lastTimer = 0;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                if (ACTION_UPGRADE.equals(intent.getAction())) {
-                    int progress = intent.getIntExtra(EXTRA_UPGRADE_PROGRESS, 0);
-                    int total = intent.getIntExtra(EXTRA_UPGRADE_TOTAL, 0);
-                    int status = intent.getIntExtra(EXTRA_UPGRADE_STATUS, 0);
-//                    getActivity().runOnUiThread(new UiUpdater(progress, total, status));
-                } else if (ACTION_UPGRADE_INSTALL.equals(intent.getAction())) {
-                    String path = intent.getStringExtra(EXTRA_UPGRADE_PATH);
-                    installApk(new File(path));
-                }
-            }
-        }
-    }
+//    private class MyReceiver extends BroadcastReceiver {
+//        private long lastTimer = 0;
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (intent != null) {
+//                if (ACTION_UPGRADE.equals(intent.getAction())) {
+//                    int progress = intent.getIntExtra(EXTRA_UPGRADE_PROGRESS, 0);
+//                    int total = intent.getIntExtra(EXTRA_UPGRADE_TOTAL, 0);
+//                    int status = intent.getIntExtra(EXTRA_UPGRADE_STATUS, 0);
+////                    getActivity().runOnUiThread(new UiUpdater(progress, total, status));
+//                } else if (ACTION_UPGRADE_INSTALL.equals(intent.getAction())) {
+//                    String path = intent.getStringExtra(EXTRA_UPGRADE_PATH);
+//                    installApk(new File(path));
+//                }
+//            }
+//        }
+//    }
 //    private class UiUpdater implements Runnable {
 //        private int m_Progess;
 //        private int m_Total;
@@ -1690,12 +1690,12 @@ public class AnswerFragment extends
 //        }
 //    }
 
-    public static final String ACTION_UPGRADE = "ACTION_UPGRADE";
-    public static final String EXTRA_UPGRADE_PROGRESS = "EXTRA_UPGRADE_PROGRESS";
-    public static final String EXTRA_UPGRADE_TOTAL = "EXTRA_UPGRADE_TOTAL";
-    public static final String EXTRA_UPGRADE_STATUS = "EXTRA_UPGRADE_STATUS";
-    public static final int UPGRADE_STATUS_OK = 0;
-    public static final int UPGRADE_STATUS_ERROR = 1;
+//    public static final String ACTION_UPGRADE = "ACTION_UPGRADE";
+//    public static final String EXTRA_UPGRADE_PROGRESS = "EXTRA_UPGRADE_PROGRESS";
+//    public static final String EXTRA_UPGRADE_TOTAL = "EXTRA_UPGRADE_TOTAL";
+//    public static final String EXTRA_UPGRADE_STATUS = "EXTRA_UPGRADE_STATUS";
+//    public static final int UPGRADE_STATUS_OK = 0;
+//    public static final int UPGRADE_STATUS_ERROR = 1;
 
     public String getUpdatePath() {
         try {
@@ -1730,67 +1730,67 @@ public class AnswerFragment extends
     private String serverVersionUrl = null;
     private String serverPathPage = null;
     private String serverNote = null;
-    public void checkVersion() {
-        if (Build.VERSION.SDK_INT < 11) {
-            new CheckVersionTask().execute();
-        } else {
-            new CheckVersionTask().executeOnExecutor(newFixedThreadPool);
-        }
-    }
-    public class CheckVersionTask extends AsyncTask<Void, Void, Void> {
-        private boolean isSuccess = false;
-
-        public CheckVersionTask() {
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (D) {
-                Log.e(TAG, "MainActivity.CheckVersionTask begin CheckVersionTask ");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result_) {
-            super.onPostExecute(result_);
-            if (isSuccess) {
-                if (serverVersion > 0 &&
-                        serverVersionUrl != null &&
-                        serverVersionUrl.length() > 0) {
-                    afterCheckVersion();
-                }
-            } else {
-
-            }
-        }
-    }
-
-    public void afterCheckVersion() {
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getActivity().getApplicationContext().getPackageManager()
-                    .getPackageInfo(getActivity().getPackageName(), 0);
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        int localVersion = packageInfo.versionCode;
-        if (localVersion < serverVersion) {
-            getActivity().showDialog(DIALOG_UPGRADE);
-        }
-    }
-
-    public static String getUrlFileName(String url) {
-        if (url != null && url.length() > 0) {
-            int lastIndex = url.lastIndexOf("/");
-            if (lastIndex != -1 && lastIndex < url.length() - 1) {
-                String docName = url.substring(lastIndex + 1);
-                return docName;
-            }
-        }
-        return null;
-    }
+//    public void checkVersion() {
+//        if (Build.VERSION.SDK_INT < 11) {
+//            new CheckVersionTask().execute();
+//        } else {
+//            new CheckVersionTask().executeOnExecutor(newFixedThreadPool);
+//        }
+//    }
+//    public class CheckVersionTask extends AsyncTask<Void, Void, Void> {
+//        private boolean isSuccess = false;
+//
+//        public CheckVersionTask() {
+//
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            if (D) {
+//                Log.e(TAG, "MainActivity.CheckVersionTask begin CheckVersionTask ");
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result_) {
+//            super.onPostExecute(result_);
+//            if (isSuccess) {
+//                if (serverVersion > 0 &&
+//                        serverVersionUrl != null &&
+//                        serverVersionUrl.length() > 0) {
+//                    afterCheckVersion();
+//                }
+//            } else {
+//
+//            }
+//        }
+//    }
+//
+//    public void afterCheckVersion() {
+//        PackageInfo packageInfo = null;
+//        try {
+//            packageInfo = getActivity().getApplicationContext().getPackageManager()
+//                    .getPackageInfo(getActivity().getPackageName(), 0);
+//        } catch (NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        int localVersion = packageInfo.versionCode;
+//        if (localVersion < serverVersion) {
+//            getActivity().showDialog(DIALOG_UPGRADE);
+//        }
+//    }
+//
+//    public static String getUrlFileName(String url) {
+//        if (url != null && url.length() > 0) {
+//            int lastIndex = url.lastIndexOf("/");
+//            if (lastIndex != -1 && lastIndex < url.length() - 1) {
+//                String docName = url.substring(lastIndex + 1);
+//                return docName;
+//            }
+//        }
+//        return null;
+//    }
 
 
 
@@ -1838,55 +1838,55 @@ public class AnswerFragment extends
 //        }
 //    }
 
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 514;
-    //@Override
-    protected void requirePermission() {
-        //super.onResume();
-        if (NO_LOCATION_CHECK) {
-            return;
-        } else {
-            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                    Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                            Manifest.permission.RECORD_AUDIO)
-                            != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                            Manifest.permission.MODIFY_AUDIO_SETTINGS)
-                            != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                    }, REQUEST_CODE_LOCATION_PERMISSION);
-                } else {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                    }, REQUEST_CODE_LOCATION_PERMISSION);
-                }
-            } else {
-                //setappDirection();
-            }
-        }
-    }
+//    private static final int REQUEST_CODE_LOCATION_PERMISSION = 514;
+//    //@Override
+//    protected void requirePermission() {
+//        //super.onResume();
+//        if (NO_LOCATION_CHECK) {
+//            return;
+//        } else {
+//            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+//                    Manifest.permission.CAMERA)
+//                    != PackageManager.PERMISSION_GRANTED ||
+//                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+//                            Manifest.permission.ACCESS_FINE_LOCATION)
+//                            != PackageManager.PERMISSION_GRANTED ||
+//                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+//                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                            != PackageManager.PERMISSION_GRANTED ||
+//                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+//                            Manifest.permission.RECORD_AUDIO)
+//                            != PackageManager.PERMISSION_GRANTED ||
+//                    ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+//                            Manifest.permission.MODIFY_AUDIO_SETTINGS)
+//                            != PackageManager.PERMISSION_GRANTED) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{
+//                            Manifest.permission.ACCESS_FINE_LOCATION,
+//                            Manifest.permission.ACCESS_COARSE_LOCATION,
+//                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+//                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                            Manifest.permission.READ_EXTERNAL_STORAGE,
+//                            Manifest.permission.CAMERA,
+//                            Manifest.permission.RECORD_AUDIO,
+//                            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+//                    }, REQUEST_CODE_LOCATION_PERMISSION);
+//                } else {
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{
+//                            Manifest.permission.ACCESS_FINE_LOCATION,
+//                            Manifest.permission.ACCESS_COARSE_LOCATION,
+//                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                            Manifest.permission.READ_EXTERNAL_STORAGE,
+//                            Manifest.permission.CAMERA,
+//                            Manifest.permission.RECORD_AUDIO,
+//                            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+//                    }, REQUEST_CODE_LOCATION_PERMISSION);
+//                }
+//            } else {
+//                //setappDirection();
+//            }
+//        }
+//    }
 
     private void checkPermissioin2() {
         // Check whether this app has write external storage permission or not.
@@ -1902,204 +1902,204 @@ public class AnswerFragment extends
 
 
     //@Override
-    public void onRequestPermissionsResult_old(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-
-        if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
-            int grantResultsLength = grantResults.length;
-            if (grantResultsLength > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Toast.makeText(getApplicationContext(), "You grant write external storage permission. Please click original button again to continue.", Toast.LENGTH_LONG).show();
-            } else {
-                //Toast.makeText(getApplicationContext(), "You denied write external storage permission.", Toast.LENGTH_LONG).show();
-            }
-        } else if (requestCode == REQUEST_CODE_MY_PERMISSION) {
-            boolean isGrant = true;
-            if (grantResults != null) {
-                int grantResultsLength = grantResults.length;
-//            int a = PackageManager.PERMISSION_DENIED;
-//            int b = PackageManager.PERMISSION_GRANTED;
-                for (int i = 0; i < grantResultsLength; ++i) {
-                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                        isGrant = false;
-                        break;
-                    }
-                }
-            }
+//    public void onRequestPermissionsResult_old(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+//
+//        if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
+//            int grantResultsLength = grantResults.length;
 //            if (grantResultsLength > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(getApplicationContext(),
-//                        "You grant",
-//                        Toast.LENGTH_LONG).show();
+//                //Toast.makeText(getApplicationContext(), "You grant write external storage permission. Please click original button again to continue.", Toast.LENGTH_LONG).show();
+//            } else {
+//                //Toast.makeText(getApplicationContext(), "You denied write external storage permission.", Toast.LENGTH_LONG).show();
 //            }
-            if (!isGrant) {
-
-            } else {
-
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
-            /*
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (!statusCheck(this)) {
-                    buildAlertMessageNoGps(this);
-                } else {
-                    //setappDirection();
-                }
-            } else {
-                //Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
-            }*/
-
-
-            boolean isGrant = true;
-            if (grantResults != null) {
-                int grantResultsLength = grantResults.length;
-//            int a = PackageManager.PERMISSION_DENIED;
-//            int b = PackageManager.PERMISSION_GRANTED;
-                for (int i = 0; i < grantResultsLength; ++i) {
-                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                        isGrant = false;
-                        break;
-                    }
-                }
-            }
-            if (!isGrant) {
-
-            } else {
-                checkOther();
-            }
-        }
-    }
-
-    private void checkOther() {
-        try {
-            //buildAlertMessageNoGps(MainActivity.this);
-            //FIXME:这里尽量不要在安装后检查apk安装权限，因为当时还没有存储权限（会导致崩溃），
-            //建议放在后面，等安装apk时再检查apk安装权限
-            /*if (!installCheck(MainActivity.this)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startInstallPermissionSettingActivity();
-                }
-            } else */
-
-            if (!statusCheck(getActivity())) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            } else if (!locationCheck(getActivity())) {
-                //定位服务，同上
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                //intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
-            } else if (!storageCheck(getActivity())) {
-                //startActivity(new Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS));
-                //http://m.studyofnet.com/147846706.html
-//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-//                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-//                    intent.setData(Uri.parse("package:" + getPackageName()));
-//                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                } else {
-                Toast.makeText(getActivity(), "没有打开存储权限", Toast.LENGTH_LONG).show();
+//        } else if (requestCode == REQUEST_CODE_MY_PERMISSION) {
+//            boolean isGrant = true;
+//            if (grantResults != null) {
+//                int grantResultsLength = grantResults.length;
+////            int a = PackageManager.PERMISSION_DENIED;
+////            int b = PackageManager.PERMISSION_GRANTED;
+//                for (int i = 0; i < grantResultsLength; ++i) {
+//                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+//                        isGrant = false;
+//                        break;
+//                    }
 //                }
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
+//            }
+////            if (grantResultsLength > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                Toast.makeText(getApplicationContext(),
+////                        "You grant",
+////                        Toast.LENGTH_LONG).show();
+////            }
+//            if (!isGrant) {
+//
+//            } else {
+//
+//            }
+//        }
+//    }
 
-    public static boolean statusCheck(Context context) {
-        if (NO_LOCATION_CHECK) {
-            return true;
-        } else {
-            final LocationManager manager;
-            manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        //EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+//        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
+//            /*
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                if (!statusCheck(this)) {
+//                    buildAlertMessageNoGps(this);
+//                } else {
+//                    //setappDirection();
+//                }
+//            } else {
+//                //Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
+//            }*/
+//
+//
+//            boolean isGrant = true;
+//            if (grantResults != null) {
+//                int grantResultsLength = grantResults.length;
+////            int a = PackageManager.PERMISSION_DENIED;
+////            int b = PackageManager.PERMISSION_GRANTED;
+//                for (int i = 0; i < grantResultsLength; ++i) {
+//                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+//                        isGrant = false;
+//                        break;
+//                    }
+//                }
+//            }
+//            if (!isGrant) {
+//
+//            } else {
+//                checkOther();
+//            }
+//        }
+//    }
 
-    public static boolean locationCheck(Context context) {
-        if (NO_LOCATION_CHECK) {
-            return true;
-        } else {
-            return ContextCompat.checkSelfPermission(context,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED;
-        }
-    }
+//    private void checkOther() {
+//        try {
+//            //buildAlertMessageNoGps(MainActivity.this);
+//            //FIXME:这里尽量不要在安装后检查apk安装权限，因为当时还没有存储权限（会导致崩溃），
+//            //建议放在后面，等安装apk时再检查apk安装权限
+//            /*if (!installCheck(MainActivity.this)) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    startInstallPermissionSettingActivity();
+//                }
+//            } else */
+//
+//            if (!statusCheck(getActivity())) {
+//                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//            } else if (!locationCheck(getActivity())) {
+//                //定位服务，同上
+//                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                //intent.setData(Uri.parse("package:" + getPackageName()));
+//                startActivity(intent);
+//            } else if (!storageCheck(getActivity())) {
+//                //startActivity(new Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS));
+//                //http://m.studyofnet.com/147846706.html
+////                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+////                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+////                    intent.setData(Uri.parse("package:" + getPackageName()));
+////                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+////                    startActivity(intent);
+////                } else {
+//                Toast.makeText(getActivity(), "没有打开存储权限", Toast.LENGTH_LONG).show();
+////                }
+//            }
+//        } catch (Throwable e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static boolean statusCheck(Context context) {
+//        if (NO_LOCATION_CHECK) {
+//            return true;
+//        } else {
+//            final LocationManager manager;
+//            manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+//            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//                return false;
+//            } else {
+//                return true;
+//            }
+//        }
+//    }
 
-    public static boolean storageCheck(Context context) {
-        return ContextCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
-    }
+//    public static boolean locationCheck(Context context) {
+//        if (NO_LOCATION_CHECK) {
+//            return true;
+//        } else {
+//            return ContextCompat.checkSelfPermission(context,
+//                    Manifest.permission.ACCESS_FINE_LOCATION)
+//                    == PackageManager.PERMISSION_GRANTED;
+//        }
+//    }
 
-    public static boolean installCheck(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // 判断是否有权限
-            boolean haveInstallPermission = context.getPackageManager().canRequestPackageInstalls();
-            if(!haveInstallPermission){
-                //权限没有打开则提示用户去手动打开
-                return false;
-            }
-        }
-        return true;
-    }
+//    public static boolean storageCheck(Context context) {
+//        return ContextCompat.checkSelfPermission(context,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                == PackageManager.PERMISSION_GRANTED;
+//    }
+//
+//    public static boolean installCheck(Context context) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            // 判断是否有权限
+//            boolean haveInstallPermission = context.getPackageManager().canRequestPackageInstalls();
+//            if(!haveInstallPermission){
+//                //权限没有打开则提示用户去手动打开
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    public static void buildAlertMessageNoGps(Context context) {
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setMessage("您的位置信息或GPS似乎被禁用了，你是否允许打开位置信息或GPS?")
+//                .setCancelable(false)
+//                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, final int id) {
+//                        context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, final int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        final AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
-    public static void buildAlertMessageNoGps(Context context) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("您的位置信息或GPS似乎被禁用了，你是否允许打开位置信息或GPS?")
-                .setCancelable(false)
-                .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
 
 
 
 
-
-    //https://blog.csdn.net/changmu175/article/details/78906829
-    private File m_apk;
-    //安装应用的流程
-    private void installProcess() {
-        checkPermissioin2();
-        boolean haveInstallPermission;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //先获取是否有安装未知来源应用的权限
-            haveInstallPermission = getActivity().getPackageManager().canRequestPackageInstalls();
-            if (!haveInstallPermission) {//没有权限
-                if (true) {
-                    return;
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startInstallPermissionSettingActivity();
-                    }
-                }
-            } else {
-                installApk(m_apk);
-            }
-        } else {
-            //有权限，开始安装应用程序
-            installApk(m_apk);
-        }
-    }
+//    //https://blog.csdn.net/changmu175/article/details/78906829
+//    private File m_apk;
+//    //安装应用的流程
+//    private void installProcess() {
+//        checkPermissioin2();
+//        boolean haveInstallPermission;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            //先获取是否有安装未知来源应用的权限
+//            haveInstallPermission = getActivity().getPackageManager().canRequestPackageInstalls();
+//            if (!haveInstallPermission) {//没有权限
+//                if (true) {
+//                    return;
+//                } else {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        startInstallPermissionSettingActivity();
+//                    }
+//                }
+//            } else {
+//                installApk(m_apk);
+//            }
+//        } else {
+//            //有权限，开始安装应用程序
+//            installApk(m_apk);
+//        }
+//    }
 
     private final static int REQUEST_CODE_MANAGE_UNKNOWN = 10086;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -2110,42 +2110,42 @@ public class AnswerFragment extends
         startActivityForResult(intent, REQUEST_CODE_MANAGE_UNKNOWN);
     }
 
-    //	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		super.onActivityResult(requestCode, resultCode, data);
-    protected boolean onActivityResult2(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_MANAGE_UNKNOWN) {
-            installProcess();//再次执行安装流程，包含权限判等
-            return true;
-        }
-        return  false;
-    }
+//    //	@Override
+////	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+////		super.onActivityResult(requestCode, resultCode, data);
+//    protected boolean onActivityResult2(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_MANAGE_UNKNOWN) {
+//            installProcess();//再次执行安装流程，包含权限判等
+//            return true;
+//        }
+//        return  false;
+//    }
 
-    //安装应用，但必须有权限才能执行
-    private void installApk(File apk) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                intent.setDataAndType(Uri.fromFile(apk), "application/vnd.android.package-archive");
-            } else {//Android7.0之后获取uri要用contentProvider
-                Uri uri = UriUtil.fromFile(getActivity(), apk);
-                intent.setDataAndType(uri, "application/vnd.android.package-archive");
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                UriUtil.prepare(intent);
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "安装apk失败", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public static final String ACTION_UPGRADE_INSTALL = "ACTION_UPGRADE_INSTALL";
-    public static final String EXTRA_UPGRADE_PATH = "EXTRA_UPGRADE_PATH";
-    private void prepareInstall(IntentFilter filter) {
-        filter.addAction(ACTION_UPGRADE_INSTALL);
-    }
+//    //安装应用，但必须有权限才能执行
+//    private void installApk(File apk) {
+//        try {
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                intent.setDataAndType(Uri.fromFile(apk), "application/vnd.android.package-archive");
+//            } else {//Android7.0之后获取uri要用contentProvider
+//                Uri uri = UriUtil.fromFile(getActivity(), apk);
+//                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                UriUtil.prepare(intent);
+//            }
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//        } catch (Throwable e) {
+//            e.printStackTrace();
+//            Toast.makeText(getActivity(), "安装apk失败", Toast.LENGTH_LONG).show();
+//        }
+//    }
+//
+//    public static final String ACTION_UPGRADE_INSTALL = "ACTION_UPGRADE_INSTALL";
+//    public static final String EXTRA_UPGRADE_PATH = "EXTRA_UPGRADE_PATH";
+//    private void prepareInstall(IntentFilter filter) {
+//        filter.addAction(ACTION_UPGRADE_INSTALL);
+//    }
 
 
 

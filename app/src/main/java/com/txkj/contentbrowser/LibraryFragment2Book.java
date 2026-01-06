@@ -80,6 +80,7 @@ import com.foobnix.ui2.adapter.AuthorsAdapter2;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
 import com.foobnix.work.CheckDeletedBooksWorker;
 import com.foobnix.work.SearchAllBooksWorker;
+import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -233,7 +234,12 @@ public class LibraryFragment2Book extends Fragment {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_library2_book, container, false);
         //View view = inflater.inflate(R.layout.fragment_search2, container, false);
-
+        AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
+        if (getInitIndex() == 1) {
+            autoWrapViewGroup.output("PDFs: ", "");
+        } else {
+            autoWrapViewGroup.output("Books: ", "");
+        }
         tvTabAll = (TextView) view.findViewById(R.id.tvTabAll);
         tvTabAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,10 +290,13 @@ public class LibraryFragment2Book extends Fragment {
 
         DisplayMetrics DM = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
+        if (NoteFragment2.USE_COLUMN_NUM) {
+            //note
+        }
         if (DM.heightPixels > DM.widthPixels) {
-            recyclerView.setNumColumns(3);
+            recyclerView.setNumColumns(3);//4);//3);
         } else {
-            recyclerView.setNumColumns(4);
+            recyclerView.setNumColumns(4);//6);//4);
         }
 
 

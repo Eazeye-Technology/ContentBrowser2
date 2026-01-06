@@ -186,6 +186,7 @@
                 android:visibility="gone"
                 >
                 <ImageView
+                    android:id="@+id/ivEmpty1"
                     android:src="@drawable/ic_my_nav_apps_006"
                     android:layout_width="300px"
                     android:layout_height="300px"
@@ -200,6 +201,7 @@
                     android:textSize="24px"
                     />
                 <TextView
+                    android:id="@+id/tvEmpty2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FF000000"

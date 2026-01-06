@@ -69,6 +69,11 @@ public class DirectoryFragment2 extends Fragment {
     private ListAdapter listAdapter;
     private TextView emptyView;
     private LinearLayout loadingContent1;
+    private TextView tvEmpty1, tvEmpty2;
+    private ImageView ivEmpty1;
+
+    private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
+    private final static String STR_LOADING = "Loading...";
 
     private DocumentSelectActivityDelegate delegate;
 
@@ -223,9 +228,14 @@ public class DirectoryFragment2 extends Fragment {
             });
             loadingContent1 = (LinearLayout) fragmentView.findViewById(R.id.loadingContent1);
             listView = (GridView) fragmentView.findViewById(R.id.listView);
+            listView.setSelector(android.R.color.transparent);
             //listView.setEmptyView(emptyView);
             listView.setEmptyView(loadingContent1);
             listView.setAdapter(listAdapter);
+            tvEmpty2 = fragmentView.findViewById(R.id.tvEmpty2);
+            ivEmpty1 = fragmentView.findViewById(R.id.ivEmpty1);
+            tvEmpty1 = fragmentView.findViewById(R.id.tvEmpty1);
+            //tvEmpty1.setText(STR_LOADING);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -457,6 +467,7 @@ public class DirectoryFragment2 extends Fragment {
         // AndroidUtilities.clearDrawableAnimation(listView);
         // scrolling = true;
         listAdapter.notifyDataSetChanged();
+        updateSearchEmpty();
     }
 
     private boolean listFiles(File dir) {
@@ -484,9 +495,11 @@ public class DirectoryFragment2 extends Fragment {
                     clearDrawableAnimation(listView);
                     // scrolling = true;
                     listAdapter.notifyDataSetChanged();
+                    updateSearchEmpty();
                     return true;
                 }
             }
+            updateSearchEmpty();
             showErrorBox("Access Error");//"AccessError");
             return false;
         }
@@ -496,10 +509,12 @@ public class DirectoryFragment2 extends Fragment {
             files = dir.listFiles();
         } catch (Exception e) {
             showErrorBox(e.getLocalizedMessage());
+            updateSearchEmpty();
             return false;
         }
         if (files == null) {
             showErrorBox("Unknown Error");//"UnknownError");
+            updateSearchEmpty();
             return false;
         }
         currentDir = dir;
@@ -519,6 +534,14 @@ public class DirectoryFragment2 extends Fragment {
             }
         });
         for (File file : files) {
+            if (this.mText == null || this.mText.length() == 0 ||
+                    (this.mText != null && this.mText.length() > 0 && file.getName().contains(this.mText))) {
+                //show
+            } else {
+                //hidden
+                continue;
+            }
+            //FIXME:??? dot files are hidden?
             if (file.getName().startsWith(".")) {
                 continue;
             }
@@ -552,6 +575,7 @@ public class DirectoryFragment2 extends Fragment {
         clearDrawableAnimation(listView);
         // scrolling = true;
         listAdapter.notifyDataSetChanged();
+        updateSearchEmpty();
         return true;
     }
 
@@ -1251,6 +1275,24 @@ public class DirectoryFragment2 extends Fragment {
             if (mIsError) {
                 showErrorBox("The deletion operation could not be performed");
             }
+        }
+    }
+
+    private String mText;
+    public void setSearch(String text) {
+        this.mText = text;
+        listFiles(currentDir);
+    }
+
+    private void updateSearchEmpty() {
+        if (mText != null && mText.length() > 0) {
+            ivEmpty1.setImageResource(R.drawable.glyphicons_28_search);
+            tvEmpty1.setText("No results");
+            tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
+        } else {
+            ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
+            tvEmpty1.setText("Nothing here yet");
+            tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
         }
     }
 }

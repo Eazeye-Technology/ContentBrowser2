@@ -329,32 +329,32 @@ public class MyJavascriptInterface {
         return getUserTokenById(mac);
     }
 
-    @JavascriptInterface
-    public String getDeviceMacAddress() {
-        String mac = getDeviceMacAddressOri();
-        return getUserTokenById(mac);
-    }
+//    @JavascriptInterface
+//    public String getDeviceMacAddress() {
+//        String mac = getDeviceMacAddressOri();
+//        return getUserTokenById(mac);
+//    }
 
-    @JavascriptInterface
-    public String getDeviceMacAddressOri() {
-        //https://blog.csdn.net/linxinfa/article/details/102910244
-        WifiManager wifiManager = (WifiManager) activity.getApplicationContext()
-                .getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return "";
-        }
-        String mac = wifiInfo.getMacAddress();
-        return mac;
-    }
+//    @JavascriptInterface
+//    public String getDeviceMacAddressOri() {
+//        //https://blog.csdn.net/linxinfa/article/details/102910244
+//        WifiManager wifiManager = (WifiManager) activity.getApplicationContext()
+//                .getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return "";
+//        }
+//        String mac = wifiInfo.getMacAddress();
+//        return mac;
+//    }
 
     @JavascriptInterface
     public String getDeviceId() {

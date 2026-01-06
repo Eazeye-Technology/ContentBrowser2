@@ -16,5 +16,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         />
-
+<!--android:background="@android:color/transparent"
+        android:foreground="@android:color/transparent"
+        -->
 </LinearLayout>

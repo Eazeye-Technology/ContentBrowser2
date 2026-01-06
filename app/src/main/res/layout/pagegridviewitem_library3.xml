@@ -49,8 +49,9 @@ android:background="@android:color/transparent"
                         android:layout_marginRight="0dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
-                        app:cardBackgroundColor="#E8E8E8"
+                        app:cardBackgroundColor="#00FFFFFF"
                         >
+                        <!--#E8E8E8-->
                         <!--browserItemIcon_library-->
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/browserItemIcon_library"

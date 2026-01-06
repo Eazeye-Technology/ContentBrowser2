@@ -3,6 +3,8 @@ package com.codeteenager.systemsettings;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -119,6 +121,7 @@ public class SystemSettingFragment extends Fragment {
 
     private void initView(View view) {
         mRecyclerView = (GridView) view.findViewById(R.id.recyclerview);
+        mRecyclerView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics DM = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
         if (DM.heightPixels > DM.widthPixels) {

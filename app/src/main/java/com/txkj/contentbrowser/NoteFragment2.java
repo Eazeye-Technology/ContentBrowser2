@@ -41,6 +41,7 @@ import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
+import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 
 import org.librera.JSONArray;
@@ -62,6 +63,8 @@ import java.util.List;
 import gm.com.dosya.utils.FileTransactions;
 
 public class NoteFragment2 extends Fragment {
+    public final static boolean USE_COLUMN_NUM = true;
+
     public final static boolean USE_NEW_NOTE = true;
     public final static String APPNAME = "txkjnote";
     public final static String APPNAME_NEW = "txkjnote2";
@@ -111,6 +114,10 @@ class PreferencesKeys {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note2, container, false);
+
+        AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
+        autoWrapViewGroup.output("Notes: ", "");
+
 //        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -182,10 +189,13 @@ class PreferencesKeys {
         recentNoteView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics DM = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
+        if (USE_COLUMN_NUM) {
+            //note
+        }
         if (DM.heightPixels > DM.widthPixels) {
-            recentNoteView.setNumColumns(3);
+            recentNoteView.setNumColumns(3);//4);//3);
         } else {
-            recentNoteView.setNumColumns(4);
+            recentNoteView.setNumColumns(4);//6);//4);
         }
         //recentNoteView.setBackgroundColor(Color.WHITE);
         recentNoteAdapter = new NoteGridAdapter2(this.getContext(), recentNoteList);

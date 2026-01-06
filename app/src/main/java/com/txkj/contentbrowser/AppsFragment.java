@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,7 +55,8 @@ public class AppsFragment extends Fragment {
 //    private List<Bitmap> iconList;
     private GridView recyclerView;
     private LibraryGridAdapter3 bookGridAdapter;
-    private TextView tvEmpty1;
+    private TextView tvEmpty1, tvEmpty2;
+    private ImageView ivEmpty1;
     private View progressLoading1, loadingContent1;
     private LinearLayout llEmpty1;
 
@@ -84,6 +86,9 @@ public class AppsFragment extends Fragment {
         recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
+        tvEmpty2 = view.findViewById(R.id.tvEmpty2);
+        ivEmpty1 = view.findViewById(R.id.ivEmpty1);
+
         progressLoading1 = view.findViewById(R.id.progressLoading1);
         loadingContent1 = view.findViewById(R.id.loadingContent1);
         progressLoading1.setVisibility(View.VISIBLE);
@@ -129,7 +134,7 @@ public class AppsFragment extends Fragment {
             }
         });
 
-        GetBookListTask task = new GetBookListTask();
+        GetBookListTask task = new GetBookListTask(null);
         if (android.os.Build.VERSION.SDK_INT < 11) {
             task.execute();
         } else {
@@ -150,9 +155,10 @@ public class AppsFragment extends Fragment {
     public class GetBookListTask extends AsyncTask<Void, Void, Void> {
         List<FileMeta> fileMetas = new ArrayList<>();
 //        List<Bitmap> icons = new ArrayList<>();
+        private String mText = null;
 
-        public GetBookListTask() {
-
+        public GetBookListTask(String text) {
+            this.mText = text;
         }
 
         @Override
@@ -180,6 +186,12 @@ public class AppsFragment extends Fragment {
             results.addAll(resultsUser);
             for (AppsProviderMy.MyResult item : results) {
                 if (item != null) {
+                    if (this.mText == null || this.mText.length() == 0 ||
+                            (this.mText != null && item.displayName.contains(this.mText))) {
+                        //show
+                    } else {
+                        continue;//skip
+                    }
                     FileMeta meta = new FileMeta();
                     meta.setPathTxt(item.displayName);
                     meta.setTitle(item.path);
@@ -211,6 +223,8 @@ public class AppsFragment extends Fragment {
             tvEmpty1.setText(STR_NO_ITEMS);
             progressLoading1.setVisibility(View.GONE);
             loadingContent1.setVisibility(View.VISIBLE);
+
+            updateSearchEmpty();
         }
     }
 
@@ -291,4 +305,28 @@ public class AppsFragment extends Fragment {
     }
     public static final String MIME_TYPE_APK = "application/vnd.android.package-archive";
 
+    private String mText;
+    public void setSearch(String text) {
+        this.mText = text;
+        if (text != null) {
+            GetBookListTask task = new GetBookListTask(text);
+            if (android.os.Build.VERSION.SDK_INT < 11) {
+                task.execute();
+            } else {
+                task.executeOnExecutor(newFixedThreadPool);
+            }
+        }
+    }
+
+    private void updateSearchEmpty() {
+        if (mText != null && mText.length() > 0) {
+            ivEmpty1.setImageResource(R.drawable.glyphicons_28_search);
+            tvEmpty1.setText("No results");
+            tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
+        } else {
+            ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
+            tvEmpty1.setText("Nothing here yet");
+            tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
+        }
+    }
 }
