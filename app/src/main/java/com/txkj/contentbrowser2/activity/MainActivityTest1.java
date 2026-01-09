@@ -11,6 +11,8 @@ public class MainActivityTest1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home_test);
-        this.getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            this.getSupportActionBar().hide();
+        }
     }
 }

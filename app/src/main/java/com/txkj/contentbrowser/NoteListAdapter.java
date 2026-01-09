@@ -129,7 +129,11 @@ public class NoteListAdapter extends BaseAdapter {
         if (path.endsWith(".xopp")) {
             path = path.substring(0, path.length() - ".xopp".length());
         }
-        holder.tfBookName.setText(path);
+        if (fileMeta.getTitle() != null) {
+            holder.tfBookName.setText(fileMeta.getTitle());
+        } else {
+            holder.tfBookName.setText(path);
+        }
         holder.tfBookTime.setText(fileMeta.getDateTxt() != null ? fileMeta.getDateTxt() : "");
 //      holder.ivCoverImage.setImageBitmap(page.getThumbnail());
 //      holder.ivCoverImageBack.setImageBitmap(page.getBgThumbnail());

@@ -307,6 +307,12 @@ public class AppsFragment extends Fragment {
 
     private String mText;
     public void setSearch(String text) {
+//        String oldText = this.mText;
+//        this.mText = text;
+//        if (this.mText != null && text != null && this.mText.length() > 0 && oldText.equals(text)) {
+//            //skip;
+//            return;
+//        }
         this.mText = text;
         if (text != null) {
             GetBookListTask task = new GetBookListTask(text);

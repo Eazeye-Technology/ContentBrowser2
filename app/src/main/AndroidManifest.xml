@@ -34,7 +34,7 @@
 
     <uses-permission android:name="android.permission.MANAGE_DOCUMENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
@@ -46,14 +46,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ContentBrowser2"
         android:name="com.foobnix.LibreraApp"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:vmSafeMode="false"
+        android:theme="@style/AppTheme.HighContrast"
         >
-
+<!--android:theme="@style/Theme.ContentBrowser2"
+        -->
         <!--
         -->
         <!--android:name="com.getdirectory.ApplicationLoader"-->
@@ -366,29 +367,29 @@ android:dataExtractionRules="@xml/data_extraction_rules"
 
         </activity>
 
-        <receiver
-            android:name="com.foobnix.pdf.info.widget.TTSWidget"
-            android:exported="false"
-            android:label="@string/app_name_pro">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/tts_view_provider_3x1" />
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="com.foobnix.pdf.info.widget.TTSWidget"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/app_name_pro">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/tts_view_provider_3x1" />-->
+<!--        </receiver>-->
 
-        <receiver
-            android:name="com.foobnix.pdf.info.widget.RecentBooksWidget"
-            android:exported="false"
-            android:label="@string/app_name_pro">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/recent_images_provider_3x1" />
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="com.foobnix.pdf.info.widget.RecentBooksWidget"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/app_name_pro">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/recent_images_provider_3x1" />-->
+<!--        </receiver>-->
 
         <service
             android:name="com.foobnix.pdf.info.widget.StackGridWidgetService"

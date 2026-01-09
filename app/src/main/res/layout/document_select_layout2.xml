@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -25,6 +27,8 @@
         android:layout_height="0px"
         android:layout_weight="1"
         >
+        <!--android:minHeight="400px"
+        -->
         <GridView
             android:id="@+id/listView"
             android:layout_width="fill_parent"
@@ -48,6 +52,28 @@
             android:textColor="#808080"
             android:textSize="20px"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/llProgressLoading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textSize="24px"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            />
+        <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+            android:id="@+id/progressLoading1"
+            app:mlpb_progress_stoke_width="8px"
+            app:mlpb_progress_color="#000000"
+            app:mlpb_enable_circle_background="false"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/llProgressLoading1"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -67,7 +67,9 @@ public class MainActivity3NotUsed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home_3);
-        this.getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            this.getSupportActionBar().hide();
+        }
 
         navigationRailView = this.findViewById(R.id.cat_navigation_rail);
         // Add extended floating action button
@@ -232,7 +234,9 @@ public class MainActivity3NotUsed extends AppCompatActivity {
 
             @Override
             public void updateToolBarName(String name) {
-                getSupportActionBar().setTitle(name);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(name);
+                }
             }
         });
 

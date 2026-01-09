@@ -372,8 +372,8 @@
                                 >
                                 <ImageView
                                     android:src="@drawable/ic_baseline_folder_copy_24"
-                                    android:layout_width="300px"
-                                    android:layout_height="300px"
+                                    android:layout_width="100px"
+                                    android:layout_height="100px"
                                     android:layout_marginBottom="10px"
                                     />
                                 <TextView

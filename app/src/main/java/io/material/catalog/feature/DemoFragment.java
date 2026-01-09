@@ -74,7 +74,7 @@ public abstract class DemoFragment extends Fragment {
 //        if (shouldShowDefaultDemoActionBar()) {
 //            AppCompatActivity activity = (AppCompatActivity) getActivity();
 //            activity.setSupportActionBar(toolbar);
-//            setDemoActionBarTitle(activity.getSupportActionBar());
+//            if (getSupportActionBar() != null) setDemoActionBarTitle(activity.getSupportActionBar());
 //        } else {
 //            toolbar.setVisibility(View.GONE);
 //        }

@@ -16,6 +16,7 @@
 
 package com.lsjwzh.widget.materialloadingprogressbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -40,6 +41,7 @@ import com.txkj.contentbrowser2.R;
  * called before the animation is actually complete and support shadows on older
  * platforms.
  */
+@SuppressLint("AppCompatCustomView")
 public class CircleProgressBar extends ImageView {
 
     private static final int KEY_SHADOW_COLOR = 0x1E000000;

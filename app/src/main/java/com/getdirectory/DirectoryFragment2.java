@@ -33,8 +33,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -52,6 +56,8 @@ import gm.com.dosya.utils.FileTransactions;
 //FIXME:listRoots()
 //FIXME:listFiles(new File(extStorage));
 public class DirectoryFragment2 extends Fragment {
+    private final static boolean AUTO_WRAP_CLICK_CLEAR_SEARCH = true;
+
     private final static boolean SHOW_DOUBLE_DOTS = false;
     private final static boolean USE_RECEIVER = false;
 
@@ -71,6 +77,9 @@ public class DirectoryFragment2 extends Fragment {
     private LinearLayout loadingContent1;
     private TextView tvEmpty1, tvEmpty2;
     private ImageView ivEmpty1;
+    private CircleProgressBar progressLoading1;
+    private boolean mDataLoading = false;
+    private TextView llProgressLoading1;
 
     private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
@@ -181,6 +190,7 @@ public class DirectoryFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        newFixedThreadPool = Executors.newFixedThreadPool(6);
         if (USE_RECEIVER) {
             if (!receiverRegistered) {
                 receiverRegistered = true;
@@ -205,6 +215,10 @@ public class DirectoryFragment2 extends Fragment {
             autoWrapViewGroup.setOnItemClickListener(new AutoWrapViewGroup.OnItemClickListener() {
                 @Override
                 public void onItemClick(String title, String id) {
+                    if (AUTO_WRAP_CLICK_CLEAR_SEARCH) {
+                        mText = ""; //FIXME:
+                    }
+
                     for (int count = 0; count < items.size(); count++) {
                         items.get(count).visible = false;
                     }
@@ -235,6 +249,8 @@ public class DirectoryFragment2 extends Fragment {
             tvEmpty2 = fragmentView.findViewById(R.id.tvEmpty2);
             ivEmpty1 = fragmentView.findViewById(R.id.ivEmpty1);
             tvEmpty1 = fragmentView.findViewById(R.id.tvEmpty1);
+            progressLoading1 = fragmentView.findViewById(R.id.progressLoading1);
+            llProgressLoading1 = fragmentView.findViewById(R.id.llProgressLoading1);
             //tvEmpty1.setText(STR_LOADING);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -323,9 +339,11 @@ public class DirectoryFragment2 extends Fragment {
             he.dir = currentDir;
             he.title = title_.toString();
             updateName(title_);
+            /*
             if (!listFiles(file)) {
                 return;
-            }
+            }*/
+            listFiles(file);
             history.add(he);
             title_ = title;
             updateName(title_);
@@ -368,110 +386,131 @@ public class DirectoryFragment2 extends Fragment {
     }
 
     private void listRoots() {
-        currentDir = null;
-        items.clear();
-        String extStorage;
-        ListItem ext;
-        {
-            //添加外部存储
-            extStorage = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath();
-            ext = new ListItem();
-            if (Build.VERSION.SDK_INT < 9 || Environment.isExternalStorageRemovable()) {
-                ext.title = "SdCard";
-            } else {
-                ext.title = "Internal Storage";
-            }
-            ext.icon = Build.VERSION.SDK_INT < 9
-                    || Environment.isExternalStorageRemovable() ? R.drawable.ic_external_storage
-                    : R.drawable.ic_storage;
-            ext.subtitle = getRootSubtitle(extStorage);
-            ext.file = Environment.getExternalStorageDirectory();
-            items.add(ext);
-        }
-        {
-            //添加外部挂载
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(
-                        "/proc/mounts"));
-                String line;
-                HashMap<String, ArrayList<String>> aliases = new HashMap<String, ArrayList<String>>();
-                ArrayList<String> result = new ArrayList<String>();
-                String extDevice = null;
-                while ((line = reader.readLine()) != null) {
-                    if ((!line.contains("/mnt") && !line.contains("/storage") && !line
-                            .contains("/sdcard"))
-                            || line.contains("asec")
-                            || line.contains("tmpfs") || line.contains("none")) {
-                        continue;
-                    }
-                    String[] info = line.split(" ");
-                    if (!aliases.containsKey(info[0])) {
-                        aliases.put(info[0], new ArrayList<String>());
-                    }
-                    aliases.get(info[0]).add(info[1]);
-                    if (info[1].equals(extStorage)) {
-                        extDevice = info[0];
-                    }
-                    result.add(info[1]);
+        if (false) {
+            currentDir = null;
+            items.clear();
+            String extStorage;
+            ListItem ext;
+            {
+                //添加外部存储
+                extStorage = Environment.getExternalStorageDirectory()
+                        .getAbsolutePath();
+                ext = new ListItem();
+                if (Build.VERSION.SDK_INT < 9 || Environment.isExternalStorageRemovable()) {
+                    ext.title = "SdCard";
+                } else {
+                    ext.title = "Internal Storage";
                 }
-                reader.close();
-                if (extDevice != null) {
-                    result.removeAll(aliases.get(extDevice));
-                    for (String path : result) {
-                        try {
-                            ListItem item = new ListItem();
-                            if (path.toLowerCase().contains("sd")) {
-                                ext.title = "SdCard";
-                            } else {
-                                ext.title = "ExternalStorage";
+                ext.icon = Build.VERSION.SDK_INT < 9
+                        || Environment.isExternalStorageRemovable() ? R.drawable.ic_external_storage
+                        : R.drawable.ic_storage;
+                ext.subtitle = getRootSubtitle(extStorage);
+                ext.file = Environment.getExternalStorageDirectory();
+                items.add(ext);
+            }
+            {
+                //添加外部挂载
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(
+                            "/proc/mounts"));
+                    String line;
+                    HashMap<String, ArrayList<String>> aliases = new HashMap<String, ArrayList<String>>();
+                    ArrayList<String> result = new ArrayList<String>();
+                    String extDevice = null;
+                    while ((line = reader.readLine()) != null) {
+                        if ((!line.contains("/mnt") && !line.contains("/storage") && !line
+                                .contains("/sdcard"))
+                                || line.contains("asec")
+                                || line.contains("tmpfs") || line.contains("none")) {
+                            continue;
+                        }
+                        String[] info = line.split(" ");
+                        if (!aliases.containsKey(info[0])) {
+                            aliases.put(info[0], new ArrayList<String>());
+                        }
+                        aliases.get(info[0]).add(info[1]);
+                        if (info[1].equals(extStorage)) {
+                            extDevice = info[0];
+                        }
+                        result.add(info[1]);
+                    }
+                    reader.close();
+                    if (extDevice != null) {
+                        result.removeAll(aliases.get(extDevice));
+                        for (String path : result) {
+                            try {
+                                ListItem item = new ListItem();
+                                if (path.toLowerCase().contains("sd")) {
+                                    ext.title = "SdCard";
+                                } else {
+                                    ext.title = "ExternalStorage";
+                                }
+                                item.icon = R.drawable.ic_external_storage;
+                                item.subtitle = getRootSubtitle(path);
+                                item.file = new File(path);
+                                items.add(item);
+                            } catch (Exception e) {
+                                Log.e("tmessages", e.toString());
                             }
-                            item.icon = R.drawable.ic_external_storage;
-                            item.subtitle = getRootSubtitle(path);
-                            item.file = new File(path);
-                            items.add(item);
-                        } catch (Exception e) {
-                            Log.e("tmessages", e.toString());
                         }
                     }
+                } catch (Exception e) {
+                    Log.e("tmessages", e.toString());
                 }
-            } catch (Exception e) {
-                Log.e("tmessages", e.toString());
             }
-        }
-        if (false) {
-            //添加系统根目录
-            ListItem fs = new ListItem();
-            fs.title = "/";
-            fs.subtitle = "SystemRoot";
-            fs.icon = R.drawable.ic_directory;
-            fs.file = new File("/");
-            items.add(fs);
-        }
+            if (false) {
+                //添加系统根目录
+                ListItem fs = new ListItem();
+                fs.title = "/";
+                fs.subtitle = "SystemRoot";
+                fs.icon = R.drawable.ic_directory;
+                fs.file = new File("/");
+                items.add(fs);
+            }
 
-        // try {
-        // File telegramPath = new
-        // File(Environment.getExternalStorageDirectory(), "Telegram");
-        // if (telegramPath.exists()) {
-        // fs = new ListItem();
-        // fs.title = "Telegram";
-        // fs.subtitle = telegramPath.toString();
-        // fs.icon = R.drawable.ic_directory;
-        // fs.file = telegramPath;
-        // items.add(fs);
-        // }
-        // } catch (Exception e) {
-        // FileLog.e("tmessages", e);
-        // }
+            // try {
+            // File telegramPath = new
+            // File(Environment.getExternalStorageDirectory(), "Telegram");
+            // if (telegramPath.exists()) {
+            // fs = new ListItem();
+            // fs.title = "Telegram";
+            // fs.subtitle = telegramPath.toString();
+            // fs.icon = R.drawable.ic_directory;
+            // fs.file = telegramPath;
+            // items.add(fs);
+            // }
+            // } catch (Exception e) {
+            // FileLog.e("tmessages", e);
+            // }
 
-        // AndroidUtilities.clearDrawableAnimation(listView);
-        // scrolling = true;
-        listAdapter.notifyDataSetChanged();
-        updateSearchEmpty();
+            // AndroidUtilities.clearDrawableAnimation(listView);
+            // scrolling = true;
+            listAdapter.notifyDataSetChanged();
+            updateSearchEmpty();
+        } else {
+            String extStorage = "/";
+            ListItem ext;
+            try {
+                extStorage = Environment.getExternalStorageDirectory().getAbsolutePath();
+            } catch (Throwable eee) {
+                eee.printStackTrace();
+            }
+            //Internal Storage
+            listFiles(new File(extStorage));
+        }
     }
 
+    private final static boolean USE_SYNC = false;
     private boolean listFiles(File dir) {
-//        if (currentDir == null) {
+        if (USE_SYNC) {
+            return listFilesSync(dir);
+        } else {
+            return listFilesAsync(dir);
+        }
+    }
+
+    private boolean listFilesSync(File dir) {
+        //        if (currentDir == null) {
 //            listRoots();
 //            return true;
 //        }
@@ -528,9 +567,9 @@ public class DirectoryFragment2 extends Fragment {
                 return lhs.getName().compareToIgnoreCase(rhs.getName());
                 /*
                  * long lm = lhs.lastModified(); long rm = lhs.lastModified();
-				 * if (lm == rm) { return 0; } else if (lm > rm) { return -1; }
-				 * else { return 1; }
-				 */
+                 * if (lm == rm) { return 0; } else if (lm > rm) { return -1; }
+                 * else { return 1; }
+                 */
             }
         });
         for (File file : files) {
@@ -577,6 +616,222 @@ public class DirectoryFragment2 extends Fragment {
         listAdapter.notifyDataSetChanged();
         updateSearchEmpty();
         return true;
+    }
+
+    private boolean listFilesAsync(File dir) {
+        if (!dir.canRead()) {
+            if (dir.getAbsolutePath().startsWith(
+                    Environment.getExternalStorageDirectory().toString())
+                    || dir.getAbsolutePath().startsWith("/sdcard")
+                    || dir.getAbsolutePath().startsWith("/mnt/sdcard")) {
+                if (!Environment.getExternalStorageState().equals(
+                        Environment.MEDIA_MOUNTED)
+                        && !Environment.getExternalStorageState().equals(
+                        Environment.MEDIA_MOUNTED_READ_ONLY)) {
+                    currentDir = dir;
+                    items.clear();
+                    String state = Environment.getExternalStorageState();
+                    if (Environment.MEDIA_SHARED.equals(state)) {
+                        emptyView.setText("Usb Active");
+                    } else {
+                        emptyView.setText("Not Mounted");
+                    }
+                    clearDrawableAnimation(listView);
+                    // scrolling = true;
+                    listAdapter.notifyDataSetChanged();
+                    updateSearchEmpty();
+                    return true;
+                }
+            }
+            updateSearchEmpty();
+            showErrorBox("Access Error");//"AccessError");
+            return false;
+        }
+        emptyView.setText("No Files");
+        SearchTask task = new SearchTask(dir);
+        if (android.os.Build.VERSION.SDK_INT < 11) {
+            task.execute();
+        } else {
+            task.executeOnExecutor(newFixedThreadPool);
+        }
+        return true;
+    }
+
+    private class SearchTask extends AsyncTask<Void, Void, Void> {
+        private File mDir;
+        private String mError;
+        private boolean mResult = true;
+        private String mSearchText;
+        private List<ListItem> mItems = new ArrayList<>();
+        public SearchTask(File dir) {
+            this.mDir = dir;
+            this.mSearchText = mText;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDataLoading = true;
+            updateSearchEmpty();
+            currentDir = mDir;
+            updatePathView();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+//            try {
+//                Thread.sleep(3L * 1000L); //for long time test
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+            try {
+                File[] files = null;
+                try {
+                    if (mSearchText != null && mSearchText.length() > 0) {
+                        List<File> filesOut = new ArrayList<>();
+                        getDirectoryFilesImpl(mDir, filesOut);
+                        files = new File[filesOut.size()];
+                        for (int i = 0; i < filesOut.size(); ++i) {
+                            files[i] = filesOut.get(i);
+                        }
+                    } else {
+                        files = mDir.listFiles();
+                    }
+                } catch (Exception e) {
+                    mError = e.getLocalizedMessage();
+                    mResult = false;
+                    return null;
+                }
+                if (files == null) {
+                    mError = ("Unknown Error");//"UnknownError");
+                    mResult = false;
+                    return null;
+                }
+                this.publishProgress();
+                mItems.clear();
+                Arrays.sort(files, new Comparator<File>() {
+                    @Override
+                    public int compare(File lhs, File rhs) {
+                        if (lhs.isDirectory() != rhs.isDirectory()) {
+                            return lhs.isDirectory() ? -1 : 1;
+                        }
+                        return lhs.getName().compareToIgnoreCase(rhs.getName());
+                        /*
+                         * long lm = lhs.lastModified(); long rm = lhs.lastModified();
+                         * if (lm == rm) { return 0; } else if (lm > rm) { return -1; }
+                         * else { return 1; }
+                         */
+                    }
+                });
+                for (File file : files) {
+//                    if (file.getName().equals("Books")) {
+//                        System.out.println("Books");
+//                    }
+                    if (this.mSearchText == null || this.mSearchText.length() == 0 ||
+                            (this.mSearchText != null && this.mSearchText.length() > 0 &&
+                                    file.getName() != null &&
+                                    file.getName().toLowerCase().contains(this.mSearchText.toLowerCase()))) {
+                        //show
+                    } else {
+                        //hidden
+                        continue;
+                    }
+                    //FIXME:??? dot files are hidden?
+                    if (file.getName().startsWith(".")) {
+                        continue;
+                    }
+                    ListItem item = new ListItem();
+                    item.title = file.getName();
+                    item.file = file;
+                    if (file.isDirectory()) {
+                        item.icon = R.drawable.ic_directory;
+                        item.subtitle = "Folder";
+                    } else {
+                        String fname = file.getName();
+                        String[] sp = fname.split("\\.");
+                        item.ext = sp.length > 1 ? sp[sp.length - 1] : "?";
+                        item.subtitle = formatFileSize(file.length());
+                        fname = fname.toLowerCase();
+                        if (fname.endsWith(".jpg") || fname.endsWith(".png")
+                                || fname.endsWith(".gif") || fname.endsWith(".jpeg")) {
+                            item.thumb = file.getAbsolutePath();
+                        }
+                    }
+                    mItems.add(item);
+                }
+                if (SHOW_DOUBLE_DOTS) {
+                    ListItem item = new ListItem();
+                    item.title = "..";
+                    item.subtitle = "Folder";
+                    item.icon = R.drawable.ic_directory;
+                    item.file = mDir.getParentFile(); //null;
+                    mItems.add(0, item);
+                }
+            } catch (Throwable eee) {
+                eee.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            mDataLoading = false;
+            if (mResult == false && mError != null) {
+                //showErrorBox(mError);
+            } else {
+                currentDir = mDir;
+                //items.clear();
+                //if (mItems != null) {
+                //    items.addAll(mItems);
+                //}
+                updatePathView();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mResult == false && mError != null) {
+                showErrorBox(mError);
+            } else {
+                currentDir = mDir;
+                items.clear();
+                if (mItems != null) {
+                    items.addAll(mItems);
+                }
+            }
+            clearDrawableAnimation(listView);
+            // scrolling = true;
+            listAdapter.notifyDataSetChanged();
+            updateSearchEmpty();
+            updatePathView();
+        }
+    }
+
+    private static void getDirectoryFilesImpl(File directory, List<File> out) {
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            if (files == null) {
+                return;
+            } else {
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isDirectory()) {
+                        if (files[i].getName() != null &&
+                                !files[i].getName().equals(".") &&
+                                !files[i].getName().equals("..")) {
+                            out.add(files[i]);
+                        }
+//                        if (files[i].getName().equals("Books")) {
+//                            System.out.println("Books");
+//                        }
+                        getDirectoryFilesImpl(files[i], out);
+                    } else {
+                        out.add(files[i]);
+                    }
+                }
+            }
+        }
     }
 
     public static String formatFileSize(long size) {
@@ -818,7 +1073,6 @@ public class DirectoryFragment2 extends Fragment {
         zipList = new ArrayList<>();
         infoList = new ArrayList<>();
         progress = new ProgressDialog(getActivity());
-        newFixedThreadPool = Executors.newFixedThreadPool(6);
     }
     private ExecutorService newFixedThreadPool;
     private ProgressDialog progress;
@@ -1279,20 +1533,44 @@ public class DirectoryFragment2 extends Fragment {
     }
 
     private String mText;
-    public void setSearch(String text) {
+    public synchronized void setSearch(String text) {
+        //this.mText = text;
+        String oldText = this.mText;
         this.mText = text;
+        if (text != null &&
+                text.length() > 0 &&
+                oldText != null &&
+                oldText.equals(text)) {
+            //skip;
+            return;
+        }
         listFiles(currentDir);
     }
 
     private void updateSearchEmpty() {
-        if (mText != null && mText.length() > 0) {
-            ivEmpty1.setImageResource(R.drawable.glyphicons_28_search);
-            tvEmpty1.setText("No results");
-            tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
+        if (mDataLoading) {
+            listView.setVisibility(View.INVISIBLE);
+            progressLoading1.setVisibility(View.VISIBLE);
+            llProgressLoading1.setVisibility(View.VISIBLE);
+            ivEmpty1.setVisibility(View.GONE);
+            tvEmpty1.setVisibility(View.GONE);
+            tvEmpty2.setVisibility(View.GONE);
         } else {
-            ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
-            tvEmpty1.setText("Nothing here yet");
-            tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
+            listView.setVisibility(View.VISIBLE);
+            progressLoading1.setVisibility(View.GONE);
+            llProgressLoading1.setVisibility(View.GONE);
+            ivEmpty1.setVisibility(View.VISIBLE);
+            tvEmpty1.setVisibility(View.VISIBLE);
+            tvEmpty2.setVisibility(View.VISIBLE);
+            if (mText != null && mText.length() > 0) {
+                ivEmpty1.setImageResource(R.drawable.glyphicons_28_search);
+                tvEmpty1.setText("No results");
+                tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
+            } else {
+                ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
+                tvEmpty1.setText("Nothing here yet");
+                tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
+            }
         }
     }
 }

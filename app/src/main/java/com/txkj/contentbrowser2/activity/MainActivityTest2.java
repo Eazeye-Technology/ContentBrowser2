@@ -20,7 +20,9 @@ public class MainActivityTest2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home_test2);
-        this.getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            this.getSupportActionBar().hide();
+        }
 
         NavigationRailSubMenuDemoFragment mHome3Fragment = new NavigationRailSubMenuDemoFragment();
 

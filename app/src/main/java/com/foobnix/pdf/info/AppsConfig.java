@@ -38,7 +38,7 @@ public class AppsConfig {
     public final static ExecutorService executorService = Executors.newFixedThreadPool(100); //2
 	//FIXME:
     public static boolean IS_LOG =
-            false;/*
+            false;/*false;
             Build.MODEL.startsWith("Android SDK")
             || Build.DEVICE.contains("emulator")
             || Build.MODEL.contains("sdk_gphone64_x86_64");*/

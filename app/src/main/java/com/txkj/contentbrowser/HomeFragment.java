@@ -321,9 +321,9 @@ class PreferencesKeys {
             public void onClick(View view) {
                 Activity mainActivity = getActivity();
                 if (mainActivity != null && mainActivity instanceof MainActivity) {
-                    ((MainActivity) mainActivity).jumpViewPdf();
+                    ((MainActivity) mainActivity).jumpNote();
                 } else if (mainActivity != null && mainActivity instanceof MainActivity2) {
-                    ((MainActivity2) mainActivity).jumpViewPdf();
+                    ((MainActivity2) mainActivity).jumpNote();
                 }
             }
         });
@@ -380,18 +380,27 @@ class PreferencesKeys {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Intent intent = new Intent();
+                if (false) {
+                    try {
+                        Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                    intent.setClassName("com.txkj.smartanswer",
-                            "com.txkj.smartanswer.MainActivity");
+                        intent.setClassName("com.txkj.smartanswer",
+                                "com.txkj.smartanswer.MainActivity");
 
-                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Activity mainActivity = getActivity();
+                    if (mainActivity != null && mainActivity instanceof MainActivity) {
+                        ((MainActivity) mainActivity).jumpAiChat();
+                    } else if (mainActivity != null && mainActivity instanceof MainActivity2) {
+                        ((MainActivity2) mainActivity).jumpAiChat();
+                    }
                 }
             }
         });
@@ -400,16 +409,25 @@ class PreferencesKeys {
         settingsCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    //https://blog.csdn.net/netwalk/article/details/139489074
-                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                if (false) {
+                    try {
+                        //https://blog.csdn.net/netwalk/article/details/139489074
+                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
 
-                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    startActivity(intent);
-                } catch (Throwable eee) {
-                    eee.printStackTrace();
+                        startActivity(intent);
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    Activity mainActivity = getActivity();
+                    if (mainActivity != null && mainActivity instanceof MainActivity) {
+                        ((MainActivity) mainActivity).jumpSettings();
+                    } else if (mainActivity != null && mainActivity instanceof MainActivity2) {
+                        ((MainActivity2) mainActivity).jumpSettings();
+                    }
                 }
             }
         });

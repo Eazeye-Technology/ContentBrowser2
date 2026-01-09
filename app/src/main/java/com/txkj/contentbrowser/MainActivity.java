@@ -21,6 +21,7 @@ import android.view.View;
 import com.foobnix.model.AppProfile;
 import com.getdirectory.DirectoryFragment;
 import com.txkj.contentbrowser2.R;
+import com.txkj.smartanswer.AnswerFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            this.getSupportActionBar().hide();
+        }
 
         this.findViewById(R.id.function_bar_item_home).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mNoteFragment = new NoteFragment();
         mLibraryFragment = new LibraryFragment();
         mChatFragment = new ChatFragment();
+        mAnswerFragment = new AnswerFragment();
 
         mDirectoryFragment = new DirectoryFragment();
         mDirectoryFragment.setDelegate(new DirectoryFragment.DocumentSelectActivityDelegate() {
@@ -168,7 +172,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void updateToolBarName(String name) {
-                MainActivity.this.getSupportActionBar().setTitle(name);
+                if (getSupportActionBar() != null) {
+                    MainActivity.this.getSupportActionBar().setTitle(name);
+                }
             }
         });
 
@@ -248,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
     private FirstFragment mFirstFragment;
     private SecondFragment mSecondFragment;
 
+    private AnswerFragment mAnswerFragment;
     private HomeFragment mHomeFragment;
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
@@ -423,5 +430,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void jumpViewPdf() {
         onClick2(R.id.function_bar_item_library, true);
+    }
+
+    public void jumpSettings() {
+        onClick2(R.id.menu_bar_item_7, true);
+    }
+
+    public void jumpAiChat() {
+        //fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);
+        fragmentTransaction.commit();
     }
 }

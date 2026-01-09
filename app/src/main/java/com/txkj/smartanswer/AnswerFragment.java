@@ -290,7 +290,7 @@ public class AnswerFragment extends
 //        if (isMain()) {
 //            if (isTaskClick || showTool) {
 //                ActionBar bar = getSupportActionBar();
-//                bar.setDisplayOptions(
+//                if (bar != null) bar.setDisplayOptions(
 //                        ActionBar.DISPLAY_USE_LOGO |
 //                                ActionBar.DISPLAY_SHOW_HOME |
 //                                //ActionBar.DISPLAY_HOME_AS_UP  |
@@ -300,10 +300,10 @@ public class AnswerFragment extends
 //                bar.show();
 //            } else {
 //                ////blog.csdn.net/afufufufu/article/details/118112961
-//                getSupportActionBar().hide();
+//                if (getSupportActionBar() != null) getSupportActionBar().hide();
 //            }
 //        } else {
-//            getSupportActionBar().hide();
+//            if (getSupportActionBar() != null) getSupportActionBar().hide();
 //        }
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

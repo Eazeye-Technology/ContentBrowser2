@@ -47,6 +47,7 @@ import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
 import com.txkj.contentbrowser.ChatFragment;
 import com.txkj.contentbrowser.FirstFragment;
+import com.txkj.contentbrowser.HomeFragment;
 import com.txkj.contentbrowser.HomeFragment2;
 import com.txkj.contentbrowser.HomeFragment3;
 import com.txkj.contentbrowser.LibraryFragment2Book;
@@ -90,7 +91,9 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home2);
-        this.getSupportActionBar().hide();
+        if (this.getSupportActionBar() != null) {
+            this.getSupportActionBar().hide();
+        }
 
         for (int id : icons) {
             this.findViewById(id).setOnClickListener(new View.OnClickListener() {
@@ -123,6 +126,10 @@ public class MainActivity2 extends AppCompatActivity {
                         ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
                     } else if (currentFragment instanceof NoteFragment2) {
                         ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
+                    } else if (currentFragment instanceof HomeFragment) {
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_layout, mHomeFragment2);
+                        fragmentTransaction.commit();
                     } else {
                         //showPopupMenu(view);
                     }
@@ -173,7 +180,8 @@ public class MainActivity2 extends AppCompatActivity {
         mFirstFragment = new FirstFragment();
         mSecondFragment = new SecondFragment();
 
-        mHomeFragment = new HomeFragment2();
+        mHomeFragment = new HomeFragment();
+        mHomeFragment2 = new HomeFragment2();
         mBrowserFragment = new BrowserFragment();
         mSettingFragment = new SettingFragment();
         mNoteFragment = new NoteFragment2();
@@ -235,7 +243,9 @@ public class MainActivity2 extends AppCompatActivity {
 
             @Override
             public void updateToolBarName(String name) {
-                getSupportActionBar().setTitle(name);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(name);
+                }
             }
         });
 
@@ -455,7 +465,8 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     private FirstFragment mFirstFragment;
     private SecondFragment mSecondFragment;
 
-    private HomeFragment2 mHomeFragment;
+    private HomeFragment mHomeFragment;
+    private HomeFragment2 mHomeFragment2;
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
     private NoteFragment2 mNoteFragment;
@@ -542,7 +553,11 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         TextView tvTitleText = (TextView) findViewById(R.id.tvTitleText);
         if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
             tvTitleText.setText("Home");
-            fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);//mHome3Fragment); //mHomeFragment
+            if (false) {
+                fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);//mHome3Fragment); //mHomeFragment
+            } else {
+                fragmentTransaction.replace(R.id.content_layout, mHomeFragment); //mHomeFragment, mHomeFragment2
+            }
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
             tvTitleText.setText("Notes");
@@ -619,7 +634,16 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         onClick2(R.id.menu_bar_item_4, true);
     }
 
+    public void jumpSettings() {
+        onClick2(R.id.menu_bar_item_7, true);
+    }
 
+    public void jumpAiChat() {
+        //fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);
+        fragmentTransaction.commit();
+    }
 
 
 

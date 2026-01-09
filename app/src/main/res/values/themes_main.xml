@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+<!--    <style name="Theme.ContentBrowser" parent="Theme.MaterialComponents.DayNight.DarkActionBar">-->
+<!--        &lt;!&ndash; Primary brand color. &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/color_black</item> &lt;!&ndash;purple_500&ndash;&gt;-->
+<!--        <item name="colorPrimaryVariant">@color/color_black</item> &lt;!&ndash;purple_700&ndash;&gt;-->
+<!--        <item name="colorOnPrimary">@color/color_white</item>-->
+<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+<!--        <item name="colorSecondary">@color/color_black</item>&lt;!&ndash;teal_200&ndash;&gt;-->
+<!--        <item name="colorSecondaryVariant">@color/color_black</item> &lt;!&ndash;teal_700&ndash;&gt;-->
+<!--        <item name="colorOnSecondary">@color/color_black</item>-->
+<!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+<!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--    </style>-->
+
+    <!-- Base application theme. AppTheme-->
+    <style name="Theme.ContentBrowser" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Theme.ContentBrowser.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.ContentBrowser.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.ContentBrowser.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
