@@ -127,9 +127,9 @@ public class MainActivity2 extends AppCompatActivity {
                     } else if (currentFragment instanceof NoteFragment2) {
                         ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
                     } else if (currentFragment instanceof HomeFragment) {
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.content_layout, mHomeFragment2);
-                        fragmentTransaction.commit();
+//                        fragmentTransaction = fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.content_layout, mHomeFragment2);
+//                        fragmentTransaction.commit();
                     } else {
                         //showPopupMenu(view);
                     }
@@ -510,11 +510,11 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
                 View card = view.findViewWithTag("binding_0");
                 if (card instanceof CardView) {
                     ((CardView) card).setCardBackgroundColor(0xFF888888);
-                    ((CardView) card).setCardElevation(5.0f);
+                    ((CardView) card).setCardElevation(0.0f);//5.0f);
                 }
             } else if (view instanceof CardView) {
                 ((CardView) view).setCardBackgroundColor(0xFF888888);
-                ((CardView) view).setCardElevation(5.0f);
+                ((CardView) view).setCardElevation(0.0f);//5.0f);
             }
 
             if (view.findViewWithTag("binding_1") != null) {
@@ -532,11 +532,11 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
                 View card = viewR.findViewWithTag("binding_0");
                 if (card instanceof CardView) {
                     ((CardView) card).setCardBackgroundColor(0xFF888888);
-                    ((CardView) card).setCardElevation(5.0f);
+                    ((CardView) card).setCardElevation(0.0f);//5.0f);
                 }
             } else if (viewR instanceof CardView) {
                 ((CardView) viewR).setCardBackgroundColor(0xFF888888);
-                ((CardView) viewR).setCardElevation(5.0f);
+                ((CardView) viewR).setCardElevation(0.0f);//5.0f);
             }
             if (viewR.findViewWithTag("binding_1") != null) {
                 ((AppCompatImageView)viewR.findViewWithTag("binding_1")).setBackgroundResource(getActiveIconId(getEqualIconId(id), true));

@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/llProgressLoading1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0px"
             android:text="Loading..."
             android:textSize="24px"
             android:layout_gravity="center"

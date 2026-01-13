@@ -236,9 +236,9 @@ public class LibraryFragment2Book extends Fragment {
         //View view = inflater.inflate(R.layout.fragment_search2, container, false);
         AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
         if (getInitIndex() == 1) {
-            autoWrapViewGroup.output("PDFs: ", "");
+            autoWrapViewGroup.output("PDFs", ""); //"PDFs: "
         } else {
-            autoWrapViewGroup.output("Books: ", "");
+            autoWrapViewGroup.output("Books", ""); //"Books: "
         }
         tvTabAll = (TextView) view.findViewById(R.id.tvTabAll);
         tvTabAll.setOnClickListener(new View.OnClickListener() {

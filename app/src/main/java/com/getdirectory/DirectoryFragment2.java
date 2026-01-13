@@ -118,7 +118,7 @@ public class DirectoryFragment2 extends Fragment {
             title_ = he.title;
             updateName(title_);
             if (he.dir != null) {
-                listFiles(he.dir);
+                listFiles(he.dir, false);
             } else {
                 listRoots();
             }
@@ -156,7 +156,7 @@ public class DirectoryFragment2 extends Fragment {
                         if (currentDir == null) {
                             listRoots();
                         } else {
-                            listFiles(currentDir);
+                            listFiles(currentDir, false);
                         }
                     } catch (Exception e) {
                         Log.e("tmessages", e.toString());
@@ -297,7 +297,7 @@ public class DirectoryFragment2 extends Fragment {
                     eee.printStackTrace();
                 }
                 //Internal Storage
-                listFiles(new File(extStorage));
+                listFiles(new File(extStorage), true);
             } else {
                 listRoots();
             }
@@ -343,7 +343,7 @@ public class DirectoryFragment2 extends Fragment {
             if (!listFiles(file)) {
                 return;
             }*/
-            listFiles(file);
+            listFiles(file, false);
             history.add(he);
             title_ = title;
             updateName(title_);
@@ -496,16 +496,16 @@ public class DirectoryFragment2 extends Fragment {
                 eee.printStackTrace();
             }
             //Internal Storage
-            listFiles(new File(extStorage));
+            listFiles(new File(extStorage), false);
         }
     }
 
     private final static boolean USE_SYNC = false;
-    private boolean listFiles(File dir) {
+    private boolean listFiles(File dir, boolean isFirst) {
         if (USE_SYNC) {
             return listFilesSync(dir);
         } else {
-            return listFilesAsync(dir);
+            return listFilesAsync(dir, isFirst);
         }
     }
 
@@ -618,7 +618,7 @@ public class DirectoryFragment2 extends Fragment {
         return true;
     }
 
-    private boolean listFilesAsync(File dir) {
+    private boolean listFilesAsync(File dir, boolean isFirst) {
         if (!dir.canRead()) {
             if (dir.getAbsolutePath().startsWith(
                     Environment.getExternalStorageDirectory().toString())
@@ -648,7 +648,7 @@ public class DirectoryFragment2 extends Fragment {
             return false;
         }
         emptyView.setText("No Files");
-        SearchTask task = new SearchTask(dir);
+        SearchTask task = new SearchTask(dir, isFirst);
         if (android.os.Build.VERSION.SDK_INT < 11) {
             task.execute();
         } else {
@@ -663,9 +663,11 @@ public class DirectoryFragment2 extends Fragment {
         private boolean mResult = true;
         private String mSearchText;
         private List<ListItem> mItems = new ArrayList<>();
-        public SearchTask(File dir) {
+        private boolean mIsFirst = false;
+        public SearchTask(File dir, boolean isFirst) {
             this.mDir = dir;
             this.mSearchText = mText;
+            this.mIsFirst = isFirst;
         }
 
         @Override
@@ -684,6 +686,13 @@ public class DirectoryFragment2 extends Fragment {
 //            } catch (InterruptedException e) {
 //                throw new RuntimeException(e);
 //            }
+            if (mIsFirst) {
+                try {
+                    Thread.sleep((long)(0.5 * 1000L)); //for long time test
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             try {
                 File[] files = null;
                 try {
@@ -1012,10 +1021,10 @@ public class DirectoryFragment2 extends Fragment {
         if (autoWrapViewGroup != null) {
             if (currentDir == null || currentDir.getAbsolutePath() == null) {
                 autoWrapViewGroup.clearViews();
-                autoWrapViewGroup.output("Storage: ", extStorage);//"/");
+                autoWrapViewGroup.output("Storage", extStorage);//"/"); //"Storage: "
             } else {
                 autoWrapViewGroup.clearViews();
-                autoWrapViewGroup.output("Storage: ", extStorage);//"/");
+                autoWrapViewGroup.output("Storage", extStorage);//"/"); //"Storage: "
                 String absPath = currentDir.getAbsolutePath();
                 if (absPath != null) {
                     boolean isStartWithExtStorage = false;
@@ -1046,7 +1055,11 @@ public class DirectoryFragment2 extends Fragment {
                     for (int i = 0; i < pathStr.length; ++i) {
                         String str = pathStr[i];
                         strPath += "/" + str;
-                        autoWrapViewGroup.output(str, strPath);
+                        if (str != null && str.equals("")) {
+                            //skip
+                        } else {
+                            autoWrapViewGroup.output(str, strPath);
+                        }
                     }
                 }
             }
@@ -1143,7 +1156,7 @@ public class DirectoryFragment2 extends Fragment {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
                 try {
-                    listFiles(currentDir);
+                    listFiles(currentDir, false);
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
@@ -1513,17 +1526,17 @@ public class DirectoryFragment2 extends Fragment {
                     cutmenu.setVisible(true);
                     tasi = false;
                     copyList.clear();
-                    listFiles(currentDir);
+                    listFiles(currentDir, false);
                 } else {
                     pastemenu.setVisible(false);
                     copymenu.setVisible(true);
                     copyList.clear();
-                    listFiles(currentDir);
+                    listFiles(currentDir, false);
                 }
             } else if (operationType.equals(OPERATION_TYPE_ZIP)) {
-                listFiles(currentDir);
+                listFiles(currentDir, false);
             } else if (operationType.equals(OPERATION_TYPE_DELETE)) {
-                listFiles(currentDir);
+                listFiles(currentDir, false);
             }
             progress.dismiss();
             if (mIsError) {
@@ -1544,7 +1557,7 @@ public class DirectoryFragment2 extends Fragment {
             //skip;
             return;
         }
-        listFiles(currentDir);
+        listFiles(currentDir, false);
     }
 
     private void updateSearchEmpty() {

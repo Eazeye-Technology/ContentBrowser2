@@ -116,7 +116,7 @@ class PreferencesKeys {
         View view = inflater.inflate(R.layout.fragment_note2, container, false);
 
         AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
-        autoWrapViewGroup.output("Notes: ", "");
+        autoWrapViewGroup.output("Notes", ""); //"Notes: "
 
 //        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
 //            @Override

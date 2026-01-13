@@ -44,13 +44,32 @@ android:background="@drawable/toolbar_button"
                 android:gravity="center|center_vertical"
                 android:padding="20px"
                 >
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/browserItemIcon_library"
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="0px"
                     android:layout_weight="1"
-                    android:padding="10px"
-                    />
+                    >
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/browserItemIcon_library"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10px"
+                        />
+                    <TextView
+                        android:id="@+id/tvSuffix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16px"
+                        android:background="@drawable/pdf_text_back"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentBottom="true"
+                        android:text="NOTE"
+                        android:textSize="12px"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:paddingLeft="5px"
+                        android:paddingRight="5px"
+                        />
+                </RelativeLayout>
                 <!--android:src="@drawable/book001"-->
                 <LinearLayout
                     android:layout_width="match_parent"

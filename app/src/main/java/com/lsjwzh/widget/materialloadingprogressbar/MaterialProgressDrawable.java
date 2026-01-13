@@ -236,6 +236,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     public void draw(Canvas c) {
         final Rect bounds = getBounds();
         final int saveCount = c.save();
+        //c.drawColor(0xFFFF0000); //only for test
         c.rotate(mRotation, bounds.exactCenterX(), bounds.exactCenterY());
         mRing.draw(c, bounds);
         c.restoreToCount(saveCount);

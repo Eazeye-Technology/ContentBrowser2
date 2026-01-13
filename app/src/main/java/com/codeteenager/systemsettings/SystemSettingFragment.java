@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser.LibraryGridAdapter3;
 import com.txkj.contentbrowser.LibraryGridAdapter4;
 import com.txkj.contentbrowser2.R;
@@ -120,6 +121,9 @@ public class SystemSettingFragment extends Fragment {
     }
 
     private void initView(View view) {
+        AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
+        autoWrapViewGroup.output("Settings", ""); //"Settings: "
+
         mRecyclerView = (GridView) view.findViewById(R.id.recyclerview);
         mRecyclerView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics DM = new DisplayMetrics();
