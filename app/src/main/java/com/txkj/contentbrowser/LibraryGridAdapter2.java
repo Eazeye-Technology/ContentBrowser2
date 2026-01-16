@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryGridAdapter2 extends BaseAdapter {
+    private final static boolean FIX_NOTE_DISPLAY = true;
     private final static boolean SHOW_PIC_SUFFIX = true;
 
     public void clearItems() {
@@ -164,6 +165,14 @@ public class LibraryGridAdapter2 extends BaseAdapter {
                 holder.tvSuffix.setText("EPUB");
             }
             holder.tfBookName.setText(path);
+            if (FIX_NOTE_DISPLAY) {
+                if (fileMeta.isNote) {
+                    holder.tvSuffix.setText("NOTE");
+                    if (fileMeta.getTitle() != null) {
+                        holder.tfBookName.setText(fileMeta.getTitle());
+                    }
+                }
+            }
         }
 //      holder.ivCoverImage.setImageBitmap(page.getThumbnail());
 //      holder.ivCoverImageBack.setImageBitmap(page.getBgThumbnail());

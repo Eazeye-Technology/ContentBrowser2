@@ -50,6 +50,7 @@ import com.txkj.contentbrowser.FirstFragment;
 import com.txkj.contentbrowser.HomeFragment;
 import com.txkj.contentbrowser.HomeFragment2;
 import com.txkj.contentbrowser.HomeFragment3;
+import com.txkj.contentbrowser.HomeFragment4;
 import com.txkj.contentbrowser.LibraryFragment2Book;
 import com.txkj.contentbrowser.LibraryFragment2Pdf;
 import com.txkj.contentbrowser.NoteFragment2;
@@ -182,6 +183,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         mHomeFragment = new HomeFragment();
         mHomeFragment2 = new HomeFragment2();
+        mHomeFragment4 = new HomeFragment4();
         mBrowserFragment = new BrowserFragment();
         mSettingFragment = new SettingFragment();
         mNoteFragment = new NoteFragment2();
@@ -372,6 +374,8 @@ public class MainActivity2 extends AppCompatActivity {
                     ((AppsFragment) currentFragment).setSearch(text);
                 } else if (currentFragment instanceof DirectoryFragment2) {
                     ((DirectoryFragment2) currentFragment).setSearch(text);
+                } else if (currentFragment instanceof HomeFragment4) {
+                    ((HomeFragment4) currentFragment).setSearch(text);
                 }
             }
         }
@@ -467,6 +471,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
 
     private HomeFragment mHomeFragment;
     private HomeFragment2 mHomeFragment2;
+    private HomeFragment4 mHomeFragment4;
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
     private NoteFragment2 mNoteFragment;
@@ -556,7 +561,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             if (false) {
                 fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);//mHome3Fragment); //mHomeFragment
             } else {
-                fragmentTransaction.replace(R.id.content_layout, mHomeFragment); //mHomeFragment, mHomeFragment2
+                fragmentTransaction.replace(R.id.content_layout, mHomeFragment4);//mHomeFragment); //mHomeFragment, mHomeFragment2
             }
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {

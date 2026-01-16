@@ -13,6 +13,9 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class FileMeta {
+    public String updateTime;
+    public String createTime;
+    public boolean isNote = false;
     public boolean checkShow = false;
     public boolean checkSelect = false;
 
