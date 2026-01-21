@@ -13,6 +13,7 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class FileMeta {
+    public Long lastModified;
     public String updateTime;
     public String createTime;
     public boolean isNote = false;

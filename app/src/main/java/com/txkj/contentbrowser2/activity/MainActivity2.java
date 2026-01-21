@@ -673,19 +673,26 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     public int getActiveIconId(int id, boolean isActive) {
         //case R.id.menu_bar_item_1: return isActive ? R.drawable.ic_baseline_access_time_24_white: R.drawable.ic_baseline_access_time_24;
         if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
-            return isActive ? R.drawable.ic_my_nav_home_001_w: R.drawable.ic_my_nav_home_001;
+            //ic_my_nav_home_001_w
+            return isActive ? R.drawable.ic_my_nav2_home_001: R.drawable.ic_my_nav_home_001;
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
-            return isActive ? R.drawable.ic_my_nav_note_002_w: R.drawable.ic_my_nav_note_002;
+            //ic_my_nav_note_002_w
+            return isActive ? R.drawable.ic_my_nav2_note_002: R.drawable.ic_my_nav_note_002;
         } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
-            return isActive ? R.drawable.ic_my_nav_book_003_w: R.drawable.ic_my_nav_book_003;
+            //ic_my_nav_book_003_w
+            return isActive ? R.drawable.ic_my_nav2_book_003: R.drawable.ic_my_nav_book_003;
         } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
-            return isActive ? R.drawable.ic_my_nav_pdf_004_w: R.drawable.ic_my_nav_pdf_004;
+            //ic_my_nav_pdf_004_w
+            return isActive ? R.drawable.ic_my_nav2_pdf_004: R.drawable.ic_my_nav_pdf_004;
         } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
-            return isActive ? R.drawable.ic_my_nav_file_005_w: R.drawable.ic_my_nav_file_005;
+            //ic_my_nav_file_005_w
+            return isActive ? R.drawable.ic_my_nav2_storage_005: R.drawable.ic_my_nav_file_005;
         } else if (id == R.id.menu_bar_item_6 || id == R.id.menu_bar_item_6_R) {
-            return isActive ? R.drawable.ic_my_nav_apps_006_w: R.drawable.ic_my_nav_apps_006;
+            //ic_my_nav_apps_006_w
+            return isActive ? R.drawable.ic_my_nav2_apps_006: R.drawable.ic_my_nav_apps_006;
         } else if (id == R.id.menu_bar_item_7 || id == R.id.menu_bar_item_7_R) {
-            return isActive ? R.drawable.ic_my_nav_setting_007_w : R.drawable.ic_my_nav_setting_007;
+            //ic_my_nav_setting_007_w
+            return isActive ? R.drawable.ic_my_nav2_settings_007 : R.drawable.ic_my_nav_setting_007;
         }
         return 0;
     }

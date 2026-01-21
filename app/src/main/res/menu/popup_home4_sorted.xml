@@ -20,7 +20,9 @@
     <item
         android:id="@+id/menu_name"
         support:showAsAction="always"
-        android:title="Name" />
+        android:title="Name"
+        android:titleCondensed=""
+        />
 
     <item
         android:id="@+id/menu_last_opened_date"

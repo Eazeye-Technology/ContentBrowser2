@@ -197,9 +197,15 @@ public class HomeFragment4 extends Fragment {
     private Date filterEndDateCreation;
     private Date filterBeginDateLastOpen;
     private Date filterEndDateLastOpen;
-    private final static int FILTER_SORT_TYPE_NAME = 0;
-    private final static int FILTER_SORT_TYPE_LAST_OPENED = 1;
-    private final static int FILTER_SORT_TYPE_SIZE = 3;
+    private final static int FILTER_SORT_TYPE_NAME1 = 0;
+    private final static int FILTER_SORT_TYPE_NAME2 = 1;
+    private final static int FILTER_SORT_TYPE_TYPE = 2;
+    private final static int FILTER_SORT_TYPE_CREATION_DATE1 = 3;
+    private final static int FILTER_SORT_TYPE_CREATION_DATE2 = 4;
+    private final static int FILTER_SORT_TYPE_LAST_OPENED_DATE1 = 5;
+    private final static int FILTER_SORT_TYPE_LAST_OPENED_DATE2 = 6;
+    private final static int FILTER_SORT_TYPE_LAST_MODIFIED_DATE1 = 7;
+    private final static int FILTER_SORT_TYPE_LAST_MODIFIED_DATE2 = 8;
     private int filterSortType = 0;
 
     private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
@@ -1418,6 +1424,11 @@ public class HomeFragment4 extends Fragment {
                                 if (meta.getIsRecentTime() != null) {
                                     updateTimeDate = new Date(meta.getIsRecentTime());
                                 }
+                                try {
+                                    meta.lastModified = new File(meta.getPath()).lastModified();
+                                } catch (Throwable eee) {
+                                    eee.printStackTrace();
+                                }
                             }
                         }
                         boolean isGood2 = false, isGood3 = false;
@@ -1456,7 +1467,7 @@ public class HomeFragment4 extends Fragment {
                         }
                     }
                 }
-                if (filterSortType == FILTER_SORT_TYPE_NAME) {
+                if (filterSortType == FILTER_SORT_TYPE_NAME1) {
                     Collections.sort(result, new Comparator<FileMeta>() {
                         @Override
                         public int compare(FileMeta f1, FileMeta f2) {
@@ -1494,6 +1505,210 @@ public class HomeFragment4 extends Fragment {
                                 return 1;
                             }
                             return name1.compareToIgnoreCase(name2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_NAME2) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return 1;
+                            } else if (f2 == null) {
+                                return -1;
+                            }
+                            String name1 = "", name2 = "";
+                            if (f1.isNote) {
+                                name1 = f1.getTitle();
+                            } else {
+                                String path = f1.getPathTxt() != null ? f1.getPathTxt() : "";
+                                if (path.toLowerCase().endsWith(".pdf")) {
+                                    path = path.substring(0, path.length() - ".pdf".length());
+                                } else if (path.toLowerCase().endsWith(".epub")) {
+                                    path = path.substring(0, path.length() - ".epub".length());
+                                }
+                                name1 = path;
+                            }
+                            if (f2.isNote) {
+                                name2 = f2.getTitle();
+                            } else {
+                                String path = f2.getPathTxt() != null ? f2.getPathTxt() : "";
+                                if (path.toLowerCase().endsWith(".pdf")) {
+                                    path = path.substring(0, path.length() - ".pdf".length());
+                                } else if (path.toLowerCase().endsWith(".epub")) {
+                                    path = path.substring(0, path.length() - ".epub".length());
+                                }
+                                name2 = path;
+                            }
+                            if (name1 == null) {
+                                return 1;
+                            } else if (name2 == null) {
+                                return -1;
+                            }
+                            return -name1.compareToIgnoreCase(name2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_TYPE) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return -1;
+                            } else if (f2 == null) {
+                                return 1;
+                            }
+                            String type1 = "", type2 = "";
+                            String name1 = "", name2 = "";
+                            if (f1.isNote) {
+                                name1 = f1.getTitle();
+                                type1 = "1note";
+                            } else {
+                                String path = f1.getPathTxt() != null ? f1.getPathTxt() : "";
+                                if (path.toLowerCase().endsWith(".pdf")) {
+                                    path = path.substring(0, path.length() - ".pdf".length());
+                                    type1 = "3pdf";
+                                } else if (path.toLowerCase().endsWith(".epub")) {
+                                    path = path.substring(0, path.length() - ".epub".length());
+                                    type1 = "2epub";
+                                }
+                                name1 = path;
+                            }
+                            if (f2.isNote) {
+                                name2 = f2.getTitle();
+                                type2 = "1note";
+                            } else {
+                                String path = f2.getPathTxt() != null ? f2.getPathTxt() : "";
+                                if (path.toLowerCase().endsWith(".pdf")) {
+                                    path = path.substring(0, path.length() - ".pdf".length());
+                                    type2 = "3pdf";
+                                } else if (path.toLowerCase().endsWith(".epub")) {
+                                    path = path.substring(0, path.length() - ".epub".length());
+                                    type2 = "2epub";
+                                }
+                                name2 = path;
+                            }
+                            if (type1.compareTo(type2) != 0) {
+                                return type1.compareTo(type2);
+                            }
+                            if (name1 == null) {
+                                return -1;
+                            } else if (name2 == null) {
+                                return 1;
+                            }
+                            return name1.compareToIgnoreCase(name2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_CREATION_DATE1) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return 1;
+                            } else if (f2 == null) {
+                                return -1;
+                            }
+                            Long date1 = f1.getDate();
+                            Long date2 = f2.getDate();
+                            if (date1 == null) {
+                                return 1;
+                            } else if (date2 == null) {
+                                return -1;
+                            }
+                            return -date1.compareTo(date2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_CREATION_DATE2) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return -1;
+                            } else if (f2 == null) {
+                                return 1;
+                            }
+                            Long date1 = f1.getDate();
+                            Long date2 = f2.getDate();
+                            if (date1 == null) {
+                                return -1;
+                            } else if (date2 == null) {
+                                return 1;
+                            }
+                            return date1.compareTo(date2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_LAST_OPENED_DATE1) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return 1;
+                            } else if (f2 == null) {
+                                return -1;
+                            }
+                            Long date1 = f1.getIsRecentTime();
+                            Long date2 = f2.getIsRecentTime();
+                            if (date1 == null) {
+                                return 1;
+                            } else if (date2 == null) {
+                                return -1;
+                            }
+                            return -date1.compareTo(date2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_LAST_OPENED_DATE2) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return -1;
+                            } else if (f2 == null) {
+                                return 1;
+                            }
+                            Long date1 = f1.getIsRecentTime();
+                            Long date2 = f2.getIsRecentTime();
+                            if (date1 == null) {
+                                return -1;
+                            } else if (date2 == null) {
+                                return 1;
+                            }
+                            return date1.compareTo(date2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_LAST_MODIFIED_DATE1) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return 1;
+                            } else if (f2 == null) {
+                                return -1;
+                            }
+                            Long date1 = f1.lastModified;
+                            Long date2 = f2.lastModified;
+                            if (date1 == null) {
+                                return 1;
+                            } else if (date2 == null) {
+                                return -1;
+                            }
+                            return -date1.compareTo(date2);
+                        }
+                    });
+                } else if (filterSortType == FILTER_SORT_TYPE_LAST_MODIFIED_DATE2) {
+                    Collections.sort(result, new Comparator<FileMeta>() {
+                        @Override
+                        public int compare(FileMeta f1, FileMeta f2) {
+                            if (f1 == null) {
+                                return -1;
+                            } else if (f2 == null) {
+                                return 1;
+                            }
+                            Long date1 = f1.lastModified;
+                            Long date2 = f2.lastModified;
+                            if (date1 == null) {
+                                return -1;
+                            } else if (date2 == null) {
+                                return 1;
+                            }
+                            return date1.compareTo(date2);
                         }
                     });
                 } else {
@@ -1836,35 +2051,84 @@ public class HomeFragment4 extends Fragment {
         view.findViewById(R.id.rlSortedBy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view_) {
-                PopupMenu popup = new PopupMenu(getActivity(), view_);
-                int menuId = R.menu.popup_home4_sorted; //.popup_directory;
-                popup.getMenuInflater().inflate(menuId, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        TextView textView = (TextView) view.findViewById(R.id.rlSortedBy).findViewWithTag("tvName1");
-                        if (menuItem != null && textView != null) {
-                            if (menuItem.getItemId() == R.id.menu_name) {
-                                textView.setText("Name");
-                                filterSortType = FILTER_SORT_TYPE_NAME;
+                if (false) {
+                    PopupMenu popup = new PopupMenu(getActivity(), view_);
+                    int menuId = R.menu.popup_home4_sorted; //.popup_directory;
+                    popup.getMenuInflater().inflate(menuId, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            TextView textView = (TextView) view.findViewById(R.id.rlSortedBy).findViewWithTag("tvName1");
+                            if (menuItem != null && textView != null) {
+                                if (menuItem.getItemId() == R.id.menu_name) {
+                                    textView.setText("Name");
+                                    filterSortType = FILTER_SORT_TYPE_NAME1;
+                                    updateFilter();
+                                    return true;
+                                } else if (menuItem.getItemId() == R.id.menu_last_opened_date) {
+                                    textView.setText("Last opened date");
+                                    filterSortType = FILTER_SORT_TYPE_NAME1;
+                                    updateFilter();
+                                    return true;
+                                } else if (menuItem.getItemId() == R.id.menu_size) {
+                                    textView.setText("Size");
+                                    filterSortType = FILTER_SORT_TYPE_NAME1;
+                                    updateFilter();
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    });
+                    popup.show();
+                } else {
+                    HomeFragment4MenuDialog.show(getActivity(), view_, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            TextView textView = (TextView) g_view.findViewById(R.id.rlSortedBy).findViewWithTag("tvName1");
+                            if (view == null) {
+                                return;
+                            }
+                            if (view.getId() == R.id.llSortedName1) {
+                                textView.setText("Name / Title, A-Z");
+                                filterSortType = FILTER_SORT_TYPE_NAME1;
                                 updateFilter();
-                                return true;
-                            } else if (menuItem.getItemId() == R.id.menu_last_opened_date) {
-                                textView.setText("Last opened date");
-                                filterSortType = FILTER_SORT_TYPE_LAST_OPENED;
+                            } else if (view.getId() == R.id.llSortedName2) {
+                                textView.setText("Name / Title, Z-A");
+                                filterSortType = FILTER_SORT_TYPE_NAME2;
                                 updateFilter();
-                                return true;
-                            } else if (menuItem.getItemId() == R.id.menu_size) {
-                                textView.setText("Size");
-                                filterSortType = FILTER_SORT_TYPE_SIZE;
+                            } else if (view.getId() == R.id.llSortedType1) {
+                                textView.setText("Type");
+                                filterSortType = FILTER_SORT_TYPE_TYPE;
                                 updateFilter();
-                                return true;
+                            } else if (view.getId() == R.id.llSortedCreationDate1) {
+                                textView.setText("Creation Date, newest first");
+                                filterSortType = FILTER_SORT_TYPE_CREATION_DATE1;
+                                updateFilter();
+                            } else if (view.getId() == R.id.llSortedCreationDate2) {
+                                textView.setText("Creation Date, oldest first");
+                                filterSortType = FILTER_SORT_TYPE_CREATION_DATE2;
+                                updateFilter();
+                            } else if (view.getId() == R.id.llSortedLastOpened1) {
+                                textView.setText("Last opened, newest first");
+                                filterSortType = FILTER_SORT_TYPE_LAST_OPENED_DATE1;
+                                updateFilter();
+                            } else if (view.getId() == R.id.llSortedLastOpened2) {
+                                textView.setText("Last opened, oldest first");
+                                filterSortType = FILTER_SORT_TYPE_LAST_OPENED_DATE2;
+                                updateFilter();
+                            } else if (view.getId() == R.id.llSortedLastModified1) {
+                                textView.setText("Last modified, newest first");
+                                filterSortType = FILTER_SORT_TYPE_LAST_MODIFIED_DATE1;
+                                updateFilter();
+                            } else if (view.getId() == R.id.llSortedLastModified2) {
+                                textView.setText("Last modified, oldest first");
+                                filterSortType = FILTER_SORT_TYPE_LAST_MODIFIED_DATE2;
+                                updateFilter();
                             }
                         }
-                        return false;
-                    }
-                });
-                popup.show();
+                    });
+                }
             }
         });
     }
@@ -2165,7 +2429,17 @@ public class HomeFragment4 extends Fragment {
                         fileMeta.isNote = true;
                         fileMeta.updateTime = updateTime;
                         fileMeta.createTime = createTime;
-                        fileMeta.setPathTxt(path);
+                        try {
+                            fileMeta.setIsRecentTime(Long.parseLong(updateTime));
+                            fileMeta.lastModified = Long.parseLong(updateTime);
+                        } catch (Throwable eee) {
+                            eee.printStackTrace();
+                        }
+                        try {
+                            fileMeta.setDate(Long.parseLong(createTime));
+                        } catch (Throwable eee) {
+                            eee.printStackTrace();
+                        }fileMeta.setPathTxt(path);
                         fileMeta.setTitle((dispName != null && dispName.length() > 0) ? dispName : name);
                         if (updateTime != null) {
                             String updateTimeStr = null;
