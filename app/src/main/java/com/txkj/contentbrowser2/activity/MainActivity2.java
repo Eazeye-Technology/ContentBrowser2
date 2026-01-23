@@ -73,13 +73,13 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     private final static int icons[] = {
-            R.id.menu_bar_item_1,
-            R.id.menu_bar_item_2,
-            R.id.menu_bar_item_3,
-            R.id.menu_bar_item_4,
-            R.id.menu_bar_item_5,
-            R.id.menu_bar_item_6,
-            R.id.menu_bar_item_7,
+            R.id.menu_bar_item_1, //home
+            R.id.menu_bar_item_2, //note
+            R.id.menu_bar_item_3, //book
+            R.id.menu_bar_item_4, //pdfs
+            R.id.menu_bar_item_5, //storage
+            R.id.menu_bar_item_6, //apps
+            R.id.menu_bar_item_7, //settings
             R.id.menu_bar_item_1_R,
             R.id.menu_bar_item_2_R,
             R.id.menu_bar_item_3_R,
@@ -122,17 +122,19 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View view) {
                 if (!toggleSearch(true)) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
-                    if (currentFragment instanceof DirectoryFragment2) {
-                        ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
-                    } else if (currentFragment instanceof NoteFragment2) {
-                        ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
-                    } else if (currentFragment instanceof HomeFragment) {
+                    if (fragmentManager.getFragments().size() - 1 >= 0) {
+                        Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                        if (currentFragment instanceof DirectoryFragment2) {
+                            ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
+                        } else if (currentFragment instanceof NoteFragment2) {
+                            ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
+                        } else if (currentFragment instanceof HomeFragment) {
 //                        fragmentTransaction = fragmentManager.beginTransaction();
 //                        fragmentTransaction.replace(R.id.content_layout, mHomeFragment2);
 //                        fragmentTransaction.commit();
-                    } else {
-                        //showPopupMenu(view);
+                        } else {
+                            //showPopupMenu(view);
+                        }
                     }
                 }
             }
@@ -257,7 +259,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
         this.currentTabId = icons[0];
         if (savedInstanceState != null) {
-            this.currentTabId = savedInstanceState.getInt(KEY_CURRENT_TAB_ID, R.id.function_bar_item_home);
+            this.currentTabId = savedInstanceState.getInt(KEY_CURRENT_TAB_ID, 0);//R.id.function_bar_item_home);
         }
         onClick2(this.currentTabId, false);
 
@@ -351,6 +353,7 @@ public class MainActivity2 extends AppCompatActivity {
                 searchEditTextGlobal.requestFocus();
             }
         }
+        onUpdateMenu();
         return result;
     }
 
@@ -589,6 +592,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             fragmentTransaction.replace(R.id.content_layout, mSystemSettingFragment);//mSettingFragment);
             fragmentTransaction.commit();
         }
+        onUpdateMenu();
     }
 
     //https://github.com/microsoft/Visual-Audience-Polling/blob/db9536339145aa87a526c1a5fbf207e730ca7859/src/RosterList.java#L379
@@ -648,6 +652,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_layout, mAnswerFragment);
         fragmentTransaction.commit();
+        onUpdateMenu();
     }
 
 
@@ -757,6 +762,49 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
 
                 }
             });
+        }
+    }
+
+    private void onUpdateMenu() {
+        if (false) {
+            //not good
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getFragments().size() - 1 >= 0) {
+                Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                if (currentFragment instanceof DirectoryFragment2) {
+                    //show
+                    findViewById(R.id.btnMore).setVisibility(View.VISIBLE);
+                } else if (currentFragment instanceof NoteFragment2) {
+                    //show
+                    findViewById(R.id.btnMore).setVisibility(View.VISIBLE);
+                } else if (currentFragment instanceof HomeFragment) {
+                    //hide
+                    findViewById(R.id.btnMore).setVisibility(View.GONE);
+                } else {
+                    //hide
+                    findViewById(R.id.btnMore).setVisibility(View.GONE);
+                }
+            }
+        } else {
+            if (this.currentTabId == R.id.menu_bar_item_2 ||
+                    this.currentTabId == R.id.menu_bar_item_2_R) {
+                //note, show
+                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+            } else if (this.currentTabId == R.id.menu_bar_item_5 ||
+                    this.currentTabId == R.id.menu_bar_item_5_R) {
+                //storage, show
+                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+            } else {
+                //hide
+                findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+            }
+            if (this.currentTabId == R.id.menu_bar_item_7 ||
+                this.currentTabId == R.id.menu_bar_item_7_R) {
+                //settings hide
+                findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+            }
         }
     }
 }

@@ -165,6 +165,7 @@
                     android:layout_height="48px"
                     android:padding="0px"
                     android:layout_gravity="center_vertical|center"
+                    android:id="@+id/ll_btnSearch"
                     >
                     <androidx.cardview.widget.CardView
                         android:foreground="?android:attr/selectableItemBackground"

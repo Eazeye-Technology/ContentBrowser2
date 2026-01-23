@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -207,6 +208,196 @@ public class HomeFragment4 extends Fragment {
     private final static int FILTER_SORT_TYPE_LAST_MODIFIED_DATE1 = 7;
     private final static int FILTER_SORT_TYPE_LAST_MODIFIED_DATE2 = 8;
     private int filterSortType = 0;
+    //----------------------
+    //new
+    private int filterCreationButton = 0;
+    private int filterLastOpenButton = 0;
+    private String filterCreationButtonName = "";
+    private String filterLastOpenButtonName = "";
+    private void loadFilter() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        try {
+            this.filterChooseNote = preferences.getBoolean("filterChooseNote", true);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterChooseNote = true;
+        }
+        if (filterChooseNote) {
+            g_view.findViewById(R.id.rlFileType1).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlFileType1).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else {
+            g_view.findViewById(R.id.rlFileType1).findViewWithTag("btnOn").setVisibility(View.GONE);
+            g_view.findViewById(R.id.rlFileType1).findViewWithTag("btnOff").setVisibility(View.VISIBLE);
+        }
+        try {
+            this.filterChooseEpub = preferences.getBoolean("filterChooseEpub", true);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterChooseEpub = true;
+        }
+        if (filterChooseEpub) {
+            g_view.findViewById(R.id.rlFileType2).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlFileType2).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else {
+            g_view.findViewById(R.id.rlFileType2).findViewWithTag("btnOn").setVisibility(View.GONE);
+            g_view.findViewById(R.id.rlFileType2).findViewWithTag("btnOff").setVisibility(View.VISIBLE);
+        }
+        try {
+            this.filterChoosePDFs = preferences.getBoolean("filterChoosePDFs", true);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterChoosePDFs = true;
+        }
+        if (filterChoosePDFs) {
+            g_view.findViewById(R.id.rlFileType3).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlFileType3).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else {
+            g_view.findViewById(R.id.rlFileType3).findViewWithTag("btnOn").setVisibility(View.GONE);
+            g_view.findViewById(R.id.rlFileType3).findViewWithTag("btnOff").setVisibility(View.VISIBLE);
+        }
+        try {
+            Long filterBeginDateCreation_ = preferences.getLong("filterBeginDateCreation", 0L);
+            this.filterBeginDateCreation = filterBeginDateCreation_ != 0L ? new Date(filterBeginDateCreation_) : null;
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterBeginDateCreation = null;
+        }
+        try {
+            Long filterEndDateCreation_ = preferences.getLong("filterEndDateCreation", 0L);
+            this.filterEndDateCreation = filterEndDateCreation_ != 0L ? new Date(filterEndDateCreation_) : null;
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterEndDateCreation = null;
+        }
+        try {
+            Long filterBeginDateLastOpen_ = preferences.getLong("filterBeginDateLastOpen", 0L);
+            this.filterBeginDateLastOpen = filterBeginDateLastOpen_ != 0L ? new Date(filterBeginDateLastOpen_) : null;
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterBeginDateLastOpen = null;
+        }
+        try {
+            Long filterEndDateLastOpen_ = preferences.getLong("filterEndDateLastOpen", 0L);
+            this.filterEndDateLastOpen = filterEndDateLastOpen_ != 0L ? new Date(filterEndDateLastOpen_) : null;
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterEndDateLastOpen = null;
+        }
+        try {
+            this.filterSortType = preferences.getInt("filterSortType", 0);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterSortType = 0;
+        }
+        TextView textView = (TextView) g_view.findViewById(R.id.rlSortedBy).findViewWithTag("tvName1");
+        if (this.filterSortType == FILTER_SORT_TYPE_NAME1) {
+            textView.setText("Name / Title, A-Z");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_NAME2) {
+            textView.setText("Name / Title, Z-A");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_TYPE) {
+            textView.setText("Type");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_CREATION_DATE1) {
+            textView.setText("Creation Date, newest first");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_CREATION_DATE2) {
+            textView.setText("Creation Date, oldest first");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_LAST_OPENED_DATE1) {
+            textView.setText("Last opened, newest first");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_LAST_OPENED_DATE2) {
+            textView.setText("Last opened, oldest first");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_LAST_MODIFIED_DATE1) {
+            textView.setText("Last modified, newest first");
+        } else if (this.filterSortType == FILTER_SORT_TYPE_LAST_MODIFIED_DATE2) {
+            textView.setText("Last modified, oldest first");
+        }
+        try {
+            this.filterCreationButton = preferences.getInt("filterCreationButton", 0);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterCreationButton = 0;
+        }
+        if (filterCreationButton == 0) {
+            //skip
+        } else if (filterCreationButton == 1) {
+            g_view.findViewById(R.id.rlCreationDate1).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlCreationDate1).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else if (filterCreationButton == 2) {
+            g_view.findViewById(R.id.rlCreationDate2).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlCreationDate2).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else if (filterCreationButton == 3) {
+            g_view.findViewById(R.id.rlCreationDate3).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlCreationDate3).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else if (filterCreationButton == 4) {
+            g_view.findViewById(R.id.rlCreationDate4).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlCreationDate4).findViewWithTag("btnOff").setVisibility(View.GONE);
+        }
+        try {
+            this.filterLastOpenButton = preferences.getInt("filterLastOpenButton", 0);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterLastOpenButton = 0;
+        }
+        if (filterLastOpenButton == 0) {
+            //skip
+        } else if (filterLastOpenButton == 1) {
+            g_view.findViewById(R.id.rlLastOpen1).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlLastOpen1).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else if (filterLastOpenButton == 2) {
+            g_view.findViewById(R.id.rlLastOpen2).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlLastOpen2).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else if (filterLastOpenButton == 3) {
+            g_view.findViewById(R.id.rlLastOpen3).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlLastOpen3).findViewWithTag("btnOff").setVisibility(View.GONE);
+        } else if (filterLastOpenButton == 4) {
+            g_view.findViewById(R.id.rlLastOpen4).findViewWithTag("btnOn").setVisibility(View.VISIBLE);
+            g_view.findViewById(R.id.rlLastOpen4).findViewWithTag("btnOff").setVisibility(View.GONE);
+        }
+
+        try {
+            this.filterCreationButtonName = preferences.getString("filterCreationButtonName", "");
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterCreationButtonName = "";
+        }
+        if (filterCreationButtonName != null && filterCreationButtonName.length() > 0) {
+            ((TextView) g_view.findViewById(R.id.tvCreationDate4_on)).setText(filterCreationButtonName);
+            ((TextView) g_view.findViewById(R.id.tvCreationDate4_off)).setText(filterCreationButtonName);
+        }
+        try {
+            this.filterLastOpenButtonName = preferences.getString("filterLastOpenButtonName", "");
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            this.filterLastOpenButtonName = "";
+        }
+        if (filterLastOpenButtonName != null && filterLastOpenButtonName.length() > 0) {
+            ((TextView) g_view.findViewById(R.id.tvLastOpenDate4_off)).setText(filterLastOpenButtonName);
+            ((TextView) g_view.findViewById(R.id.tvLastOpenDate4_on)).setText(filterLastOpenButtonName);
+        }
+    }
+
+    private void saveFilter() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("filterChooseNote", filterChooseNote);
+        editor.putBoolean("filterChooseEpub", filterChooseEpub);
+        editor.putBoolean("filterChoosePDFs", filterChoosePDFs);
+        editor.putLong("filterBeginDateCreation", filterBeginDateCreation != null ?
+                filterBeginDateCreation.getTime() : 0L);
+        editor.putLong("filterEndDateCreation", filterEndDateCreation != null ?
+                filterEndDateCreation.getTime() : 0L);
+        editor.putLong("filterBeginDateLastOpen", filterBeginDateLastOpen != null ?
+                filterBeginDateLastOpen.getTime() : 0L);
+        editor.putLong("filterEndDateLastOpen", filterEndDateLastOpen != null ?
+                filterEndDateLastOpen.getTime() : 0L);
+        editor.putInt("filterSortType", filterSortType);
+
+        editor.putInt("filterCreationButton", filterCreationButton);
+        editor.putInt("filterLastOpenButton", filterLastOpenButton);
+        editor.putString("filterCreationButtonName", filterCreationButtonName);
+        editor.putString("filterLastOpenButtonName", filterLastOpenButtonName);
+
+        editor.apply();
+    }
+    //----------------------
 
     private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
@@ -278,6 +469,7 @@ public class HomeFragment4 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_4, container, false);
 
         onCreateViewFilter(view);
+        loadFilter();
 
         //View view = inflater.inflate(R.layout.fragment_search2, container, false);
 //        AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
@@ -507,6 +699,7 @@ public class HomeFragment4 extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        saveFilter();
     }
 
 
@@ -2147,24 +2340,29 @@ public class HomeFragment4 extends Fragment {
                 //today
                 filterBeginDateCreation = beginOfDay(new Date());
                 filterEndDateCreation = null;
+                filterCreationButton = 1;
             } else if (g_view.findViewById(R.id.rlCreationDate2).findViewWithTag("btnOn")
                     .getVisibility() == View.VISIBLE) {
                 //yesterday
                 filterBeginDateCreation = addDays(beginOfDay(new Date()), -1);
                 filterEndDateCreation = beginOfDay(new Date());  //today
+                filterCreationButton = 2;
             } else if (g_view.findViewById(R.id.rlCreationDate3).findViewWithTag("btnOn")
                     .getVisibility() == View.VISIBLE) {
                 //this week
                 filterBeginDateCreation = addDays(beginOfDay(new Date()), -7);
                 filterEndDateCreation = null;
+                filterCreationButton = 3;
             } else if (g_view.findViewById(R.id.rlCreationDate4).findViewWithTag("btnOn")
                     .getVisibility() == View.VISIBLE) {
                 //range
 //                filterBeginDateCreation = null;
 //                filterEndDateCreation = null;
+                filterCreationButton = 4;
             } else {
                 filterBeginDateCreation = null;
                 filterEndDateCreation = null;
+                filterCreationButton = 0;
             }
 
 
@@ -2173,26 +2371,32 @@ public class HomeFragment4 extends Fragment {
                 //today
                 filterBeginDateLastOpen = beginOfDay(new Date());
                 filterEndDateLastOpen = null;
+                filterLastOpenButton = 1;
             } else if (g_view.findViewById(R.id.rlLastOpen2).findViewWithTag("btnOn")
                     .getVisibility() == View.VISIBLE) {
                 //yesterday
                 filterBeginDateLastOpen = addDays(beginOfDay(new Date()), -1);
                 filterEndDateLastOpen = beginOfDay(new Date());  //today
+                filterLastOpenButton = 2;
             } else if (g_view.findViewById(R.id.rlLastOpen3).findViewWithTag("btnOn")
                     .getVisibility() == View.VISIBLE) {
                 //this week
                 filterBeginDateLastOpen = addDays(beginOfDay(new Date()), -7);
                 filterEndDateLastOpen = null;
+                filterLastOpenButton = 3;
             } else if (g_view.findViewById(R.id.rlLastOpen4).findViewWithTag("btnOn")
                     .getVisibility() == View.VISIBLE) {
                 //range
 //                filterBeginDateLastOpen = null;
 //                filterEndDateLastOpen = null;
+                filterLastOpenButton = 4;
             } else {
                 filterBeginDateLastOpen = null;
                 filterEndDateLastOpen = null;
+                filterLastOpenButton = 0;
             }
         }
+        saveFilter();
         searchAndOrderAsync();
     }
     private void creationDate4_open() {
@@ -2235,6 +2439,7 @@ public class HomeFragment4 extends Fragment {
                 }
                 ((TextView)g_view.findViewById(R.id.tvCreationDate4_off)).setText(str);
                 ((TextView)g_view.findViewById(R.id.tvCreationDate4_on)).setText(str);
+                filterCreationButtonName = str;
                 updateFilter();
             }
         });
@@ -2291,6 +2496,7 @@ public class HomeFragment4 extends Fragment {
                 }
                 ((TextView)g_view.findViewById(R.id.tvLastOpenDate4_off)).setText(str);
                 ((TextView)g_view.findViewById(R.id.tvLastOpenDate4_on)).setText(str);
+                filterLastOpenButtonName = str;
                 updateFilter();
             }
         });
