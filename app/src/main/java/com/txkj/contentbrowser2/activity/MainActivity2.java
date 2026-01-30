@@ -802,6 +802,10 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
                 this.currentTabId == R.id.menu_bar_item_7_R) {
                 //settings hide
                 findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+            } else if (this.currentTabId == R.id.menu_bar_item_5 ||
+                    this.currentTabId == R.id.menu_bar_item_5_R) {
+                //storage fragment hide
+                findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
             } else {
                 findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
             }
