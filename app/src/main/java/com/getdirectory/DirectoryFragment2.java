@@ -33,6 +33,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.foobnix.pdf.info.ExtUtils;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
@@ -354,33 +355,45 @@ public class DirectoryFragment2 extends Fragment {
                 showErrorBox("Access Error");//"AccessError");
                 return;
             }
-            if (sizeLimit != 0) {
-                if (file.length() > sizeLimit) {
-                    showErrorBox("File Upload Limit");//"FileUploadLimit");
+            if (false) {
+                //android.os.FileUriExposedException: file:///storage/emulated/0/Download/%E5%9B%9B%E5%A4%A7%E5%90%8D%E7%9D%80.epub
+                //                        // exposed beyond app through Intent.getData()
+                //
+                if (sizeLimit != 0) {
+                    if (file.length() > sizeLimit) {
+                        showErrorBox("File Upload Limit");//"FileUploadLimit");
+                        return;
+                    }
+                }
+                if (file.length() == 0) {
                     return;
                 }
-            }
-            if (file.length() == 0) {
-                return;
-            }
-            boolean isGoodExt = false;
-            for (String str : chhosefileType) {
-                if (str != null &&
-                        file.toString().toLowerCase().endsWith(str)) {
-                    isGoodExt = true;
-                    break;
+                boolean isGoodExt = false;
+                for (String str : chhosefileType) {
+                    if (str != null &&
+                            file.toString().toLowerCase().endsWith(str)) {
+                        isGoodExt = true;
+                        break;
+                    }
                 }
-            }
-            if (isGoodExt) {
-                if (delegate != null) {
-                    ArrayList<String> files = new ArrayList<String>();
-                    files.add(file.getAbsolutePath());
-                    delegate.didSelectFiles(DirectoryFragment2.this, files);
+                if (isGoodExt) {
+                    if (delegate != null) {
+                        ArrayList<String> files = new ArrayList<String>();
+                        files.add(file.getAbsolutePath());
+                        delegate.didSelectFiles(DirectoryFragment2.this, files);
+                    }
+                } else {
+                    //showErrorBox("Choose correct file.");
+                    if (false) {
+                        showErrorBox("Choose .epub or .pdf file.");
+                    } else {
+                        ExtUtils.openWith(getActivity(), file);
+                    }
+                    return;
                 }
             } else {
-                //showErrorBox("Choose correct file.");
-                showErrorBox("Choose .epub or .pdf file.");
-                return;
+                //for avoid android.os.FileUriExposedException
+                ExtUtils.openWith(getActivity(), file);
             }
         }
     }

@@ -213,6 +213,8 @@ public class MainActivity2 extends AppCompatActivity {
                     mDirectoryFragment.showErrorBox(files.get(0).toString());
                 } else {
                     if (files != null && files.size() > 0) {
+                        //android.os.FileUriExposedException: file:///storage/emulated/0/Download/%E5%9B%9B%E5%A4%A7%E5%90%8D%E7%9D%80.epub
+                        // exposed beyond app through Intent.getData()
                         try {
                             //https://github.com/microsoft/Visual-Audience-Polling/blob/db9536339145aa87a526c1a5fbf207e730ca7859/src/RosterList.java#L379
                             // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's

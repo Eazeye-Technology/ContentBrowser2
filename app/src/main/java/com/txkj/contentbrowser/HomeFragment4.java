@@ -90,6 +90,8 @@ import com.foobnix.work.SearchAllBooksWorker;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.txkj.contentbrowser2.R;
+import com.txkj.drawingapp.db.NoteItem;
+import com.txkj.drawingapp.db.SDNotesDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -2563,7 +2565,7 @@ public class HomeFragment4 extends Fragment {
     private static final String SHARE_PACKAGE_NAME = "com.txkj.notemobile";//"online.xournal.mobile";
     public static final String KEY_RECENT_FILES = "recentFiles";
     public List<FileMeta> prepareDataInBackground_note() {
-        List<FileMeta> recentNoteList = new ArrayList<>();
+        List<FileMeta> recentNoteList2__ = new ArrayList<>();
         String txt = searchEditText.getText().toString().trim();
         if (false) {
             Context useCount = null;
@@ -2583,112 +2585,179 @@ public class HomeFragment4 extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            String recentFiles = "";
-            if (USE_EXTERNAL_FILE) {
-                try {
-                    String rootPath = null;
-                    if (USE_NEW_NOTE) {
-                        rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
-                    } else {
-                        rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME).toString();
-                    }
-                    boolean kkk = new File(rootPath).mkdirs();
-                    if (new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt").exists()) {
-                        InputStream fis = new FileInputStream(new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt"));
-                        InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-                        BufferedReader reader = new BufferedReader(isr);
-                        StringBuffer recentFilesBuffer = new StringBuffer();
-                        while (true) {
-                            String line = reader.readLine();
-                            if (line != null) {
-                                recentFilesBuffer.append(line);
-                                recentFilesBuffer.append("\n");
+            String dirPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+            boolean kkk2 = new File(dirPath).mkdirs();
+            if (new File(dirPath, SDNotesDatabase.DATABASE_NAME).exists()) {
+                SDNotesDatabase mDatabase = new SDNotesDatabase(getActivity(), dirPath);
+                List<NoteItem> items = mDatabase.getAllItems();
+                for (NoteItem itemNote : items) {
+                    try {
+                        LinkedJSONObject item = new LinkedJSONObject(itemNote.getNoteContent());
+                        if (item != null) {
+                            String preview = item.optString("preview");
+                            String name = item.optString("name");
+                            String path = item.optString("path");
+                            String createTime = item.optString("createTime");
+                            String updateTime = item.optString("updateTime");
+                            String dispName = item.optString("dispName");
+
+                            FileMeta fileMeta = new FileMeta();
+                            fileMeta.isNote = true;
+                            fileMeta.updateTime = updateTime;
+                            fileMeta.createTime = createTime;
+                            try {
+                                fileMeta.setIsRecentTime(Long.parseLong(updateTime));
+                                fileMeta.lastModified = Long.parseLong(updateTime);
+                            } catch (Throwable eee) {
+                                eee.printStackTrace();
+                            }
+                            try {
+                                fileMeta.setDate(Long.parseLong(createTime));
+                            } catch (Throwable eee) {
+                                eee.printStackTrace();
+                            }
+                            fileMeta.setPathTxt(path);
+                            fileMeta.setTitle((dispName != null && dispName.length() > 0) ? dispName : name);
+                            if (updateTime != null) {
+                                String updateTimeStr = null;
+                                if (updateTime != null && updateTime.length() > 0) {
+                                    try {
+                                        Date date = new Date(Long.parseLong(updateTime));
+                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        updateTimeStr = format.format(date);
+                                    } catch (Throwable eeee) {
+                                        eeee.printStackTrace();
+                                    }
+                                }
+                                fileMeta.setDateTxt(updateTimeStr);
+                            }
+                            //preview字段加上base64头部才能显示出来封面
+                            fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+
+                            //搜索过滤
+                            if (txt != null && txt.length() > 0) {
+                                if (name.toLowerCase().contains(txt.toLowerCase())) {
+                                    recentNoteList2__.add(fileMeta);
+                                }
                             } else {
-                                break;
+                                recentNoteList2__.add(fileMeta);
                             }
                         }
-                        recentFiles = recentFilesBuffer.toString();
-                        reader.close();
-                        isr.close();
-                        fis.close();
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
                     }
-                } catch (Throwable eee) {
-                    eee.printStackTrace();
                 }
-            }
-            //Log.e(TAG, "recentFiles: " + recentFiles);
-
-            List<FileMeta> recentNoteList2 = new ArrayList<>();
-            try {
-                JSONArray jsonArray = new JSONArray(recentFiles);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    LinkedJSONObject item = jsonArray.getJSONObject(i);
-                    if (item != null) {
-                        String preview = item.optString("preview");
-                        String name = item.optString("name");
-                        String path = item.optString("path");
-                        String createTime = item.optString("createTime");
-                        String updateTime = item.optString("updateTime");
-                        String dispName = item.optString("dispName");
-
-                        FileMeta fileMeta = new FileMeta();
-                        fileMeta.isNote = true;
-                        fileMeta.updateTime = updateTime;
-                        fileMeta.createTime = createTime;
+            } else {
+                if (NoteFragment2.LOAD_OLD_DATA) {
+                    String recentFiles = "";
+                    if (USE_EXTERNAL_FILE) {
                         try {
-                            fileMeta.setIsRecentTime(Long.parseLong(updateTime));
-                            fileMeta.lastModified = Long.parseLong(updateTime);
+                            String rootPath = null;
+                            if (USE_NEW_NOTE) {
+                                rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                            } else {
+                                rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME).toString();
+                            }
+                            boolean kkk = new File(rootPath).mkdirs();
+                            if (new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt").exists()) {
+                                InputStream fis = new FileInputStream(new File(rootPath, "flutter." + KEY_RECENT_FILES + ".txt"));
+                                InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+                                BufferedReader reader = new BufferedReader(isr);
+                                StringBuffer recentFilesBuffer = new StringBuffer();
+                                while (true) {
+                                    String line = reader.readLine();
+                                    if (line != null) {
+                                        recentFilesBuffer.append(line);
+                                        recentFilesBuffer.append("\n");
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                recentFiles = recentFilesBuffer.toString();
+                                reader.close();
+                                isr.close();
+                                fis.close();
+                            }
                         } catch (Throwable eee) {
                             eee.printStackTrace();
                         }
-                        try {
-                            fileMeta.setDate(Long.parseLong(createTime));
-                        } catch (Throwable eee) {
-                            eee.printStackTrace();
-                        }fileMeta.setPathTxt(path);
-                        fileMeta.setTitle((dispName != null && dispName.length() > 0) ? dispName : name);
-                        if (updateTime != null) {
-                            String updateTimeStr = null;
-                            if (updateTime != null && updateTime.length() > 0) {
+                    }
+                    //Log.e(TAG, "recentFiles: " + recentFiles);
+
+                    List<FileMeta> recentNoteList2_temp = new ArrayList<>();
+                    try {
+                        JSONArray jsonArray = new JSONArray(recentFiles);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            LinkedJSONObject item = jsonArray.getJSONObject(i);
+                            if (item != null) {
+                                String preview = item.optString("preview");
+                                String name = item.optString("name");
+                                String path = item.optString("path");
+                                String createTime = item.optString("createTime");
+                                String updateTime = item.optString("updateTime");
+                                String dispName = item.optString("dispName");
+
+                                FileMeta fileMeta = new FileMeta();
+                                fileMeta.isNote = true;
+                                fileMeta.updateTime = updateTime;
+                                fileMeta.createTime = createTime;
                                 try {
-                                    Date date = new Date(Long.parseLong(updateTime));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    updateTimeStr = format.format(date);
-                                } catch (Throwable eeee) {
-                                    eeee.printStackTrace();
+                                    fileMeta.setIsRecentTime(Long.parseLong(updateTime));
+                                    fileMeta.lastModified = Long.parseLong(updateTime);
+                                } catch (Throwable eee) {
+                                    eee.printStackTrace();
+                                }
+                                try {
+                                    fileMeta.setDate(Long.parseLong(createTime));
+                                } catch (Throwable eee) {
+                                    eee.printStackTrace();
+                                }
+                                fileMeta.setPathTxt(path);
+                                fileMeta.setTitle((dispName != null && dispName.length() > 0) ? dispName : name);
+                                if (updateTime != null) {
+                                    String updateTimeStr = null;
+                                    if (updateTime != null && updateTime.length() > 0) {
+                                        try {
+                                            Date date = new Date(Long.parseLong(updateTime));
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                            updateTimeStr = format.format(date);
+                                        } catch (Throwable eeee) {
+                                            eeee.printStackTrace();
+                                        }
+                                    }
+                                    fileMeta.setDateTxt(updateTimeStr);
+                                }
+                                //preview字段加上base64头部才能显示出来封面
+                                fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+
+                                //搜索过滤
+                                if (txt != null && txt.length() > 0) {
+                                    if (name.toLowerCase().contains(txt.toLowerCase())) {
+                                        recentNoteList2_temp.add(fileMeta);
+                                    }
+                                } else {
+                                    recentNoteList2_temp.add(fileMeta);
                                 }
                             }
-                            fileMeta.setDateTxt(updateTimeStr);
                         }
-                        //preview字段加上base64头部才能显示出来封面
-                        fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
-
-                        //搜索过滤
-                        if (txt != null && txt.length() > 0) {
-                            if (name.toLowerCase().contains(txt.toLowerCase())) {
-                                recentNoteList2.add(fileMeta);
+                        //recentNoteList2__.clear();
+                        if (USE_NEW_NOTE) {
+                            for (int i = 0; i < recentNoteList2_temp.size(); ++i) {
+                                recentNoteList2__.add(recentNoteList2_temp.get(i));
                             }
                         } else {
-                            recentNoteList2.add(fileMeta);
+                            //倒序
+                            for (int i = recentNoteList2_temp.size() - 1; i >= 0; --i) {
+                                recentNoteList2__.add(recentNoteList2_temp.get(i));
+                            }
                         }
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
                     }
                 }
-                recentNoteList.clear();
-                if (USE_NEW_NOTE) {
-                    for (int i = 0; i < recentNoteList2.size(); ++i) {
-                        recentNoteList.add(recentNoteList2.get(i));
-                    }
-                } else {
-                    //倒序
-                    for (int i = recentNoteList2.size() - 1; i >= 0; --i) {
-                        recentNoteList.add(recentNoteList2.get(i));
-                    }
-                }
-            } catch (Throwable eee) {
-                eee.printStackTrace();
             }
         }
 
-        return recentNoteList; //new ArrayList<>();
+        return recentNoteList2__; //new ArrayList<>();
     }
 }

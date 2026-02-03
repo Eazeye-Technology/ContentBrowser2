@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.foobnix.pdf.info.ExtUtils;
 import com.txkj.contentbrowser2.R;
 
 import java.io.BufferedReader;
@@ -240,7 +241,11 @@ public class DirectoryFragment extends Fragment {
                             }
                         } else {
                             //showErrorBox("Choose correct file.");
-                            showErrorBox("Choose .epub or .pdf file.");
+                            if (false) {
+                                showErrorBox("Choose .epub or .pdf file.");
+                            } else {
+                                ExtUtils.openWith(getActivity(), file);
+                            }
                             return;
                         }
 
