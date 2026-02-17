@@ -1635,7 +1635,7 @@ public class HomeFragment4 extends Fragment {
                             isGood2 = true;
                         }
                         if (filterEndDateCreation != null && createTimeDate != null) {
-                            if (filterEndDateCreation.after(createTimeDate)) {
+                            if (addDays(filterEndDateCreation, 1).after(createTimeDate)) {
                                 isGood3 = true;
                             }
                         } else {
@@ -1651,7 +1651,7 @@ public class HomeFragment4 extends Fragment {
                             isGood4 = true;
                         }
                         if (filterEndDateLastOpen != null && updateTimeDate != null) {
-                            if (filterEndDateLastOpen.after(updateTimeDate)) {
+                            if (addDays(filterEndDateLastOpen, 1).after(updateTimeDate)) {
                                 isGood5 = true;
                             }
                         } else {
@@ -2479,6 +2479,8 @@ public class HomeFragment4 extends Fragment {
 //                }
                 //todo
                 SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+//                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 if (selection.first != null) {
                     filterBeginDateLastOpen = new Date(selection.first);
                 } else {
