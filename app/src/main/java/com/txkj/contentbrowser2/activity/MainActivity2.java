@@ -120,21 +120,28 @@ public class MainActivity2 extends AppCompatActivity {
         findViewById(R.id.btnMore).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!toggleSearch(true)) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    if (fragmentManager.getFragments().size() - 1 >= 0) {
-                        Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
-                        if (currentFragment instanceof DirectoryFragment2) {
-                            ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
-                        } else if (currentFragment instanceof NoteFragment2) {
-                            ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
-                        } else if (currentFragment instanceof HomeFragment) {
+                Fragment currentFragment = null;
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if (fragmentManager.getFragments().size() - 1 >= 0) {
+                    currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                }
+                boolean res = false;
+                if (currentFragment instanceof DirectoryFragment2) {
+                    //skip, because I hide the search button
+                } else {
+                    res = toggleSearch(true);
+                }
+                if (!res) {
+                    if (currentFragment instanceof DirectoryFragment2) {
+                        ((DirectoryFragment2) currentFragment).showPopupMenuDirectoryFragment2(view);
+                    } else if (currentFragment instanceof NoteFragment2) {
+                        ((NoteFragment2) currentFragment).showPopupMenuNoteFragment2(view);
+                    } else if (currentFragment instanceof HomeFragment) {
 //                        fragmentTransaction = fragmentManager.beginTransaction();
 //                        fragmentTransaction.replace(R.id.content_layout, mHomeFragment2);
 //                        fragmentTransaction.commit();
-                        } else {
-                            //showPopupMenu(view);
-                        }
+                    } else {
+                        //showPopupMenu(view);
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.txkj.contentbrowser;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -453,8 +454,9 @@ class PreferencesKeys {
 
                         //搜索过滤
                         if (txt != null && txt.length() > 0) {
-                            if (name.toLowerCase().contains(txt.toLowerCase())) {
-                                recentNoteList2__.add(fileMeta);
+                            //if (name.toLowerCase().contains(txt.toLowerCase())) {
+                            if (dispName.toLowerCase().contains(txt.toLowerCase())) {
+                                    recentNoteList2__.add(fileMeta);
                             }
                         } else {
                             recentNoteList2__.add(fileMeta);
@@ -627,30 +629,37 @@ class PreferencesKeys {
         deleteMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                if (isCheckMode) {
-                    List<String> arrPaths = new ArrayList<>();
-                    for (FileMeta meta : recentNoteList) {
-                        if (meta != null && meta.checkShow && meta.checkSelect) {
-                            String path = meta.getPathTxt();
-                            //Toast.makeText(getActivity(), "path : " + path, Toast.LENGTH_LONG).show();
-                            String rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
-                            FileTransactions.DeleteRecursive(new File(rootPath, path));
-                            arrPaths.add(path);
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isCheckMode) {
+                            List<String> arrPaths = new ArrayList<>();
+                            for (FileMeta meta : recentNoteList) {
+                                if (meta != null && meta.checkShow && meta.checkSelect) {
+                                    String path = meta.getPathTxt();
+                                    //Toast.makeText(getActivity(), "path : " + path, Toast.LENGTH_LONG).show();
+                                    String rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                                    FileTransactions.DeleteRecursive(new File(rootPath, path));
+                                    arrPaths.add(path);
+                                }
+                            }
+                            removeRecent(arrPaths);
                         }
+                        for (FileMeta meta : recentNoteList) {
+                            if (meta != null) {
+                                meta.checkShow = false;
+                                meta.checkSelect = false;
+                            }
+                        }
+                        if (isCheckMode) {
+                            isCheckMode = false;
+                        }
+                        recentNoteAdapter.notifyDataSetChanged();
+                        populate();
                     }
-                    removeRecent(arrPaths);
-                }
-                for (FileMeta meta : recentNoteList) {
-                    if (meta != null) {
-                        meta.checkShow = false;
-                        meta.checkSelect = false;
-                    }
-                }
-                if (isCheckMode) {
-                    isCheckMode = false;
-                }
-                recentNoteAdapter.notifyDataSetChanged();
-                populate();
+                };
+                androidx.appcompat.app.AlertDialog dialog = new NoteFragment2DeleteDialog(getActivity(), r).create();
+                dialog.show();
                 return true;
             }
         });

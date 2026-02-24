@@ -22,6 +22,8 @@
         android:title="Create Folder"/>
     <item android:id="@+id/info"
         android:title="Information"/>
+    <item android:id="@+id/selectallmenu"
+        android:title="Select/unselect all"/>
     <item android:id="@+id/cancelmenu"
         android:title="Cancel Selection"/>
 </menu>

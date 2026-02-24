@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.txkj.contentbrowser2.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AutoWrapViewGroup extends LinearLayout {
 	private final static boolean D = false;
 	private final static String TAG = "TreeViewGroup";
@@ -93,7 +96,7 @@ public class AutoWrapViewGroup extends LinearLayout {
         textview1.setLayoutParams(p2);
         textview1.setText(title);
         textview1.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
-        textview1.setTextColor(Color.BLACK);
+        textview1.setTextColor(Color.BLACK); //464647, 1C1C1C //Color.RED);//
         textview1.setFocusable(true);
         textview1.setSingleLine(true);
         textview1.setEllipsize(TextUtils.TruncateAt.END);
@@ -108,13 +111,33 @@ public class AutoWrapViewGroup extends LinearLayout {
 			}
 		});
         linearLayout.addView(textview1);
+        allTextView.add(textview1);
 
 
 
         //----------------
         this.addView(linearLayout);
         mChildCount++;
+
+        setAllTextViewColor();
     }
+
+    private void setAllTextViewColor() {
+        if (allTextView != null) {
+            for (int i = 0; i < allTextView.size(); ++i) {
+                TextView textView = allTextView.get(i);
+                if (textView != null) {
+                    if (i == allTextView.size() - 1) {
+                        textView.setTextColor(0xFF464647); //464647, 1C1C1C
+                    } else {
+                        textView.setTextColor(0xFF1C1C1C);
+                    }
+                }
+            }
+        }
+    }
+
+    List<TextView> allTextView = new ArrayList<>();
     
     public int getFontHeight(float fontSize)   {  
          Paint paint = new Paint();  
@@ -130,5 +153,6 @@ public class AutoWrapViewGroup extends LinearLayout {
     public void clearViews() {
     	this.removeAllViews();
     	mChildCount = 0;
+        this.allTextView.clear();
     }
 }

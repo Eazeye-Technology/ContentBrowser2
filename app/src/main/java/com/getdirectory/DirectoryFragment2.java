@@ -1119,6 +1119,7 @@ public class DirectoryFragment2 extends Fragment {
     MenuItem zipmenu;
     MenuItem infomenu;
     MenuItem cancelmenu;
+    MenuItem selectallmenu;
     public void showPopupMenuDirectoryFragment2(View view) {
         PopupMenu popupMenu = new PopupMenu(getActivity(), view);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
@@ -1137,6 +1138,7 @@ public class DirectoryFragment2 extends Fragment {
         createmenu = menu.findItem(R.id.create);
         zipmenu = menu.findItem(R.id.zip);
         infomenu = menu.findItem(R.id.info);
+        selectallmenu = menu.findItem(R.id.selectallmenu);
         cancelmenu = menu.findItem(R.id.cancelmenu);
         if (counter == 1) {
             editmenu.setVisible(true);
@@ -1165,6 +1167,27 @@ public class DirectoryFragment2 extends Fragment {
             zipmenu.setVisible(false);
             infomenu.setVisible(false);
         }
+        selectallmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                counter = 0;
+                boolean isAllSelcted = true;
+                for (int count = 0; count < items.size(); count++) {
+                    if (!items.get(count).check) {
+                        isAllSelcted = false;
+                        break;
+                    }
+                }
+                for (int count = 0; count < items.size(); count++) {
+                    items.get(count).visible = true;
+                    items.get(count).check = !isAllSelcted;//true;
+                    cpy = true;
+                }
+                clickMode = false;
+                listAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
         cancelmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
