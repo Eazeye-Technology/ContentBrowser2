@@ -402,6 +402,11 @@ android:dataExtractionRules="@xml/data_extraction_rules"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <!--END Librera-->
 
+
+        <service
+            android:name="com.upgradetool.upgrade.UpdateService"
+            android:label="UpdateService"
+            android:process=":update" />
     </application>
 
 </manifest>

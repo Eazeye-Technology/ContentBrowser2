@@ -2,6 +2,7 @@ package com.txkj.contentbrowser2.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,6 +59,7 @@ import com.txkj.contentbrowser.SecondFragment;
 import com.txkj.contentbrowser.SettingFragment;
 import com.txkj.contentbrowser2.R;
 import com.txkj.smartanswer.AnswerFragment;
+import com.upgradetool.upgrade.UpgradeUtil;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -71,6 +73,8 @@ public class MainActivity2 extends AppCompatActivity {
         AppProfile.init(context); //for recent files search
         super.attachBaseContext(context);
     }
+
+    public UpgradeUtil upgradeUtil;
 
     private final static int icons[] = {
             R.id.menu_bar_item_1, //home
@@ -94,6 +98,10 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.fragment_home2);
         if (this.getSupportActionBar() != null) {
             this.getSupportActionBar().hide();
+        }
+        if (UpgradeUtil.USE_UPGRADE) {
+            upgradeUtil = new UpgradeUtil(this);
+            upgradeUtil.onCreate_upgrade();
         }
 
         for (int id : icons) {
@@ -340,6 +348,13 @@ public class MainActivity2 extends AppCompatActivity {
 
         if (stateStarted == 0) {
             checkPermission();
+
+            if (UpgradeUtil.USE_UPGRADE) {
+                if (upgradeUtil != null) {
+                    upgradeUtil.onCreateUpdateReceiver();
+                    upgradeUtil.checkVersion();
+                }
+            }
         }
     }
     private boolean toggleSearch(boolean forceShowSearchButton) {
@@ -635,6 +650,9 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     protected void onDestroy() {
         mDirectoryFragment.onFragmentDestroy();
         super.onDestroy();
+        if (UpgradeUtil.USE_UPGRADE && upgradeUtil != null) {
+            upgradeUtil.onDestroyUpdateReceiver();
+        }
     }
 
     @Override
@@ -819,5 +837,17 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
                 findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
             }
         }
+    }
+
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (UpgradeUtil.USE_UPGRADE) {
+            Dialog dialog = upgradeUtil.onCreateDailog_upgrade(id);
+            if (dialog != null) {
+                return dialog;
+            }
+        }
+        return super.onCreateDialog(id);
     }
 }
