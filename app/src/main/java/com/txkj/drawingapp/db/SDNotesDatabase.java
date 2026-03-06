@@ -3,9 +3,12 @@ package com.txkj.drawingapp.db;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.AbstractWindowedCursor;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -20,6 +23,7 @@ import java.util.Map;
 
 public class SDNotesDatabase extends SQLiteOpenHelper {
     private static final String TAG = "SDNDb";
+    private final static boolean USE_WAL = true;
 
 	private Context mContext;
 
@@ -100,6 +104,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
 	public long addNote(String noteName, String noteFilePath, String noteType, String noteExtId1, String noteExtId2, String updateTime, String noteContent) {
         try {
             SQLiteDatabase db = getWritableDatabase();
+            if (USE_WAL) db.enableWriteAheadLogging();
             ContentValues values = new ContentValues();
             values.put(NoteDatabaseItem.COLUMN_NAME_NOTE_NAME, noteName);
             values.put(NoteDatabaseItem.COLUMN_NAME_NOTE_FILE_PATH, noteFilePath);
@@ -129,6 +134,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
             return;
         }
         SQLiteDatabase db = getWritableDatabase();
+        if (USE_WAL) db.enableWriteAheadLogging();db.enableWriteAheadLogging();
         try{
             db.beginTransaction();
             //insert huge data
@@ -163,7 +169,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
         List<NoteItem> result = new ArrayList<>();
         try {
             SQLiteDatabase db = getReadableDatabase();
-
+            if (USE_WAL) db.enableWriteAheadLogging();
             String[] projection = {
                     NoteDatabaseItem._ID,
                     NoteDatabaseItem.COLUMN_NAME_NOTE_NAME,
@@ -181,6 +187,20 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
                     null, //"_id=?",//NoteDatabaseItem.COLUMN_NAME_EXT_ID1 + " = ? and _id=? ",
                     null, //new String[]{String.valueOf(position)},
                     null, null, orderBy);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //API 28, Android 9.0
+                //Exception occur here: c.moveToNext()
+                //android.database.sqlite.SQLiteBlobTooBigException: Row too big to fit into CursorWindow requiredPos
+
+                //https://cloud.tencent.com/developer/ask/sof/115327221
+                //https://stackoverflow.com/questions/51959944
+                //https://android.googlesource.com/platform/cts/+/master/tests/tests/database/src/android/database/sqlite/cts/SQLiteCursorTest.java
+                CursorWindow cw = null;
+                cw = new CursorWindow("test", 1024L * 1024L * 100L/*5000*/);
+                AbstractWindowedCursor ac = (AbstractWindowedCursor) c;
+                ac.setWindow(cw);
+            }
+
             if (c.moveToPosition(0)) {
                 do {
                     NoteItem item = new NoteItem();
@@ -219,6 +239,8 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
                         }
                     }
                 } while (c.moveToNext());
+                //Exception occur here: c.moveToNext()
+                //android.database.sqlite.SQLiteBlobTooBigException: Row too big to fit into CursorWindow requiredPos
             }
             c.close();
             db.close();
@@ -256,7 +278,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
     public NoteItem getItemAtNew(int position) {
         try {
             SQLiteDatabase db = getReadableDatabase();
-
+            if (USE_WAL) db.enableWriteAheadLogging();
             String[] projection = {
                     NoteDatabaseItem._ID,
                     NoteDatabaseItem.COLUMN_NAME_NOTE_NAME,
@@ -276,6 +298,20 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
                         null, //NoteDatabaseItem.COLUMN_NAME_EXT_ID1 + " = ?",
                         new String[]{},
                         null, null, orderBy);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //API 28, Android 9.0
+                    //Exception occur here: c.moveToNext()
+                    //android.database.sqlite.SQLiteBlobTooBigException: Row too big to fit into CursorWindow requiredPos
+
+                    //https://cloud.tencent.com/developer/ask/sof/115327221
+                    //https://stackoverflow.com/questions/51959944
+                    //https://android.googlesource.com/platform/cts/+/master/tests/tests/database/src/android/database/sqlite/cts/SQLiteCursorTest.java
+                    CursorWindow cw = null;
+                    cw = new CursorWindow("test", 1024L * 1024L * 100L/*5000*/);
+                    AbstractWindowedCursor ac = (AbstractWindowedCursor) c;
+                    ac.setWindow(cw);
+                }
+
                 if (c.moveToPosition(position)) {
                     NoteItem item = new NoteItem();
                     item.setId(c.getInt(c.getColumnIndex(NoteDatabaseItem._ID)));
@@ -295,6 +331,33 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
                         "_id=?",//NoteDatabaseItem.COLUMN_NAME_EXT_ID1 + " = ? and _id=? ",
                         new String[]{String.valueOf(position)},
                         null, null, orderBy);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //API 28, Android 9.0
+                    //Exception occur here: c.moveToNext()
+                    //android.database.sqlite.SQLiteBlobTooBigException: Row too big to fit into CursorWindow requiredPos
+
+                    //https://cloud.tencent.com/developer/ask/sof/115327221
+                    //https://stackoverflow.com/questions/51959944
+                    //https://android.googlesource.com/platform/cts/+/master/tests/tests/database/src/android/database/sqlite/cts/SQLiteCursorTest.java
+                    CursorWindow cw = null;
+                    cw = new CursorWindow("test", 1024L * 1024L * 100L/*5000*/);
+                    AbstractWindowedCursor ac = (AbstractWindowedCursor) c;
+                    ac.setWindow(cw);
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //API 28, Android 9.0
+                    //Exception occur here: c.moveToNext()
+                    //android.database.sqlite.SQLiteBlobTooBigException: Row too big to fit into CursorWindow requiredPos
+
+                    //https://cloud.tencent.com/developer/ask/sof/115327221
+                    //https://stackoverflow.com/questions/51959944
+                    //https://android.googlesource.com/platform/cts/+/master/tests/tests/database/src/android/database/sqlite/cts/SQLiteCursorTest.java
+                    CursorWindow cw = null;
+                    cw = new CursorWindow("test", 1024L * 1024L * 100L/*5000*/);
+                    AbstractWindowedCursor ac = (AbstractWindowedCursor) c;
+                    ac.setWindow(cw);
+                }
+
                 if (c.moveToPosition(0)) {
                     NoteItem item = new NoteItem();
                     item.setId(c.getInt(c.getColumnIndex(NoteDatabaseItem._ID)));
@@ -322,6 +385,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
 	public void removeItemWithId(int id) {
         try {
             SQLiteDatabase db = getWritableDatabase();
+            if (USE_WAL) db.enableWriteAheadLogging();db.enableWriteAheadLogging();
             String[] whereArgs = {String.valueOf(id)};
             db.delete(NoteDatabaseItem.TABLE_NAME,
                     "_id=?",
@@ -337,11 +401,26 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
 	public int getCountNew() {
         try {
             SQLiteDatabase db = getReadableDatabase();
+            if (USE_WAL) db.enableWriteAheadLogging();
             String[] projection = {NoteDatabaseItem._ID};
             Cursor c = db.query(NoteDatabaseItem.TABLE_NAME, projection,
                     null, //NoteDatabaseItem.COLUMN_NAME_EXT_ID1 + " = ?",
                     new String[]{},
                     null, null, null);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //API 28, Android 9.0
+                //Exception occur here: c.moveToNext()
+                //android.database.sqlite.SQLiteBlobTooBigException: Row too big to fit into CursorWindow requiredPos
+
+                //https://cloud.tencent.com/developer/ask/sof/115327221
+                //https://stackoverflow.com/questions/51959944
+                //https://android.googlesource.com/platform/cts/+/master/tests/tests/database/src/android/database/sqlite/cts/SQLiteCursorTest.java
+                CursorWindow cw = null;
+                cw = new CursorWindow("test", 1024L * 1024L * 100L/*5000*/);
+                AbstractWindowedCursor ac = (AbstractWindowedCursor) c;
+                ac.setWindow(cw);
+            }
+
             int count = 0;
             if (false) {
                 count = c.getCount();
@@ -447,6 +526,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
     public void updateItem(long id, String noteName, String noteFilePath, String noteType, String noteExtId1, String noteExtId2, String updateTime, String noteContent) {
         try {
             SQLiteDatabase db = getWritableDatabase();
+            if (USE_WAL) db.enableWriteAheadLogging();db.enableWriteAheadLogging();
 
             ContentValues values = new ContentValues();
             values.put(NoteDatabaseItem.COLUMN_NAME_NOTE_NAME, noteName);
@@ -472,6 +552,7 @@ public class SDNotesDatabase extends SQLiteOpenHelper {
     public void updateItemMeta(long id, String noteMeta) {
         try {
             SQLiteDatabase db = getWritableDatabase();
+            if (USE_WAL) db.enableWriteAheadLogging();db.enableWriteAheadLogging();
 
             ContentValues values = new ContentValues();
             values.put(NoteDatabaseItem.COLUMN_NAME_NOTE_META, noteMeta);

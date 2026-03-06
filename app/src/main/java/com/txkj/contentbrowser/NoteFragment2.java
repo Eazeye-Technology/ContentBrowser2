@@ -614,9 +614,23 @@ class PreferencesKeys {
     }
 
     public void setSearch(String text) {
+        cancelSelect();
         if (text != null && searchEditText != null) {
             searchEditText.setText(text);
         }
+    }
+
+    public void cancelSelect() {
+        for (FileMeta meta : recentNoteList) {
+            if (meta != null) {
+                meta.checkShow = false;
+                meta.checkSelect = false;
+            }
+        }
+        if (isCheckMode) {
+            isCheckMode = false;
+        }
+        recentNoteAdapter.notifyDataSetChanged();
     }
 
     MenuItem deleteMenu;
@@ -667,16 +681,7 @@ class PreferencesKeys {
         cancelmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                for (FileMeta meta : recentNoteList) {
-                    if (meta != null) {
-                        meta.checkShow = false;
-                        meta.checkSelect = false;
-                    }
-                }
-                if (isCheckMode) {
-                    isCheckMode = false;
-                }
-                recentNoteAdapter.notifyDataSetChanged();
+                cancelSelect();
                 return true;
             }
         });
