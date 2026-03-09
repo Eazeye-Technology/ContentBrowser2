@@ -11,9 +11,14 @@ import com.txkj.contentbrowser2.R;
 public class HomeFragment4MenuDialog {
     private static final int POPUP_OFFSET = 0;//30;
 
+    private static boolean isOpen = false;
     private static View.OnClickListener mListener = null;
     private static PopupWindow popup;
     public static void show(Context context, View anchor, final View.OnClickListener listener) {
+        if (isOpen == true) {
+            return;
+        }
+        isOpen = true;
         //View layout = View.inflate(context, R.layout.activity_main_menu1, null);
         View layout = View.inflate(context, R.layout.home4_popup_menu, null);
         //View wv = layout.findViewById(R.id.wheel);
@@ -58,6 +63,12 @@ public class HomeFragment4MenuDialog {
         popup = new PopupWindow(layout,
                 300/*ViewGroup.LayoutParams.WRAP_CONTENT*/, ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
+        popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                isOpen = false;
+            }
+        });
 
         //  now show the popup
         popup.showAsDropDown(anchor, POPUP_OFFSET, POPUP_OFFSET);
