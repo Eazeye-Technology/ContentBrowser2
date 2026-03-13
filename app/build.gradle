@@ -12,8 +12,8 @@ android {
         applicationId "com.txkj.contentbrowser2"
         minSdk 21 //23 //24
         targetSdk 35//36 //35 //
-        versionCode 16016
-        versionName "1.60.16"
+        versionCode 16018
+        versionName "1.60.18"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

@@ -39,6 +39,7 @@ import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 
 import org.w3c.dom.Text;
+import org.zwobble.mammoth.internal.documents.Run;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -57,6 +58,7 @@ import gm.com.dosya.utils.FileTransactions;
 //FIXME:listRoots()
 //FIXME:listFiles(new File(extStorage));
 public class DirectoryFragment2 extends Fragment {
+    private final static boolean USE_NEW_DIALOG_STYLE = true;
     private final static boolean AUTO_WRAP_CLICK_CLEAR_SEARCH = true;
 
     private final static boolean SHOW_DOUBLE_DOTS = false;
@@ -891,9 +893,16 @@ public class DirectoryFragment2 extends Fragment {
         if (getActivity() == null) {
             return;
         }
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getActivity().getString(R.string.app_name))
-                .setMessage(error).setPositiveButton("OK", null).show();
+        if (USE_NEW_DIALOG_STYLE) {
+            androidx.appcompat.app.AlertDialog dialog =
+                    new DirectoryFragment2ErrorDialog(getActivity(), null, error)
+                    .create();
+            dialog.show();
+        } else {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getActivity().getString(R.string.app_name))
+                    .setMessage(error).setPositiveButton("OK", null).show();
+        }
     }
 
     private String getRootSubtitle(String path) {
@@ -1299,14 +1308,11 @@ public class DirectoryFragment2 extends Fragment {
         deletemenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                try {
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
-                    ad.setTitle("Delete the file");
-                    ad.setMessage("Are you sure ?");
-                    ad.setCancelable(false);
-                    ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                if (USE_NEW_DIALOG_STYLE) {
+//                    showErrorBox("this is an error");
+                    Runnable runnable = new Runnable() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
+                        public void run() {
                             operationType = OPERATION_TYPE_DELETE;
                             AsyncClass task = new AsyncClass();
                             if (android.os.Build.VERSION.SDK_INT < 11) {
@@ -1315,20 +1321,43 @@ public class DirectoryFragment2 extends Fragment {
                                 task.executeOnExecutor(newFixedThreadPool);
                             }
                         }
-                    });
-                    ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
+                    };
+                    androidx.appcompat.app.AlertDialog dialog =
+                        new DirectoryFragment2DeleteDialog(getActivity(),  runnable).create();
+                    dialog.show();
+                    return false;
+                } else {
+                    try {
+                        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+                        ad.setTitle("Delete the file");
+                        ad.setMessage("Are you sure ?");
+                        ad.setCancelable(false);
+                        ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                operationType = OPERATION_TYPE_DELETE;
+                                AsyncClass task = new AsyncClass();
+                                if (android.os.Build.VERSION.SDK_INT < 11) {
+                                    task.execute();
+                                } else {
+                                    task.executeOnExecutor(newFixedThreadPool);
+                                }
+                            }
+                        });
+                        ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
 
-                        }
-                    });
-                    AlertDialog alertDialog = ad.create();
-                    alertDialog.show();
-                    clickMode = true;
-                    return false;
-                } catch (Exception e) {
-                    showErrorBox("The deletion operation could not be performed.");
-                    return false;
+                            }
+                        });
+                        AlertDialog alertDialog = ad.create();
+                        alertDialog.show();
+                        clickMode = true;
+                        return false;
+                    } catch (Exception e) {
+                        showErrorBox("The deletion operation could not be performed.");
+                        return false;
+                    }
                 }
             }
         });

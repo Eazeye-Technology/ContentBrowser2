@@ -134,7 +134,8 @@ public class MainActivity2 extends AppCompatActivity {
                     currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
                 }
                 boolean res = false;
-                if (currentFragment instanceof DirectoryFragment2) {
+                if (currentFragment instanceof DirectoryFragment2 ||
+                        currentFragment instanceof NoteFragment2) {
                     //skip, because I hide the search button
                 } else {
                     res = toggleSearch(true);

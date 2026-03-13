@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -1109,7 +1110,6 @@ public class LibraryFragment extends Fragment {
             if (isSearchOnlyEmpy) {
                 txt = txt.replace(NO_SERIES, "");
             }
-
             List<FileMeta> searchBy = AppDB.get().searchBy(txt, AppDB.SORT_BY.getByID(AppState.get().sortBy), AppState.get().isSortAsc);
 
             ExtUtils.removeReadBooks(searchBy);

@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -1125,7 +1126,9 @@ public class LibraryFragment2Book extends Fragment {
                 txt = txt.replace(NO_SERIES, "");
             }
 
+//long lastTime = System.currentTimeMillis();
             List<FileMeta> searchBy = AppDB.get().searchBy(txt, AppDB.SORT_BY.getByID(AppState.get().sortBy), AppState.get().isSortAsc);
+//Log.e("LibraryFragment", "LibraryFragment:" + (System.currentTimeMillis() - lastTime));
 
             ExtUtils.removeReadBooks(searchBy);
             ExtUtils.removeNotFound(searchBy);
