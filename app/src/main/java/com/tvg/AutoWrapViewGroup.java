@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.txkj.contentbrowser2.R;
 
@@ -49,12 +52,12 @@ public class AutoWrapViewGroup extends LinearLayout {
     	LinearLayout linearLayout = new LinearLayout(this.getContext());
     	linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     	linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-    	linearLayout.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+    	linearLayout.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 //    	linearLayout.setBackgroundResource(R.drawable.border_ui);
     	
     	Resources res = this.getResources();
-    	float textsize = 16;//res.getDimension(R.dimen.smallTextSize);
-    	int textHeight = getFontHeight(textsize);
+    	float textSize = 16;//res.getDimension(R.dimen.smallTextSize);
+    	int textHeight = getFontHeight(textSize);
 
         //----------------
 
@@ -65,7 +68,7 @@ public class AutoWrapViewGroup extends LinearLayout {
                 p1.setMargins(100, 0, 100, 0);
                 textview_space.setLayoutParams(p1);
                 textview_space.setText(">");
-                textview_space.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
+                textview_space.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
                 textview_space.setTextColor(Color.BLACK);
                 textview_space.setFocusable(true);
                 textview_space.setSingleLine(true);
@@ -95,7 +98,7 @@ public class AutoWrapViewGroup extends LinearLayout {
 
         textview1.setLayoutParams(p2);
         textview1.setText(title);
-        textview1.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
+        textview1.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         textview1.setTextColor(Color.BLACK); //464647, 1C1C1C //Color.RED);//
         textview1.setFocusable(true);
         textview1.setSingleLine(true);
@@ -123,14 +126,17 @@ public class AutoWrapViewGroup extends LinearLayout {
     }
 
     private void setAllTextViewColor() {
+        int folderColor = ContextCompat.getColor(this.getContext(), R.color.md_theme_onSurface_highContrast);
+        int tailFolderColor = ContextCompat.getColor(this.getContext(), R.color.md_theme_secondary_highContrast);
         if (allTextView != null) {
             for (int i = 0; i < allTextView.size(); ++i) {
                 TextView textView = allTextView.get(i);
                 if (textView != null) {
                     if (i == allTextView.size() - 1) {
-                        textView.setTextColor(0xFF464647); //464647, 1C1C1C
+                        textView.setTextColor(tailFolderColor);
                     } else {
-                        textView.setTextColor(0xFF1C1C1C);
+                        textView.setTextColor(folderColor);
+                        textView.setTypeface(null, Typeface.BOLD);
                     }
                 }
             }
