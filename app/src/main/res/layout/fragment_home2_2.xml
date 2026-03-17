@@ -4,18 +4,18 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16px"
+    android:padding="@dimen/fragment_home2_2_linearlayout_padding"
     >
     <View
-        android:layout_width="20px"
-        android:layout_height="20px"
+        android:layout_width="@dimen/fragment_home2_2_view_height"
+        android:layout_height="@dimen/fragment_home2_2_view_height"
         />
     <androidx.cardview.widget.CardView
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
-        android:layout_height="60px"
+        android:layout_height="@dimen/fragment_home2_2_plus_cv_height"
         app:cardBackgroundColor="#000000"
-        app:cardCornerRadius="10px"
+        app:cardCornerRadius="@dimen/fragment_home2_2_plus_cv_corner"
         android:clickable="true"
         android:focusable="true"
         android:id="@+id/btnTitleNewBook_R"
@@ -30,9 +30,9 @@
             android:layout_gravity="center_vertical|center"
             >
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="24px"
-                android:layout_height="24px"
-                android:padding="10px"
+                android:layout_width="@dimen/fragment_home2_2_plus_iv_width"
+                android:layout_height="@dimen/fragment_home2_2_plus_iv_height"
+                android:padding="@dimen/fragment_home2_2_plus_iv_padding"
                 android:background="@drawable/ic_baseline_add_24_white"
                 />
             <TextView
@@ -40,14 +40,14 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#ffffff"
-                android:textSize="14px"
+                android:textSize="@dimen/fragment_home2_2_plus_tv_text_size"
                 android:layout_gravity="center_vertical|center"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <View
-        android:layout_width="20px"
-        android:layout_height="20px"
+        android:layout_width="@dimen/fragment_home2_2_view_height"
+        android:layout_height="@dimen/fragment_home2_2_view_height"
         />
     <ScrollView
         android:layout_width="match_parent"
@@ -66,11 +66,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="5px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -82,9 +82,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_baseline_home_24_white"
                             android:tag="binding_1"
                             />
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="Home"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -109,11 +109,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="0px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation2"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -125,9 +125,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_outline_sticky_note_2_24"
                             android:tag="binding_1"
                             />
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:text="Notes"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center|center_vertical"
                     android:tag="binding_5"
                     />
@@ -152,11 +152,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="0px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation2"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -168,9 +168,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_baseline_book_24"
                             android:tag="binding_1"
                             />
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:text="Books"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -195,11 +195,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="0px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation2"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -211,9 +211,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_baseline_picture_as_pdf_24"
                             android:tag="binding_1"
                             />
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:text="PDFs"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -238,11 +238,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="0px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation2"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -254,9 +254,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_baseline_phone_android_24"
                             android:tag="binding_1"
                             />
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:text="Storage"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -281,11 +281,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="0px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation2"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -297,9 +297,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_sharp_apps_24"
                             android:tag="binding_1"
                             />
@@ -310,7 +310,7 @@
                     android:layout_height="wrap_content"
                     android:text="Apps"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />
@@ -324,11 +324,11 @@
                 <androidx.cardview.widget.CardView
                     android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="40px"
+                    android:layout_height="@dimen/fragment_home2_2_item_cv_height"
                     app:cardBackgroundColor="#00888888"
-                    app:cardCornerRadius="20px"
-                    android:layout_marginTop="5px"
-                    app:cardElevation="0px"
+                    app:cardCornerRadius="@dimen/fragment_home2_2_item_cv_corner"
+                    android:layout_marginTop="@dimen/fragment_home2_2_item_cv_margin_top"
+                    app:cardElevation="@dimen/fragment_home2_2_item_cv_elevation2"
                     android:clickable="false"
                     android:tag="binding_0"
                     >
@@ -340,9 +340,9 @@
                         android:gravity="center"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="24px"
-                            android:layout_height="24px"
-                            android:padding="10px"
+                            android:layout_width="@dimen/fragment_home2_2_item_iv_width"
+                            android:layout_height="@dimen/fragment_home2_2_item_iv_height"
+                            android:padding="@dimen/fragment_home2_2_item_iv_padding"
                             android:background="@drawable/ic_outline_settings_24"
                             android:tag="binding_1"
                             />
@@ -353,7 +353,7 @@
                     android:layout_height="wrap_content"
                     android:text="Settings"
                     android:textColor="#000000"
-                    android:textSize="14px"
+                    android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
                     android:tag="binding_5"
                     />

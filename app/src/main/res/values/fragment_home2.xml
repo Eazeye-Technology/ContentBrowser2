@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fragment_home2_title_height">64px</dimen>
+    <dimen name="fragment_home2_title_back_width">48px</dimen>
+    <dimen name="fragment_home2_title_back_height">48px</dimen>
+    <dimen name="fragment_home2_title_back_cv_width">40px</dimen>
+    <dimen name="fragment_home2_title_back_cv_height">40px</dimen>
+    <dimen name="fragment_home2_title_back_cv_corner">25px</dimen>
+    <dimen name="fragment_home2_title_back_rl_width">40px</dimen>
+    <dimen name="fragment_home2_title_back_rl_height">40px</dimen>
+    <dimen name="fragment_home2_title_back_rl_iv_width">20px</dimen>
+    <dimen name="fragment_home2_title_back_rl_iv_height">20px</dimen>
+
+    <dimen name="fragment_home2_title_tv_text_size">22px</dimen>
+
+    <dimen name="fragment_home2_title_et_cv_height">48px</dimen>
+    <dimen name="fragment_home2_title_et_cv_corner">24px</dimen>
+    <dimen name="fragment_home2_title_et_text_size">16px</dimen>
+
+    <dimen name="fragment_home2_title_et_margin_left">16px</dimen>
+    <dimen name="fragment_home2_title_et_padding_left">16px</dimen>
+    <dimen name="fragment_home2_title_et_iv_sch_width">12px</dimen>
+    <dimen name="fragment_home2_title_et_iv_sch_height">12px</dimen>
+    <dimen name="fragment_home2_title_et_iv_sch_margin_right">10px</dimen>
+
+    <dimen name="fragment_home2_title_space_height">10px</dimen>
+
+    <dimen name="fragment_home2_title_search_rl_width">48px</dimen>
+    <dimen name="fragment_home2_title_search_rl_height">48px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_width">40px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_height">40px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_corner">25px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_rl_width">40px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_rl_height">40px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_rl_iv_width">20px</dimen>
+    <dimen name="fragment_home2_title_search_rl_cv_rl_iv_height">20px</dimen>
+
+
+    <dimen name="fragment_home2_nav_menu_expand_width">260px</dimen>
+    <dimen name="fragment_home2_nav_menu_collapse_width">96px</dimen>
+</resources>

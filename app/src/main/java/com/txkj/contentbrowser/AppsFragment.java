@@ -180,14 +180,16 @@ public class AppsFragment extends Fragment {
             };
             List<AppsProviderMy.MyResult> resultsSystem = AppsProviderMy.getUserApps(getContext(), false);
             List<AppsProviderMy.MyResult> resultsUser = AppsProviderMy.getUserApps(getContext(), true);
-            resultsSystem.sort(comparator);
-            resultsUser.sort(comparator);
+            Collections.sort(resultsSystem, comparator);
+            Collections.sort(resultsUser, comparator);
             results.addAll(resultsSystem);
             results.addAll(resultsUser);
             for (AppsProviderMy.MyResult item : results) {
                 if (item != null) {
                     if (this.mText == null || this.mText.length() == 0 ||
-                            (this.mText != null && item.displayName.contains(this.mText))) {
+                            (this.mText != null &&
+                                    item.displayName != null &&
+                                    item.displayName.toLowerCase().contains(this.mText.toLowerCase()))) {
                         //show
                     } else {
                         continue;//skip

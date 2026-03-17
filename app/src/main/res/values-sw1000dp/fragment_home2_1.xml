@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fragment_home2_1_linearlayout_padding">40px</dimen>
+
+    <dimen name="fragment_home2_1_view_height">40px</dimen>
+
+    <dimen name="fragment_home2_1_plus_cv_width">266px</dimen>
+    <dimen name="fragment_home2_1_plus_cv_height">112px</dimen>
+    <dimen name="fragment_home2_1_plus_cv_corner">20px</dimen>
+    <dimen name="fragment_home2_1_plus_iv_width">48px</dimen>
+    <dimen name="fragment_home2_1_plus_iv_height">48px</dimen>
+    <dimen name="fragment_home2_1_plus_iv_margin_left">32px</dimen>
+    <dimen name="fragment_home2_1_plus_iv_padding">20px</dimen>
+    <dimen name="fragment_home2_1_plus_tv_margin_left">16px</dimen>
+    <dimen name="fragment_home2_1_plus_tv_text_size">32px</dimen>
+
+    <dimen name="fragment_home2_1_sv_width">360px</dimen>
+
+    <dimen name="fragment_home2_1_item_cv_height">90px</dimen>
+    <dimen name="fragment_home2_1_item_cv_corner">44px</dimen>
+    <dimen name="fragment_home2_1_item_cv_margin_right">16px</dimen>
+    <dimen name="fragment_home2_1_item_cv_margin_top">10px</dimen>
+    <dimen name="fragment_home2_1_item_cv_elevation">0px</dimen>
+    <dimen name="fragment_home2_1_item_ll_margin_left">40px</dimen>
+    <dimen name="fragment_home2_1_item_ll_margin_right">40px</dimen>
+    <dimen name="fragment_home2_1_item_iv_width">40px</dimen>
+    <dimen name="fragment_home2_1_item_iv_height">40px</dimen>
+    <dimen name="fragment_home2_1_item_iv_padding">20px</dimen>
+    <dimen name="fragment_home2_1_item_tv_text_size">28px</dimen>
+    <dimen name="fragment_home2_1_item_tv_margin_left">10px</dimen>
+</resources>

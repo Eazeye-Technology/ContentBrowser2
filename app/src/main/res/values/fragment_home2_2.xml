@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fragment_home2_2_linearlayout_padding">16px</dimen>
+
+    <dimen name="fragment_home2_2_view_height">20px</dimen>
+
+    <dimen name="fragment_home2_2_plus_cv_height">60px</dimen>
+    <dimen name="fragment_home2_2_plus_cv_corner">10px</dimen>
+    <dimen name="fragment_home2_2_plus_iv_width">24px</dimen>
+    <dimen name="fragment_home2_2_plus_iv_height">24px</dimen>
+    <dimen name="fragment_home2_2_plus_iv_padding">10px</dimen>
+    <dimen name="fragment_home2_2_plus_tv_text_size">14px</dimen>
+
+    <dimen name="fragment_home2_2_item_cv_height">40px</dimen>
+    <dimen name="fragment_home2_2_item_cv_corner">20px</dimen>
+    <dimen name="fragment_home2_2_item_cv_margin_top">5px</dimen>
+    <dimen name="fragment_home2_2_item_cv_elevation">5px</dimen>
+    <dimen name="fragment_home2_2_item_cv_elevation2">0px</dimen> <!--FIXME:-->
+    <dimen name="fragment_home2_2_item_iv_width">24px</dimen>
+    <dimen name="fragment_home2_2_item_iv_height">24px</dimen>
+    <dimen name="fragment_home2_2_item_iv_padding">10px</dimen>
+    <dimen name="fragment_home2_2_item_tv_text_size">14px</dimen>
+</resources>
