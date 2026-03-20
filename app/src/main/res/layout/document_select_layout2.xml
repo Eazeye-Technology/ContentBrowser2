@@ -63,18 +63,21 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             />
-        <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
-            android:id="@+id/progressLoading1"
-            app:mlpb_progress_stoke_width="8px"
-            app:mlpb_progress_color="#000000"
-            app:mlpb_enable_circle_background="false"
-            android:layout_width="200px"
-            android:layout_height="200px"
-            android:visibility="gone"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/llProgressLoading1"
-            />
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/llEmpty1"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            >
+            <com.google.android.material.loadingindicator.LoadingIndicator
+                style="@style/Widget.Material3.LoadingIndicator.Contained"
+                android:id="@+id/progressLoading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

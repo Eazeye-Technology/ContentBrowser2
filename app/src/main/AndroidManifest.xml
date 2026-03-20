@@ -49,7 +49,7 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:vmSafeMode="false"
-        android:theme="@style/AppTheme.HighContrast"
+        android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher_notemanager"
         android:roundIcon="@mipmap/ic_launcher_notemanager_round"
         >

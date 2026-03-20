@@ -167,14 +167,11 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             >
-            <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+            <com.google.android.material.loadingindicator.LoadingIndicator
+                style="@style/Widget.Material3.LoadingIndicator.Contained"
                 android:id="@+id/progressLoading1"
-                app:mlpb_progress_stoke_width="8px"
-                app:mlpb_progress_color="#000000"
-                app:mlpb_enable_circle_background="false"
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:visibility="visible"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <!--3px, 36px, #566da9-->
             <LinearLayout
                 android:layout_width="wrap_content"

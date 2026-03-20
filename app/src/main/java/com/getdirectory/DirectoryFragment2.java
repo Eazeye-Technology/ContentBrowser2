@@ -34,7 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.foobnix.pdf.info.ExtUtils;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.google.android.material.loadingindicator.LoadingIndicator;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 
@@ -80,7 +80,7 @@ public class DirectoryFragment2 extends Fragment {
     private LinearLayout loadingContent1;
     private TextView tvEmpty1, tvEmpty2;
     private ImageView ivEmpty1;
-    private CircleProgressBar progressLoading1;
+    private LoadingIndicator progressLoading1;
     private boolean mDataLoading = false;
     private TextView llProgressLoading1;
 
