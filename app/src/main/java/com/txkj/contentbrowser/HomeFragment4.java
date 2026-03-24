@@ -122,6 +122,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TimeZone;
 
 //FIXME:WorkManager.getInstance(getContext(),
 /*
@@ -2420,15 +2421,21 @@ public class HomeFragment4 extends Fragment {
 //                if (dateStr != null) {
 //                    BookActivity4Utils.editMeetingDate(mAct, dateStr, selection);
 //                }
-                //todo
-                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+                //see https://github.com/moonazn/java-tourrand-contest/blob/main/app/src/main/java/com/tourbus/tourrand/DateQActivity.java
+                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy", Locale.getDefault()); //Locale.ENGLISH);
+                if (false) {
+                    //FIXME:MUST BE "UTC", because it's always UTC timezone
+                    sdf.setTimeZone(TimeZone.getTimeZone("UTC")); //sdf.setTimeZone(TimeZone.getDefault());
+                } else {
+                    //use beginOfDayUTC();
+                }
                 if (selection.first != null) {
-                    filterBeginDateCreation = new Date(selection.first);
+                    filterBeginDateCreation = beginOfDayUTC(new Date(selection.first));
                 } else {
                     filterBeginDateCreation = null;
                 }
                 if (selection.second != null) {
-                    filterEndDateCreation = new Date(selection.second);
+                    filterEndDateCreation = beginOfDayUTC(new Date(selection.second));
                 } else {
                     filterEndDateCreation = null;
                 }
@@ -2477,17 +2484,23 @@ public class HomeFragment4 extends Fragment {
 //                if (dateStr != null) {
 //                    BookActivity4Utils.editMeetingDate(mAct, dateStr, selection);
 //                }
-                //todo
-                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+                //see https://github.com/moonazn/java-tourrand-contest/blob/main/app/src/main/java/com/tourbus/tourrand/DateQActivity.java
+                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy", Locale.getDefault()); //Locale.ENGLISH);
 //                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //                SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                if (false) {
+                    //FIXME:MUST BE "UTC", because it's always UTC timezone
+                    sdf.setTimeZone(TimeZone.getTimeZone("UTC")); //sdf.setTimeZone(TimeZone.getDefault());
+                } else {
+                    //use beginOfDayUTC();
+                }
                 if (selection.first != null) {
-                    filterBeginDateLastOpen = new Date(selection.first);
+                    filterBeginDateLastOpen = beginOfDayUTC(new Date(selection.first));
                 } else {
                     filterBeginDateLastOpen = null;
                 }
                 if (selection.second != null) {
-                    filterEndDateLastOpen = new Date(selection.second);
+                    filterEndDateLastOpen = beginOfDayUTC(new Date(selection.second));
                 } else {
                     filterEndDateLastOpen = null;
                 }
@@ -2761,5 +2774,26 @@ public class HomeFragment4 extends Fragment {
         }
 
         return recentNoteList2__; //new ArrayList<>();
+    }
+
+    private static Date beginOfDayUTC(Date dt) {
+        //package cn.hutool.core.date;
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+        cal.setTime(dt);
+        int y = cal.get(Calendar.YEAR);
+        int m = cal.get(Calendar.MONTH);
+        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTimeZone(TimeZone.getDefault());
+        cal2.set(Calendar.YEAR, y);
+        cal2.set(Calendar.MONTH, m);
+        cal2.set(Calendar.DAY_OF_MONTH, d);
+        cal2.set(Calendar.HOUR_OF_DAY, 0);
+        cal2.set(Calendar.MINUTE, 0);
+        cal2.set(Calendar.SECOND, 0);
+        cal2.set(Calendar.MILLISECOND, 0);
+        return cal2.getTime();
     }
 }
