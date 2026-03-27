@@ -36,6 +36,7 @@
     <dimen name="fragment_home2_title_search_rl_cv_rl_iv_height">40px</dimen>
 
 
-    <dimen name="fragment_home2_nav_menu_expand_width">520px</dimen>
+    <dimen name="fragment_home2_nav_menu_expand_width">350px</dimen>
+<!--520px, left_menu_width, about 350px-->
     <dimen name="fragment_home2_nav_menu_collapse_width">192px</dimen>
 </resources>

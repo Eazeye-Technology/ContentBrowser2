@@ -14,7 +14,8 @@
     <dimen name="fragment_home2_1_plus_tv_margin_left">16px</dimen>
     <dimen name="fragment_home2_1_plus_tv_text_size">32px</dimen>
 
-    <dimen name="fragment_home2_1_sv_width">360px</dimen>
+    <dimen name="fragment_home2_1_sv_width">280px</dimen>
+<!--360px, see fragment_home2_1_plus_cv_width, use fragment_home2_nav_menu_expand_width instead-->
 
     <dimen name="fragment_home2_1_item_cv_height">90px</dimen>
     <dimen name="fragment_home2_1_item_cv_corner">44px</dimen>

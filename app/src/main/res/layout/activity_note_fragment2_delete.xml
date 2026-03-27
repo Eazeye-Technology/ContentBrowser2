@@ -54,9 +54,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16px"
-                        android:text="Are you sure you want to delete the selected item(s)? Deleted items will remain in trash for 20 days."
+                        android:text="Are you sure you want to delete the selected item(s)? Deleted items will not be recoverable."
                         android:textColor="#FF000000"
                         />
+                    <!--
+                    android:text="Are you sure you want to delete the selected item(s)? Deleted items will remain in trash for 20 days."
+                     -->
                 </LinearLayout>
 
                 <LinearLayout

@@ -57,6 +57,9 @@
                         android:text="Are you sure you want to delete the selected item(s)? Deleted items will not be recoverable."
                         android:textColor="#FF000000"
                         />
+                    <!--
+                    android:text="Are you sure you want to delete the selected item(s)? Deleted items will not be recoverable."
+                     -->
                 </LinearLayout>
 
                 <LinearLayout
