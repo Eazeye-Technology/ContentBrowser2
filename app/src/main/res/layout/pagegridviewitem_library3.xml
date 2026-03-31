@@ -55,8 +55,8 @@ android:background="@android:color/transparent"
                         <!--browserItemIcon_library-->
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/browserItemIcon_library"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                            android:layout_width="@dimen/library_grid_adapter3_iv_width"
+                            android:layout_height="@dimen/library_grid_adapter3_iv_width"
                             android:padding="0dp"
                             android:scaleType="fitXY"
                             />

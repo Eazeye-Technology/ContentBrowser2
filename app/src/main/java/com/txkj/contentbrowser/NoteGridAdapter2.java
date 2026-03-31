@@ -106,10 +106,11 @@ public class NoteGridAdapter2 extends BaseAdapter {
                     params2.height = (int) (DM.widthPixels / 2.0 / 1.6);//2.5);
                 }
             } else {
+                int notegridadapter2_height = context.getResources().getDimensionPixelSize(R.dimen.notegridadapter2_height);
                 if (DM.heightPixels > DM.widthPixels) {
-                    params2.height = (int)(274 * 1.5); //(int)(DM.heightPixels / 2.8);//3.5);
+                    params2.height = notegridadapter2_height;//(int)(274 * 1.5); //(int)(DM.heightPixels / 2.8);//3.5);
                 } else {
-                    params2.height = (int)(274 * 1.5); //(int)(DM.widthPixels / 2.0 / 3.5);//2.5);
+                    params2.height = notegridadapter2_height;//(int)(274 * 1.5); //(int)(DM.widthPixels / 2.0 / 3.5);//2.5);
                 }
             }
             convertView.setLayoutParams(params2);

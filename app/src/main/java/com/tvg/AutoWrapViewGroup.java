@@ -56,8 +56,9 @@ public class AutoWrapViewGroup extends LinearLayout {
 //    	linearLayout.setBackgroundResource(R.drawable.border_ui);
     	
     	Resources res = this.getResources();
-    	float textSize = 16;//res.getDimension(R.dimen.smallTextSize);
-    	int textHeight = getFontHeight(textSize);
+    	//float textSize = 16;//res.getDimension(R.dimen.smallTextSize);
+    	float textSize = res.getDimensionPixelSize(R.dimen.autowrapviewgroup_text_size);
+        int textHeight = getFontHeight(textSize);
 
         //----------------
 

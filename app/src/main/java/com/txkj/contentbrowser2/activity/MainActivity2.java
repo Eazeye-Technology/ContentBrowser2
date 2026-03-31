@@ -834,6 +834,14 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
                     this.currentTabId == R.id.menu_bar_item_5_R) {
                 //storage fragment hide
                 findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+
+                try {
+                    if (mDirectoryFragment != null) {
+                        mDirectoryFragment.cancelSelect();
+                    }
+                } catch (Throwable eee) {
+                    eee.printStackTrace();
+                }
             } else {
                 findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
             }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="homefragment4_text_size">28px</dimen>
+
+    <dimen name="homefragment4_pop_menu_text_size1">32px</dimen>
+    <dimen name="homefragment4_pop_menu_text_size2">28px</dimen>
+
+    <dimen name="homefragment4_pop_menu_height">80px</dimen>
+</resources>

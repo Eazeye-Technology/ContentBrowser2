@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="fragment_home2_2_linearlayout_padding">32px</dimen>
+    <dimen name="fragment_home2_2_linearlayout_padding">29px</dimen>
 
-    <dimen name="fragment_home2_2_view_height">40px</dimen>
+    <dimen name="fragment_home2_2_view_height">36px</dimen>
 
-    <dimen name="fragment_home2_2_plus_cv_height">120px</dimen>
-    <dimen name="fragment_home2_2_plus_cv_corner">20px</dimen>
-    <dimen name="fragment_home2_2_plus_iv_width">48px</dimen>
-    <dimen name="fragment_home2_2_plus_iv_height">48px</dimen>
-    <dimen name="fragment_home2_2_plus_iv_padding">20px</dimen>
-    <dimen name="fragment_home2_2_plus_tv_text_size">28px</dimen>
+    <dimen name="fragment_home2_2_plus_cv_height">108px</dimen>
+    <dimen name="fragment_home2_2_plus_cv_corner">18px</dimen>
+    <dimen name="fragment_home2_2_plus_iv_width">44px</dimen>
+    <dimen name="fragment_home2_2_plus_iv_height">44px</dimen>
+    <dimen name="fragment_home2_2_plus_iv_padding">18px</dimen>
+    <dimen name="fragment_home2_2_plus_tv_text_size">26px</dimen>
 
-    <dimen name="fragment_home2_2_item_cv_height">80px</dimen>
-    <dimen name="fragment_home2_2_item_cv_corner">40px</dimen>
-    <dimen name="fragment_home2_2_item_cv_margin_top">10px</dimen>
-    <dimen name="fragment_home2_2_item_cv_elevation">10px</dimen>
+    <dimen name="fragment_home2_2_item_cv_height">72px</dimen>
+    <dimen name="fragment_home2_2_item_cv_corner">36px</dimen>
+    <dimen name="fragment_home2_2_item_cv_margin_top">9px</dimen>
+    <dimen name="fragment_home2_2_item_cv_elevation">9px</dimen>
     <dimen name="fragment_home2_2_item_cv_elevation2">0px</dimen> <!--FIXME:-->
-    <dimen name="fragment_home2_2_item_iv_width">48px</dimen>
-    <dimen name="fragment_home2_2_item_iv_height">48px</dimen>
-    <dimen name="fragment_home2_2_item_iv_padding">20px</dimen>
-    <dimen name="fragment_home2_2_item_tv_text_size">28px</dimen>
+    <dimen name="fragment_home2_2_item_iv_width">44px</dimen>
+    <dimen name="fragment_home2_2_item_iv_height">44px</dimen>
+    <dimen name="fragment_home2_2_item_iv_padding">18px</dimen>
+    <dimen name="fragment_home2_2_item_tv_text_size">24px</dimen><!--26px too big-->
 </resources>

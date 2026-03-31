@@ -1200,11 +1200,7 @@ public class DirectoryFragment2 extends Fragment {
         cancelmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                try {
-                    listFiles(currentDir, false);
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
+                cancelSelect();
                 return false;
             }
         });
@@ -1478,6 +1474,14 @@ public class DirectoryFragment2 extends Fragment {
             }
         });
         popupMenu.show();
+    }
+    public void cancelSelect() {
+        clickMode = true;
+        try {
+            listFiles(currentDir, false);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
     private void performCopy() {
         if (cpy) {

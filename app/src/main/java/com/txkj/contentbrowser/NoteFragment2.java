@@ -621,16 +621,26 @@ class PreferencesKeys {
     }
 
     public void cancelSelect() {
-        for (FileMeta meta : recentNoteList) {
-            if (meta != null) {
-                meta.checkShow = false;
-                meta.checkSelect = false;
+        try {
+            if (recentNoteList != null) {
+                for (FileMeta meta : recentNoteList) {
+                    if (meta != null) {
+                        meta.checkShow = false;
+                        meta.checkSelect = false;
+                    }
+                }
             }
+        } catch (Throwable eee) {
+            eee.printStackTrace();
         }
-        if (isCheckMode) {
-            isCheckMode = false;
+        try {
+            if (isCheckMode) {
+                isCheckMode = false;
+            }
+            recentNoteAdapter.notifyDataSetChanged();
+        } catch (Throwable eee) {
+            eee.printStackTrace();
         }
-        recentNoteAdapter.notifyDataSetChanged();
     }
 
     MenuItem deleteMenu;

@@ -47,7 +47,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedName1"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -61,7 +61,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Name / Title"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -73,7 +73,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="A to Z"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -89,7 +89,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedName2"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -103,7 +103,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Name / Title"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -115,7 +115,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Z to A"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -131,7 +131,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedType1"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -145,7 +145,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left|center_vertical"
                             android:text="Type"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -157,7 +157,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="A to Z"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -173,7 +173,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedCreationDate1"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -187,7 +187,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Creation date"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -199,7 +199,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Newest first"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -216,7 +216,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedCreationDate2"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -230,7 +230,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Creation date"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -242,7 +242,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Oldest first"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -259,7 +259,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedLastOpened1"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -273,7 +273,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Last opened"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -285,7 +285,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Newest first"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -302,7 +302,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedLastOpened2"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -316,7 +316,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Last opened"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -328,7 +328,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Oldest first"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -344,7 +344,7 @@ app:cardBackgroundColor="#00585858"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -359,7 +359,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Last modified"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -371,7 +371,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Newest first"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
@@ -388,7 +388,7 @@ app:cardBackgroundColor="#00585858"
                     <LinearLayout
                         android:id="@+id/llSortedLastModified2"
                         android:layout_width="match_parent"
-                        android:layout_height="40px"
+                        android:layout_height="@dimen/homefragment4_pop_menu_height"
                         android:orientation="vertical"
                         android:visibility="visible"
                         >
@@ -402,7 +402,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Last modified"
                             android:textColor="#000000"
-                            android:textSize="16px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size1"
                             android:visibility="visible" />
 
                         <TextView
@@ -414,7 +414,7 @@ app:cardBackgroundColor="#00585858"
                             android:gravity="left"
                             android:text="Oldest first"
                             android:textColor="#000000"
-                            android:textSize="14px"
+                            android:textSize="@dimen/homefragment4_pop_menu_text_size2"
                             android:visibility="visible" />
                     </LinearLayout>
 
