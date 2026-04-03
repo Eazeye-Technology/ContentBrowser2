@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="312px"
+    android:layout_width="@dimen/activity_dialog_upgrade_min_width"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24px"
+    android:padding="@dimen/activity_dialog_upgrade_padding"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,6 +68,32 @@
                     android:layout_marginRight="-10px"
                     >
 
+                    <RelativeLayout
+                        android:id="@+id/btnSave"
+                        style="@style/Widget.Material3.Button.TextButton.Icon"
+                        android:layout_width="@dimen/activity_dialog_upgrade_btn_width_download"
+                        android:layout_height="@dimen/activity_dialog_upgrade_btn_height_download"
+                        android:layout_gravity="center_vertical"
+                        >
+                        <ImageView
+                            android:id="@+id/tvBtnSave2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_my_if_download"
+                            android:layout_centerVertical="true"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Download"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_dialog_upgrade_text_size3"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/tvBtnSave2"
+                            android:layout_marginLeft="@dimen/activity_dialog_upgrade_btn_margin_left_delete2"
+                            />
+                    </RelativeLayout>
+                    <!--
                     <Button
                         android:id="@+id/btnSave"
                         style="@style/Widget.Material3.Button.TextButton.Icon"
@@ -81,6 +107,7 @@
                         android:text="Download"
                         android:textColor="#000000"
                         android:textSize="@dimen/activity_dialog_upgrade_text_size3" />
+                        -->
                     <!--app:icon="@drawable/ic_outline_delete_forever_24_w"
                         -->
                 </LinearLayout>
