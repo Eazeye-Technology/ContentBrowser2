@@ -146,7 +146,9 @@
                                 style="@style/Widget.Material3.LoadingIndicator.Contained"
                                 android:id="@+id/progressLoading1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                app:containerColor="#00000000"
+                                />
                         <!--3px, 36px, #566da9-->
                         <LinearLayout
                             android:layout_width="wrap_content"

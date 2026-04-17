@@ -79,7 +79,9 @@
                 android:id="@+id/progressLoading1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:containerColor="#00000000"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -253,6 +254,7 @@ public class DirectoryFragment2 extends Fragment {
             ivEmpty1 = fragmentView.findViewById(R.id.ivEmpty1);
             tvEmpty1 = fragmentView.findViewById(R.id.tvEmpty1);
             progressLoading1 = fragmentView.findViewById(R.id.progressLoading1);
+            progressLoading1.setContainerColor(Color.TRANSPARENT);
             llProgressLoading1 = fragmentView.findViewById(R.id.llProgressLoading1);
             //tvEmpty1.setText(STR_LOADING);
 
