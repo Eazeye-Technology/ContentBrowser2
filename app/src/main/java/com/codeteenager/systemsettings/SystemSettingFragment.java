@@ -96,7 +96,7 @@ public class SystemSettingFragment extends Fragment {
                 "About Device", /*"Paper 2"*/"" + Build.MODEL, R.drawable.ic_my_setting_012));
 
         data.add(new SettingItem("Memory Card Settings", Settings.ACTION_SETTINGS,
-                "All Settings", "", R.drawable.ic_my_setting_011));
+                "All Settings", "", R.drawable.ic_outline_settings_24));
 
         if (false) {
             //not used

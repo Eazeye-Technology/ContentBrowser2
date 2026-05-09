@@ -34,6 +34,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.foobnix.dao2.FileMeta;
 import com.foobnix.pdf.info.ExtUtils;
 import com.google.android.material.loadingindicator.LoadingIndicator;
 import com.tvg.AutoWrapViewGroup;
@@ -1163,6 +1164,15 @@ public class DirectoryFragment2 extends Fragment {
         } else {
             pastemenu.setVisible(false);
         }
+        boolean foundAtLeastOneItemToDelete = false;
+        for (ListItem item : items) {
+            if (item.check) {
+                foundAtLeastOneItemToDelete = true;
+                // Early exit if we already found more than 1
+                break;
+            }
+        }
+        deletemenu.setEnabled(foundAtLeastOneItemToDelete);
         if (counter > 0) {
             createmenu.setVisible(false);
             zipmenu.setVisible(true);
@@ -1321,7 +1331,7 @@ public class DirectoryFragment2 extends Fragment {
                         }
                     };
                     androidx.appcompat.app.AlertDialog dialog =
-                        new DirectoryFragment2DeleteDialog(getActivity(),  runnable).create();
+                            new DirectoryFragment2DeleteDialog(getActivity(),  runnable).create();
                     dialog.show();
                     return false;
                 } else {

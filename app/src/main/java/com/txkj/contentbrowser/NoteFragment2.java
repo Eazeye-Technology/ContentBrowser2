@@ -650,6 +650,15 @@ class PreferencesKeys {
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu_note2, popupMenu.getMenu());
         Menu menu = popupMenu.getMenu();
         deleteMenu = menu.findItem(R.id.delete);
+        boolean foundAtLeastOneItemToDelete = false;
+        for (FileMeta item : recentNoteList) {
+            if (item.checkShow && item.checkSelect) {
+                foundAtLeastOneItemToDelete = true;
+                // Early exit if we already found more than 1
+                break;
+            }
+        }
+        deleteMenu.setEnabled(foundAtLeastOneItemToDelete);
         deleteMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
