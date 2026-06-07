@@ -116,15 +116,6 @@ public class NoteGridAdapter2 extends BaseAdapter {
             convertView.setLayoutParams(params2);
         }
 
-//        if (params2 != null) {
-//            if (DM.heightPixels > DM.widthPixels) {
-//                params2.height = DM.heightPixels / 3;//(int)(DM.ydpi / 3); //100; // 假设你想要的固定高度是100dp
-//            } else {
-//                params2.height = DM.widthPixels / 2;
-//            }
-//            convertView.setLayoutParams(params2);
-//        }
-
         if (dataList != null && position >= 0 && position < dataList.size()) {
             FileMeta fileMeta = dataList.get(position);
             if (fileMeta != null) {
@@ -159,24 +150,6 @@ public class NoteGridAdapter2 extends BaseAdapter {
                 }
             }
         }
-        // 设置固定高度
-//        if (gridHeight != 0) {
-//            ViewGroup.LayoutParams params = convertView.getLayoutParams();
-//            if (params != null) {
-//                params.height = gridHeight; //100; // 假设你想要的固定高度是100dp
-//                convertView.setLayoutParams(params);
-//            }
-//        }
-//        convertView.findViewById(R.id.llGridTop).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //Toast.makeText(context, "note grid click", Toast.LENGTH_LONG).show();
-//                if (mListener != null) {
-//                    mListener.onItemClick(null, view, position, (long)position);
-//                }
-//            }
-//        });
-//        convertView.findViewById(R.id.llGridTop).requestFocus();
         return convertView;
     }
 

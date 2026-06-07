@@ -67,7 +67,6 @@
                 android:textStyle="bold"
                 android:text="APP"
                 />
-            <!--应用-->
         </LinearLayout>
 
         <RelativeLayout

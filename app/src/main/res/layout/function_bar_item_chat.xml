@@ -69,7 +69,6 @@
                 android:textStyle="bold"
                 android:text="AI Chat"
                 />
-            <!--浏览器-->
         </LinearLayout>
 
         <RelativeLayout

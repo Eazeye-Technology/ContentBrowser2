@@ -45,7 +45,7 @@ public class MyJavascriptInterface {
 
     public String jsWayPoints;
     public String jsSimulator;
-    public String jsLicNum; //车牌
+    public String jsLicNum;
 
     private boolean showEditText = true;
 
@@ -111,7 +111,7 @@ public class MyJavascriptInterface {
     }
 
     public static String getPackName(Context context) {
-        return context.getPackageName(); //正式环境
+        return context.getPackageName();
     }
 
     @JavascriptInterface
@@ -289,10 +289,8 @@ public class MyJavascriptInterface {
         if (false) {
             return 0;
         } else {
-            // 显示 gps 状态
             boolean gpsEnabled = false;
 
-            /* 防止BITA平台兼容性测试时潜在的权限禁止问题导致测试失败 */
             try {
                 LocationManager mLocationManager = (LocationManager) this.activity.getSystemService(Context.LOCATION_SERVICE);
                 gpsEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -303,7 +301,6 @@ public class MyJavascriptInterface {
         }
     }
 
-    //跳转到悬浮球
     @JavascriptInterface
     public void jumpToBallSetting() {
 
@@ -322,7 +319,7 @@ public class MyJavascriptInterface {
     https://www.modb.pro/db/1753979807348117504
     https://blog.csdn.net/linxinfa/article/details/102910244
      */
-    @JavascriptInterface //实际入口
+    @JavascriptInterface
     public String getDeviceMac() {
 //        String mac = getDeviceMacAddressOri();
         String mac = getAndroidIdOri();
@@ -363,13 +360,13 @@ public class MyJavascriptInterface {
     }
     @JavascriptInterface
     public String getDeviceIdOri() {
-        try {
-            TelephonyManager tm = (TelephonyManager) activity.getApplicationContext()
-                    .getSystemService(Service.TELEPHONY_SERVICE);
-            return tm.getDeviceId();
-        } catch (Throwable eee) {
-            eee.printStackTrace();
-        }
+//        try {
+//            TelephonyManager tm = (TelephonyManager) activity.getApplicationContext()
+//                    .getSystemService(Service.TELEPHONY_SERVICE);
+//            return tm.getDeviceId();
+//        } catch (Throwable eee) {
+//            eee.printStackTrace();
+//        }
         return "";
     }
 
@@ -389,9 +386,6 @@ public class MyJavascriptInterface {
     public final static String XXTEA_KEY_PREFIX = "stk:";
     public final static String XXTEA_KEY_USER = "mychatgptsmartanswer";
 
-    /*
-     * 用户id转token
-     */
     private static String getUserTokenById(String userId) {
         String code = "" + (userId != null ? userId : "") + "|" + System.currentTimeMillis();
         return XXTEA_KEY_PREFIX + XXTEA.Encrypt(code, XXTEA_KEY_USER);

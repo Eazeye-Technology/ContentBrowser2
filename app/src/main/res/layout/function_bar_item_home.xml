@@ -69,7 +69,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/function_bar_item_title_size"
                 android:textStyle="bold" />
-            <!--书库-->
         </LinearLayout>
 
         <RelativeLayout

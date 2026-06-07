@@ -112,80 +112,14 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.Stack;
 
-//FIXME:WorkManager.getInstance(getContext(),
-/*
-https://www.jianshu.com/p/bdfcb0ebf1c3
-解决：将compileSdkVersion 和targetSdk 版本改成31即可（出问题的版本是33）。
-
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-feature android:name="android.hardware.camera" />
-<uses-feature android:name="android.hardware.camera.autofocus" />
- fun requestStorage() {
-        //一定要进行版本判断，还是找不到存储权限
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-           LogUtils.debugInfo("----大于33的版本-----")
-            PermissionsUtil.requestPermission(
-                this,
-                object : PermissionListener {
-                    override fun permissionGranted(permission: Array<out String>) {
-                        //升级弹窗
-                        // CommonDialogUtil.commonAppUpdate(this@SplashActivity)
-                        //进入登录页或者主页面
-                        startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-                        finish()
-                    }
-
-                    override fun permissionDenied(permission: Array<out String>) {
-                        LogUtils.debugInfo("---报错：${permission.toString()}")
-                        ToastUtils.showToast(this@SplashActivity, "用户拒绝了存储权限")
-                        PermissionsUtil.gotoSetting(this@SplashActivity)
-                    }
-
-                },
-                Manifest.permission.READ_MEDIA_AUDIO,
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_AUDIO,
-            )
-        }else {
-            LogUtils.debugInfo("----小于33的版本-----")
-            PermissionsUtil.requestPermission(
-                this,
-                object : PermissionListener {
-                    override fun permissionGranted(permission: Array<out String>) {
-                        //获得权限，操作内容....
-                    }
-
-                    override fun permissionDenied(permission: Array<out String>) {
-                        ToastUtils.showToast(this@SplashActivity, "用户拒绝了存储权限")
-                        PermissionsUtil.gotoSetting(this@SplashActivity)
-                    }
-                },
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-
-            )
-        }
-    }
-https://blog.csdn.net/weixin_42168430/article/details/139764981
-``java
-//权限申请,所有文件访问权限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent(
-                        Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + MainActivity.this.getPackageName()));
-                MainActivity.this.startActivity(intent);
-            }
-        }
- */
 public class LibraryFragment extends Fragment {
     private final static String STR_NO_ITEMS = "Nothing here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
 
     //find-add-folder
-    private final static boolean IS_LOG = AppsConfig.IS_LOG; //调试扫描文件线程
+    private final static boolean IS_LOG = AppsConfig.IS_LOG;
     //AppState.get().isSkipFolderWithNOMEDIA;
-    public final static boolean FORCE_SKIP_NOMEDIA = false;//不考虑NOMEDIA文件
+    public final static boolean FORCE_SKIP_NOMEDIA = false;
     //Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
 
     private int currentSeg = 0;
@@ -1281,7 +1215,7 @@ public class LibraryFragment extends Fragment {
                     for (int i = 0; i < items.size(); ++i) {
                         FileMeta meta = items.get(i);
                         if (meta != null && meta.getPathTxt() != null &&
-                                meta.getPathTxt().toLowerCase().contains( //FIXME:增加关键词contain包含判断
+                                meta.getPathTxt().toLowerCase().contains(
                                         searchEditText.getText().toString().toLowerCase()) &&
                                 (meta.getPathTxt().toLowerCase().endsWith(".epub") ||
                                         meta.getPathTxt().toLowerCase().endsWith(".pdf"))) {

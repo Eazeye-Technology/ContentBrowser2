@@ -159,8 +159,7 @@ class PreferencesKeys {
     private final static String TAG = "HomeFragment";
     private final static boolean TEST_GRID = false;
 	 //FIXME:
-    private final static int SINGLE_GRID_DP_WIDTH = 240;//120; //FIXME:动态指定近期PDF文件的格子宽度
-    //这个宽度参考pagegridviewitem_library的最大宽度，例如封面的dp宽度（可以稍微设置大一点）
+    private final static int SINGLE_GRID_DP_WIDTH = 240;//120;
 
     private List<FileMeta> pageList;
     private GridView recyclerView;
@@ -183,7 +182,6 @@ class PreferencesKeys {
             @Override
             public void onGlobalLayout() {
                 if (svOuter.getMeasuredHeight() > svOuter.getMeasuredWidth()) {
-                    //竖屏
                     llLibrary.setMinimumHeight(svOuter.getMeasuredHeight() / 2);
                     llLibrary.requestLayout();
                 } else {
@@ -257,64 +255,9 @@ class PreferencesKeys {
             }
         });
 
-
-
-
-
-
-
-//        recyclerView = (GridView) view.findViewById(R.id.bookgridview_home);
-
-
-//        panelRecent = view.findViewById(R.id.panelRecent);
-//        recentName = view.findViewById(R.id.recentName);
-//
-//        onListGrid = (ImageView) view.findViewById(R.id.onListGrid);
-//        if (MainTabs2.MOD_VERSION) {
-//            //FIXME: recent tab page
-//            onListGrid.setVisibility(View.GONE);
-//        }
-//        onListGrid.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                popupMenu(onListGrid);
-//            }
-//        });
-//FIXME:清空最近
-//        TxtUtils.underlineTextView((TextView) view.findViewById(R.id.clearAllRecent)).setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialogs.showDialog(getActivity(), getString(R.string.do_you_want_to_clear_everything_), getString(R.string.ok), new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        clearAllRecent.run();
-//
-//                    }
-//                });
-//
-//            }
-//        });
-
         recentAdapter = new LibraryListAdapter(this.getContext(), pageList);
-//        recentAdapter.tempValue = FileMetaAdapter.TEMP_VALUE_FOLDER_PATH;
         bindAdapter(recentAdapter);
-//        bindAuthorsSeriesAdapter(recentAdapter);
 
-//        recentAdapter.setOnDeleteClickListener(onDeleteRecentClick);
-
-//        ImageView imgViewPdf = view.findViewById(R.id.imgViewPdf);
-//        imgViewPdf.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
-
-        //笔记历史记录加载
         ImageView ivJumpNote = view.findViewById(R.id.ivJumpNote);
         ivJumpNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -432,7 +375,7 @@ class PreferencesKeys {
             }
         });
 
-        if (true) { //FIXME:小心，注释此处无法阻止监听器执行populate
+        if (true) {
             onGridList();
             populate();
         }
@@ -919,15 +862,12 @@ class PreferencesKeys {
             if (false) {
                 Context useCount = null;
                 try {
-                    // 获取其他程序对应的Context
                     useCount = getActivity().createPackageContext(SHARE_PACKAGE_NAME,
                             Context.CONTEXT_IGNORE_SECURITY);
 
-                    // 使用其他程序的COntext获取对应的SharedPreferences
                     SharedPreferences ps = useCount.getSharedPreferences(SHARED_PREFERENCES_NAME,
                             Context.MODE_WORLD_READABLE);
 
-                    // 读取数据
                     String recentFiles = ps.getString(NoteFragment.KEY_RECENT_FILES, "");
                     Log.e(TAG, "recentFiles: " + recentFiles);
                 } catch (PackageManager.NameNotFoundException e) {
@@ -998,14 +938,12 @@ class PreferencesKeys {
                                 }
                                 fileMeta.setDateTxt(updateTimeStr);
                             }
-                            //preview字段加上base64头部才能显示出来封面
                             fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
                             recentNoteList2.add(fileMeta);
                         }
                     }
                     recentNoteList.clear();
                     if (NoteFragment.USE_NEW_NOTE) {
-                        //新版不需要倒序
                         int count_ = 0;
                         for (int i = 0; i < recentNoteList2.size(); ++i) {
                             recentNoteList.add(recentNoteList2.get(i));
@@ -1015,7 +953,6 @@ class PreferencesKeys {
                             }
                         }
                     } else {
-                        //旧版需要倒序
                         int count_ = 0;
                         for (int i = recentNoteList2.size() - 1; i >= 0; --i) {
                             recentNoteList.add(recentNoteList2.get(i));
@@ -1031,7 +968,6 @@ class PreferencesKeys {
             }
         }
 
-        //FIXME:获取最近的PDF/EPUB列表
         if (false) {
             List<FileMeta> allRecent = AppData.get().getAllRecent(true);
             int oldSize = allRecent.size();
@@ -1072,7 +1008,7 @@ class PreferencesKeys {
                 }
                 recentAdapter.getItemsList().addAll(items2);
             }
-            if (TEST_GRID) { //测试
+            if (TEST_GRID) {
                 for (int i = 0; i < 10; ++i) {
                     FileMeta m = new FileMeta();
                     m.setPathTxt("page " + i);

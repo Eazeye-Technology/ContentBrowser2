@@ -70,7 +70,6 @@
                 android:textStyle="bold"
                 android:text="Library"
                 />
-            <!--书库-->
         </LinearLayout>
 
         <RelativeLayout

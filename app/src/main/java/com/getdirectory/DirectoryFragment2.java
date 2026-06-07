@@ -410,7 +410,6 @@ public class DirectoryFragment2 extends Fragment {
             String extStorage;
             ListItem ext;
             {
-                //添加外部存储
                 extStorage = Environment.getExternalStorageDirectory()
                         .getAbsolutePath();
                 ext = new ListItem();
@@ -427,7 +426,6 @@ public class DirectoryFragment2 extends Fragment {
                 items.add(ext);
             }
             {
-                //添加外部挂载
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(
                             "/proc/mounts"));
@@ -477,7 +475,6 @@ public class DirectoryFragment2 extends Fragment {
                 }
             }
             if (false) {
-                //添加系统根目录
                 ListItem fs = new ListItem();
                 fs.title = "/";
                 fs.subtitle = "SystemRoot";

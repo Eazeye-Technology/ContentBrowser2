@@ -30,7 +30,7 @@
             android:background="@null"
             android:id="@+id/edt_search_wx"
             android:maxLines="1"
-            android:hint="搜索"
+            android:hint="Search"
             android:layout_marginLeft="10dp"
             />
 

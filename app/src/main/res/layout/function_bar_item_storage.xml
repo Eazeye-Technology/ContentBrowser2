@@ -67,7 +67,6 @@
                 android:textStyle="bold"
                 android:text="Storage"
                 />
-            <!--存储-->
         </LinearLayout>
 
         <RelativeLayout

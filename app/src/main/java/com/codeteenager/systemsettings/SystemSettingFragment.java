@@ -134,7 +134,6 @@ public class SystemSettingFragment extends Fragment {
             mRecyclerView.setNumColumns(3);
         }
         settingsAdapter = new LibraryGridAdapter4(getActivity(), data);
-        // 设置adapter
         mRecyclerView.setAdapter(settingsAdapter);
         mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -9,9 +9,6 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * XXTEA 加密算法
- */
 //https://blog.csdn.net/jdsjlzx/article/details/51869353
 public class XXTEA {
     public static String Encrypt(String data, String key) {

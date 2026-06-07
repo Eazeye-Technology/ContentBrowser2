@@ -71,7 +71,7 @@ public class NoteFragment extends Fragment {
 
     private static final String SHARED_PREFERENCES_NAME = "FlutterSharedPreferences";
 
-    //这个值没用了
+
     private static final String SHARE_PACKAGE_NAME = "com.txkj.notemobile";//"online.xournal.mobile";
     //PreferencesKeys.kRecentFiles
     /*
@@ -84,7 +84,6 @@ class PreferencesKeys {
     private final static String TAG = "HomeFragment";
     private final static boolean TEST_GRID = false;
     private final static int SINGLE_GRID_DP_WIDTH = 120;
-    //这个宽度参考pagegridviewitem_library的最大宽度，例如封面的dp宽度（可以稍微设置大一点）
 
 
 
@@ -165,9 +164,6 @@ class PreferencesKeys {
             }
         });
 
-
-        //笔记历史记录加载
-
         recentNoteList = new ArrayList<FileMeta>();
         recentNoteView = (GridView) view.findViewById(R.id.notegridview_note);
         recentNoteView.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -219,7 +215,7 @@ class PreferencesKeys {
             }
         });
 
-        if (true) { //FIXME:小心，注释此处无法阻止监听器执行populate
+        if (true) {
             onGridList();
             populate();
         }
@@ -319,15 +315,12 @@ class PreferencesKeys {
         if (false) {
             Context useCount = null;
             try {
-                // 获取其他程序对应的Context
                 useCount = getActivity().createPackageContext(SHARE_PACKAGE_NAME,
                         Context.CONTEXT_IGNORE_SECURITY);
 
-                // 使用其他程序的COntext获取对应的SharedPreferences
                 SharedPreferences ps = useCount.getSharedPreferences(SHARED_PREFERENCES_NAME,
                         Context.MODE_WORLD_READABLE);
 
-                // 读取数据
                 String recentFiles = ps.getString(KEY_RECENT_FILES, "");
                 Log.e(TAG, "recentFiles: " + recentFiles);
             } catch (PackageManager.NameNotFoundException e) {
@@ -398,10 +391,8 @@ class PreferencesKeys {
                             }
                             fileMeta.setDateTxt(updateTimeStr);
                         }
-                        //preview字段加上base64头部才能显示出来封面
                         fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
 
-                        //搜索过滤
                         if (txt != null && txt.length() > 0) {
                             if (name.toLowerCase().contains(txt.toLowerCase())) {
                                 recentNoteList2.add(fileMeta);
@@ -417,7 +408,6 @@ class PreferencesKeys {
                         recentNoteList.add(recentNoteList2.get(i));
                     }
                 } else {
-                    //倒序
                     for (int i = recentNoteList2.size() - 1; i >= 0; --i) {
                         recentNoteList.add(recentNoteList2.get(i));
                     }
@@ -462,6 +452,6 @@ class PreferencesKeys {
     public void onResume() {
         super.onResume();
         //notifyFragment();
-        populate(); //FIXME:是否重复执行？
+        populate();
     }
 }

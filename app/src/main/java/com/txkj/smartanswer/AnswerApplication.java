@@ -13,13 +13,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * 继承 Application, 用于在全局范围内保存 TencentGeofence.
- *
- * <p>
- * 注意, TencentGeofenceManager 不会将将当前的 TencentGeofence 持久化保存. 应用程序需要根据实际需求,
- * 使用数据库, 文件, SharedPreference 或 网络等方式自行保存 TencentGeofence.
- */
 public class AnswerApplication extends Application {
 //implements Configuration.Provider
     private final static boolean ENABLE_CRASH_HANDLER = false;
@@ -151,9 +144,6 @@ public class AnswerApplication extends Application {
         MultiDex.install(this);
     }
 
-    /**
-     * 记录已触发的 TencentGeofence 事件
-     */
     private static ArrayList<String> sEvents = new ArrayList<String>();
 
     @Override

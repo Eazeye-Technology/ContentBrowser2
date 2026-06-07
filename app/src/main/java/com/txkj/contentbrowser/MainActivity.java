@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private static final String STATE_STARTED = "STATE_STARTED";
-    //原文链接：https://blog.csdn.net/zuo_er_lyf/article/details/82659426
+    //https://blog.csdn.net/zuo_er_lyf/article/details/82659426
     //https://www.dev2qa.com/android-read-write-external-storage-file-example/
     private final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
     private void checkPermissioin(){

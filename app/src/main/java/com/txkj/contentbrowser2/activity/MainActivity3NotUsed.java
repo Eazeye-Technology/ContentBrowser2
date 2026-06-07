@@ -273,7 +273,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
 }
      */
     private static final String STATE_STARTED = "STATE_STARTED";
-    //原文链接：https://blog.csdn.net/zuo_er_lyf/article/details/82659426
+    //https://blog.csdn.net/zuo_er_lyf/article/details/82659426
     //https://www.dev2qa.com/android-read-write-external-storage-file-example/
     private final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
     private void checkPermission(){
@@ -311,9 +311,9 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         if (requestCode == REQUEST_CODE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 if (Environment.isExternalStorageManager()) {
-                    // 权限已授予
+
                 } else {
-                    // 权限未授予
+
                 }
             }
         }

@@ -67,7 +67,6 @@
                 android:textStyle="bold"
                 android:text="Shop"
                 />
-            <!--书城-->
         </LinearLayout>
 
         <RelativeLayout

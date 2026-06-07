@@ -69,7 +69,6 @@
                 android:textStyle="bold"
                 android:text="Note"
                 />
-            <!--笔记-->
         </LinearLayout>
 
         <RelativeLayout

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class NoteListAdapter extends BaseAdapter {
     private final static int IMAGE_ID = R.id.browserItemIcon_library;
-    public final static int IMAGE_WIDTH_DP = 30; //图片30dp
+    public final static int IMAGE_WIDTH_DP = 30;
 
     public void clearItems() {
         if (dataList != null) {

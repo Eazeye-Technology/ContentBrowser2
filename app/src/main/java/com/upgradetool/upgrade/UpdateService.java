@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.foobnix.ui2.MainTabs2;
 import com.txkj.contentbrowser2.R;
-import com.txkj.contentbrowser2.activity.MainActivity2;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,13 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class UpdateService extends Service {
 	public static final int UPDATE_SERVICE_ID = 10001;
 
-	//FIXME:
-	public static final String DOWNLOAD_URL = 
-			"http://101.101.106.18:8080/mt/upload/201508/1438735415672.apk";
-			//"http://101.101.106.18/test.apk";
-	
 	public static final String RENAME_SUFFIX = ".rename";
-	public static final String EXTRA_APP_NAME = "EXTRA_APP_NAME"; //下载标题名
+	public static final String EXTRA_APP_NAME = "EXTRA_APP_NAME";
 	public static final String EXTRA_DOWNLOAD_URL = "EXTRA_DOWNLOAD_URL";
 	public static final String EXTRA_DOWNLOAD_PATH = "EXTRA_DOWNLOAD_PATH";
 	private static final boolean KEEP_NOTIFICATION = false;
@@ -127,7 +122,7 @@ public class UpdateService extends Service {
 			mNotification.when = System.currentTimeMillis();
 			mNotification.contentView = mRemoteViews;
 
-			mUpdateIntent = new Intent(UpdateService.this, MainActivity2.class/*LoginActivity.class*/);
+			mUpdateIntent = new Intent(UpdateService.this, MainTabs2.class/*LoginActivity.class*/);
 			mUpdateIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				mPendingIntent = PendingIntent.getActivity(UpdateService.this, 0, mUpdateIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -138,74 +133,40 @@ public class UpdateService extends Service {
 
 			mNotificationId = id.getAndIncrement();
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//				if (isForground) {
-				//				return;
-				//			}
-				//			isForground = true;
-							/*
-							首先需要一个NotificationManager来对通知进行管理
-							调用Context的getSystemService()方法获取到。
-							getSystemService()方法接受的一个字符串参数用于确定系统的的哪一个服务。
-							 */
 				NotificationManager notificationManager =
 						(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-							/*
-							调用NotificationChannel创建通知渠道实例
-							并为它设置属性
-							 */
-				//通知渠道的ID
 				String id = "channel_01222";
 				try {
 					notificationManager.deleteNotificationChannel(id);
 				} catch (Exception e){
-					//https://stackoverflow.com/questions/68398557/android-10-java-lang-securityexception-not-allowed-to-delete-channel-mynotifica
-					//20220317: java.lang.SecurityException: Not allowed to delete channel channel_01222 with a foreground service
-					//not here
 					e.printStackTrace();
 				}
-				//用户可以看到的通知渠道的名字
 				CharSequence name = getString(R.string.app_name);
-				//用户可看到的通知描述
 				String description = getString(R.string.app_name);
-				//构建NotificationChannel实例
 				NotificationChannel notificationChannel =
-						new NotificationChannel(id,name,NotificationManager.IMPORTANCE_MIN);//NotificationManager.IMPORTANCE_HIGH);
-				//配置通知渠道的属性
+						new NotificationChannel(id,name,NotificationManager.IMPORTANCE_MIN);
 				notificationChannel.setDescription(description);
-				//设置通知出现时的闪光灯
 				notificationChannel.enableLights(false);
 				//notificationChannel.enableLights(true);
 				//notificationChannel.setLightColor(Color.RED);
-				//设置通知出现时的震动
 				notificationChannel.enableVibration(true);
 				//notificationChannel.enableVibration(true);
 				//notificationChannel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,100});
 				notificationChannel.setVibrationPattern(new long[]{0});
 				notificationChannel.setSound(null, null);
-				// 是否绕过请勿打扰模式
 				notificationChannel.canBypassDnd();
-				// 设置绕过请勿打扰模式
 				notificationChannel.setBypassDnd(true);
-				//https://blog.csdn.net/OxuanO/article/details/86165497
-				//在notificationManager中创建通知渠道
 				notificationManager.createNotificationChannel(notificationChannel);
 
 				Notification notification = new NotificationCompat.Builder(UpdateService.this, id)
 						.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
-						//指定通知的标题内容
 						.setContentTitle(getText(R.string.app_name))
-						//设置通知的内容
 						.setContentText("Upgrading...")
-						//指定通知被创建的时间
 						.setWhen(System.currentTimeMillis())
-						//设置通知的小图标
-						.setSmallIcon(R.mipmap.ic_launcher_notemanager)
-						//设置通知的大图标
+						.setSmallIcon(R.mipmap.ic_launcher_notemanager2)
 						//.setLargeIcon(BitmapFactory.decodeResource(getResources(),
 						//		R.drawable.ic_launcher_background))
-						//添加点击跳转通知跳转
 						//.setContentIntent(pendingIntent)
-						//实现点击跳转后关闭通知
 						.setAutoCancel(true)
 						.setSound(null)
 						.setVibrate(new long[]{0})
@@ -243,10 +204,9 @@ public class UpdateService extends Service {
 				
 				downloadSize = downloadUpdateFile(mDownUrl, mUpdateFile.toString());
 				
-				//重命名
-		        boolean success = mUpdateFile.renameTo(mRenameFile);
+				boolean success = mUpdateFile.renameTo(mRenameFile);
 		        if (success != true) {
-		        	toast("重命名失败：" + mDownPath);
+		        	toast("Rename failed: " + mDownPath);
 		        } else {
 			        if (downloadSize > 0) {
 						this.publishProgress(DOWN_OK);
@@ -279,9 +239,6 @@ public class UpdateService extends Service {
 								UriUtil.prepare(intent);
 								mPendingIntent = PendingIntent.getActivity(UpdateService.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-								//							mNotification.icon = android.R.drawable.stat_sys_download_done;
-								//							mNotification.flags = Notification.FLAG_AUTO_CANCEL;
-								//							mNotification.setLatestEventInfo(UpdateService.this, mAppName, "下载成功", mPendingIntent);
 								Notification.Builder builder = new Notification.Builder(UpdateService.this)
 										.setAutoCancel(true)
 										.setContentTitle(mAppName)
@@ -313,9 +270,6 @@ public class UpdateService extends Service {
 							toast("Download failed");
 						} else {
 							if (KEEP_NOTIFICATION) {
-								//		    				mNotification.icon = android.R.drawable.stat_sys_download_done;
-								//		    				mNotification.flags = Notification.FLAG_AUTO_CANCEL;
-								//		    				mNotification.setLatestEventInfo(UpdateService.this, mAppName, "下载失败", mPendingIntent);
 								Notification.Builder builder = new Notification.Builder(UpdateService.this)
 										.setAutoCancel(true)
 										.setContentTitle(mAppName)
@@ -398,7 +352,6 @@ public class UpdateService extends Service {
 		if (info != null) {
 			//Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
 			if (false) {
-				//在2.3系统下崩溃
 				new ToastMessageTask().execute(info);
 			} else {
 				handler.sendMessage(handler.obtainMessage(0, info));

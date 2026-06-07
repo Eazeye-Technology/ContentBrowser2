@@ -69,7 +69,6 @@
                 android:textStyle="bold"
                 android:text="Setting"
                 />
-            <!--设置-->
         </LinearLayout>
 
         <RelativeLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="?android:colorControlHighlight"> <!-- 这里的颜色可以根据需要替换 -->
+    android:color="?android:colorControlHighlight">
     <item android:id="@android:id/mask"
-        android:drawable="@android:color/white" /> <!-- 背景颜色 -->
+        android:drawable="@android:color/white" />
 </ripple>

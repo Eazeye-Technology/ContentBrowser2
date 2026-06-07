@@ -65,9 +65,9 @@ public class TreeViewGroup extends LinearLayout {
         	line.setScaleType(ImageView.ScaleType.FIT_CENTER);
         	line.setLayoutParams(new LayoutParams(imageHeight, imageHeight));
         	if (i == mChildCount - 1) {
-        		line.setImageResource(R.drawable.tree_space_2); //丁字
+        		line.setImageResource(R.drawable.tree_space_2);
         	} else {
-        		line.setImageResource(R.drawable.tree_space_n); //空白
+        		line.setImageResource(R.drawable.tree_space_n);
             }
     		space.addView(line);
     	}

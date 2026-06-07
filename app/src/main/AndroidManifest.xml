@@ -72,7 +72,7 @@ android:dataExtractionRules="@xml/data_extraction_rules"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateHidden"
             >
-            <!--android 输入法 webview 顶起-->
+            <!--android input method webview pop up-->
 
             <!--
             com.txkj.contentbrowser2.activity.MainActivity3

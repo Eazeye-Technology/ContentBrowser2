@@ -18,7 +18,6 @@
     <!--
     -->
 <!--
-格子
 android:background="#fff6f3f2"
 android:descendantFocusability="blocksDescendants"
 android:background="@android:color/transparent"
