@@ -141,8 +141,7 @@ public class AnswerFragment extends
 
     private final static String FILEPATH_PREFIX = "home/";
 
-    private final static String FILENAME = "https://cbcx-sj.jmtxkj.cn/aifront/index.html";
-    private final static String FILENAME_ = "back/nav.html";
+    private final static String FILENAME = "http://127.0.0.1/aifront/index.html";
     public String getFILENAME() {
         return FILENAME;
     }
