@@ -981,21 +981,21 @@ public class HomeFragment4 extends Fragment {
             Keyboards.hideNavigation(getActivity());
         }
     };
-    Runnable saveAutoComplete = new Runnable() {
-
-        @Override
-        public void run() {
-            String txt = searchEditText.getText().toString().trim();
-            if (TxtUtils.isNotEmpty(txt) && !txt.startsWith("@@") && !StringDB.contains(AppState.get().myAutoCompleteDb, txt)) {
-                if (!searchAdapter.getItemsList().isEmpty()) {
-                    StringDB.add(AppState.get().myAutoCompleteDb, txt, (db) -> AppState.get().myAutoCompleteDb = db);
-                    autocomplitions.add(txt);
-                    updateFilterListAdapter();
-                }
-            }
-
-        }
-    };
+//    Runnable saveAutoComplete = new Runnable() { //memory leak ??? //com.txkj.contentbrowser.HomeFragment4$11 instance
+//
+//        @Override
+//        public void run() {
+//            String txt = searchEditText.getText().toString().trim();
+//            if (TxtUtils.isNotEmpty(txt) && !txt.startsWith("@@") && !StringDB.contains(AppState.get().myAutoCompleteDb, txt)) {
+//                if (!searchAdapter.getItemsList().isEmpty()) {
+//                    StringDB.add(AppState.get().myAutoCompleteDb, txt, (db) -> AppState.get().myAutoCompleteDb = db);
+//                    autocomplitions.add(txt);
+//                    updateFilterListAdapter();
+//                }
+//            }
+//
+//        }
+//    };
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
         @Override
@@ -1063,13 +1063,13 @@ public class HomeFragment4 extends Fragment {
                     handler.postDelayed(sortAndSeach, 1000);
                 }
             }
-            handler.removeCallbacks(saveAutoComplete);
-
-            if (StringDB.contains(AppState.get().myAutoCompleteDb, s.toString().trim())) {
-                //skip
-            } else {
-                handler.postDelayed(saveAutoComplete, 10000);
-            }
+//            handler.removeCallbacks(saveAutoComplete);
+//
+//            if (StringDB.contains(AppState.get().myAutoCompleteDb, s.toString().trim())) {
+//                //skip
+//            } else {
+//                handler.postDelayed(saveAutoComplete, 10000);
+//            }
 
         }
 

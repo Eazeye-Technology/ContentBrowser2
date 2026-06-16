@@ -43,6 +43,7 @@ import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.foobnix.model.AppProfile;
 import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.Android6Mod;
+import com.foobnix.pdf.info.ExtUtils;
 import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
@@ -514,6 +515,9 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     private int currentTabId = R.id.function_bar_item_home;
     //@Override
     public void onClick2(int id, boolean isClick) {
+//        if (isClick) {
+//            throw new RuntimeException("not implementation");
+//        }
         this.currentTabId = id;
         toggleSearch(true);
         View view = findViewById(id);
@@ -649,6 +653,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
 
     @Override
     protected void onDestroy() {
+        ExtUtils.setContext(null);
         mDirectoryFragment.onFragmentDestroy();
         super.onDestroy();
         if (UpgradeUtil.USE_UPGRADE && upgradeUtil != null) {
