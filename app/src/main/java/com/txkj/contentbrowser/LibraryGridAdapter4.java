@@ -1,20 +1,17 @@
 package com.txkj.contentbrowser;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.dao2.FileMeta;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.ui2.AppDB;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.txkj.contentbrowser2.R;
 
 import java.util.ArrayList;
@@ -73,8 +70,20 @@ public class LibraryGridAdapter4 extends BaseAdapter {
             gridholder.tfBookName2 = (TextView) convertView.findViewById(R.id.bookgrid_name_library2);
             gridholder.ivCoverImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library);
             gridholder.tvSuffix = (TextView) convertView.findViewById(R.id.tvSuffix);
+            gridholder.switchOpen = (SwitchMaterial) convertView.findViewById(R.id.switchOpen);
+            gridholder.switchOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                                 @Override
+                                                                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                                                     gridholder.switchOpen.postDelayed(new Runnable() {
+                                                                         @Override
+                                                                         public void run() {
+                                                                             setAcraEnable(context, b);
+                                                                         }
+                                                                     }, 500);
+                                                                 }
+                                                             });
 //            gridholder.ivCoverImageBack = (ImageView) convertView.findViewById(R.id.bookgrid_pic_backgroud);
-            convertView.setTag(gridholder);
+                    convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
         }
@@ -119,6 +128,12 @@ public class LibraryGridAdapter4 extends BaseAdapter {
         } else {
             holder.ivCoverImage.setScaleType(ImageView.ScaleType.FIT_CENTER); //
         }
+        if (fileMeta.intentData != null && fileMeta.intentData.equals(SystemSettingFragment.TYPE_BUG)) {
+            holder.switchOpen.setVisibility(View.VISIBLE);
+            holder.switchOpen.setChecked(getAcraEnable(context));
+        } else {
+            holder.switchOpen.setVisibility(View.GONE);
+        }
         return fileMeta;
     }
 
@@ -127,5 +142,24 @@ public class LibraryGridAdapter4 extends BaseAdapter {
         private ImageView ivCoverImage;
         private ImageView ivCoverImageBack;
         private TextView tvSuffix;
+        private SwitchMaterial switchOpen;
+    }
+
+    public final static String ACRA_PREF_NAME = "ACRAPrefs";
+    public final static String ACRA_PREF_ITEM_NAME = "ACRAEnable";
+    public static void setAcraEnable(Context context_, boolean acraEnable){
+        if (context_ == null) {
+            return;
+        }
+        SharedPreferences.Editor prefs = context_.getSharedPreferences(ACRA_PREF_NAME, Activity.MODE_PRIVATE).edit();
+        prefs.putBoolean(ACRA_PREF_ITEM_NAME, acraEnable);
+        prefs.apply();
+    }
+    public static boolean getAcraEnable(Context context_){
+        if (context_ == null) {
+            return false;
+        }
+        SharedPreferences prefs = context_.getSharedPreferences(ACRA_PREF_NAME, Activity.MODE_PRIVATE);
+        return prefs.getBoolean(ACRA_PREF_ITEM_NAME, false);
     }
 }

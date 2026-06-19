@@ -87,7 +87,8 @@ android:background="@android:color/transparent"
                 </LinearLayout>
                 <!--android:src="@drawable/book001"-->
                 <FrameLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|start"
                     >
@@ -165,6 +166,24 @@ android:background="@android:color/transparent"
                             -->
                     </LinearLayout>
                 </FrameLayout>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:text=""
+                    android:id="@+id/switchOpen"
+                    android:visibility="gone"
+                    style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
+                    app:thumbStrokeColor="#000000"
+                    />
+                <!--
+                app:thumbTint="@color/primary"
+    app:trackTint="@color/track_color"
+    app:thumbStrokeColor="@color/stroke_color"
+    app:switchMinWidth="60dp"
+    -->
             </LinearLayout>
         </LinearLayout>
 

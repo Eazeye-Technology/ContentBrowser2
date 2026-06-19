@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemSettingFragment extends Fragment {
+    public final static String TYPE_BUG = "TYPE_BUG";
     private GridView mRecyclerView;
     private LibraryGridAdapter4 settingsAdapter;
     public static class SettingItem {
@@ -98,6 +99,9 @@ public class SystemSettingFragment extends Fragment {
         data.add(new SettingItem("Memory Card Settings", Settings.ACTION_SETTINGS,
                 "All Settings", "", R.drawable.ic_outline_settings_24));
 
+        data.add(new SettingItem("Memory Card Settings", TYPE_BUG,
+                "Bug data collection", "Open policy", R.drawable.ic_my_setting_013));
+
         if (false) {
             //not used
             data.add(new SettingItem("Settings", Settings.ACTION_SETTINGS,
@@ -138,7 +142,12 @@ public class SystemSettingFragment extends Fragment {
         mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                openSystemSetting(data.get(position).intentData);
+                String intentData = data.get(position).intentData;
+                if (intentData != null && intentData.equals(TYPE_BUG)) {
+                    //skip
+                } else {
+                    openSystemSetting(data.get(position).intentData);
+                }
             }
         });
     }

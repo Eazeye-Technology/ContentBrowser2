@@ -21,6 +21,7 @@ import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.Prefs;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.tts.TTSNotification;
+import com.txkj.contentbrowser.LibraryGridAdapter4;
 
 import org.acra.ACRA;
 import org.acra.BuildConfig;
@@ -171,24 +172,26 @@ public class LibreraApp extends MultiDexApplication {
 
         //need android:usesCleartextTraffic="true"
         String URL = "http://43.106.83.57:3456/report";
-        ACRA.init(this, new CoreConfigurationBuilder()
-                        //core configuration:
-                        .withBuildConfigClass(BuildConfig.class)
-                        .withReportFormat(StringFormat.JSON)
-                        .withPluginConfigurations(
-                                //each plugin you chose above can be configured with its builder like this:
+        if (LibraryGridAdapter4.getAcraEnable(this)) {
+            ACRA.init(this, new CoreConfigurationBuilder()
+                            //core configuration:
+                            .withBuildConfigClass(BuildConfig.class)
+                            .withReportFormat(StringFormat.JSON)
+                            .withPluginConfigurations(
+                                    //each plugin you chose above can be configured with its builder like this:
 //                        new ToastConfigurationBuilder()
 //                                .withText(getString(R.string.acra_toast_text))
 //                                .build()
-                                new HttpSenderConfigurationBuilder()
-                                        .withUri(URL)
-                                        .withHttpMethod(HttpSender.Method.POST)
-                                        .withEnabled(true)
-                                        .build(),
-                                new DialogConfigurationBuilder()
-                                        .withText("It looks like the application has crashed. Tap OK to send a report.")// to " + URL + " .")
-                                        .build()
-                        )
-        );
+                                    new HttpSenderConfigurationBuilder()
+                                            .withUri(URL)
+                                            .withHttpMethod(HttpSender.Method.POST)
+                                            .withEnabled(true)
+                                            .build(),
+                                    new DialogConfigurationBuilder()
+                                            .withText("It looks like the application has crashed. Tap OK to send a report.")// to " + URL + " .")
+                                            .build()
+                            )
+            );
+        }
     }
 }
