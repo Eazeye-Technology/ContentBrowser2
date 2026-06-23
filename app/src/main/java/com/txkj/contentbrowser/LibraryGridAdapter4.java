@@ -3,6 +3,7 @@ package com.txkj.contentbrowser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,6 +15,17 @@ import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.txkj.contentbrowser2.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +90,8 @@ public class LibraryGridAdapter4 extends BaseAdapter {
                                                                          @Override
                                                                          public void run() {
                                                                              setAcraEnable(context, b);
+                                                                             setAcraEnableFile(APPNAME_NEW, b);
+                                                                             setAcraEnableFile(APPNAME_NEW2, b);
                                                                          }
                                                                      }, 500);
                                                                  }
@@ -161,5 +175,135 @@ public class LibraryGridAdapter4 extends BaseAdapter {
         }
         SharedPreferences prefs = context_.getSharedPreferences(ACRA_PREF_NAME, Activity.MODE_PRIVATE);
         return prefs.getBoolean(ACRA_PREF_ITEM_NAME, false);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public final static String APPNAME_NEW = "txkjreader";
+    public final static String APPNAME_NEW2 = "txkjnote2";
+    private final static String PREFNAME = "acrapref.json";
+    public boolean getAcraEnableFile(String appName) {
+        String prefName = PREFNAME;
+        String recentFiles = "";
+        try {
+            String rootPath = null;
+            rootPath = new File(Environment.getExternalStorageDirectory(), appName).toString();
+            boolean kkk = new File(rootPath).mkdirs();
+            if (new File(rootPath, "" + prefName).exists()) {
+                InputStream fis = new FileInputStream(new File(rootPath, "" + prefName));
+                InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+                BufferedReader reader = new BufferedReader(isr);
+                StringBuffer recentFilesBuffer = new StringBuffer();
+                while (true) {
+                    String line = reader.readLine();
+                    if (line != null) {
+                        recentFilesBuffer.append(line);
+                        recentFilesBuffer.append("\n");
+                    } else {
+                        break;
+                    }
+                }
+                recentFiles = recentFilesBuffer.toString();
+                reader.close();
+                isr.close();
+                fis.close();
+            }
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
+        //Log.e(TAG, "recentFiles: " + recentFiles);
+        JSONObject item = new JSONObject();
+        try {
+            item = new JSONObject(recentFiles);
+            return item.optBoolean("acraEnable", false);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setAcraEnableFile(String appName, boolean acraEnable) {
+        String prefName = PREFNAME;
+        String recentFiles = "";
+        try {
+            String rootPath = null;
+            rootPath = new File(Environment.getExternalStorageDirectory(), appName).toString();
+            boolean kkk = new File(rootPath).mkdirs();
+            if (new File(rootPath, "" + prefName).exists()) {
+                InputStream fis = new FileInputStream(new File(rootPath, "" + prefName));
+                InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+                BufferedReader reader = new BufferedReader(isr);
+                StringBuffer recentFilesBuffer = new StringBuffer();
+                while (true) {
+                    String line = reader.readLine();
+                    if (line != null) {
+                        recentFilesBuffer.append(line);
+                        recentFilesBuffer.append("\n");
+                    } else {
+                        break;
+                    }
+                }
+                recentFiles = recentFilesBuffer.toString();
+                reader.close();
+                isr.close();
+                fis.close();
+            }
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
+        //Log.e(TAG, "recentFiles: " + recentFiles);
+        JSONObject item = new JSONObject();
+        try {
+            item = new JSONObject(recentFiles);
+            item.put("acraEnable", acraEnable);
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+            if (item != null) {
+                try {
+                    item.put("acraEnable", acraEnable);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        try {
+            String rootPath = null;
+            rootPath = new File(Environment.getExternalStorageDirectory(), appName).toString();
+            FileOutputStream fout = new FileOutputStream(new File(rootPath, "" + prefName));
+            OutputStreamWriter osw = new OutputStreamWriter(fout, "UTF-8");
+            BufferedWriter writer = new BufferedWriter(osw);
+            writer.write(item.toString());
+            writer.flush();
+            writer.close();
+            osw.close();
+            fout.close();
+        } catch (Throwable eee) {
+            eee.printStackTrace();
+        }
     }
 }
