@@ -125,6 +125,8 @@ import java.util.Stack;
 import java.util.TimeZone;
 
 public class HomeFragment4 extends Fragment {
+    public final static boolean USE_AUTO_SEARCH_PDF = true;
+
     private final static boolean USE_LAST_OPEN = true;
     private final static boolean MY_FILTER = true;
 
@@ -614,6 +616,9 @@ public class HomeFragment4 extends Fragment {
             if (AppDB.get().getCount() == 0) {
                 seachAll();
             } else {
+                if (HomeFragment4.USE_AUTO_SEARCH_PDF) {
+                    seachAll(); //FIXME:added, 2026/07/02
+                }
                 checkForDeleteBooks();
                 searchAndOrderAsync();
             }

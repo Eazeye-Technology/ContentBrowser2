@@ -57,6 +57,7 @@ import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.Prefs;
+import com.txkj.contentbrowser.HomeFragment4;
 import com.txkj.contentbrowser2.R;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.AlertDialogs;
@@ -538,6 +539,9 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
             if (AppDB.get().getCount() == 0) {
                 seachAll();
             } else {
+                if (HomeFragment4.USE_AUTO_SEARCH_PDF) {
+                    seachAll(); //FIXME:added, 2026/07/02
+                }
                 checkForDeleteBooks();
                 searchAndOrderAsync();
             }

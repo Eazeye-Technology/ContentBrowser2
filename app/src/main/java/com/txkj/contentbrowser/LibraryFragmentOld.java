@@ -1046,6 +1046,9 @@ public class LibraryFragmentOld extends Fragment {
             if (AppDB.get().getCount() == 0) {
                 seachAll();
             } else {
+                if (HomeFragment4.USE_AUTO_SEARCH_PDF) {
+                    seachAll(); //FIXME:added, 2026/07/02
+                }
                 checkForDeleteBooks();
                 searchAndOrderAsync();
             }
