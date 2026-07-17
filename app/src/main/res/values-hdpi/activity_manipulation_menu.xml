@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_book4_popup_menu_offsetx">0px</dimen>
+    <dimen name="activity_book4_popup_menu_offsety">10px</dimen>
+
+    <dimen name="activity_book4_popup_menu_width">300px</dimen>
+    <dimen name="activity_book4_popup_menu_corner">15px</dimen>
+    <dimen name="activity_book4_popup_menu_elevation">1.5px</dimen>
+    <dimen name="activity_book4_popup_menu_elevation2">6px</dimen>
+    <dimen name="activity_book4_popup_menu_padding_top">12px</dimen>
+    <dimen name="activity_book4_popup_menu_padding_bottom">12px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_height">84px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_height">36px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_height2">72px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_padding2">7.5px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_margin2">18px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_height3">36px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_marign3">30px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_padding3">3px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_rl_height4">72px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_rl_margin_left4">18px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_height4">60px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_tv_height5">24px</dimen>
+    <dimen name="activity_book4_popup_menu_item_tv_text_size5">18px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_rl_height6">72px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_height6">60px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_rl_margin_left6">7.5px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_rl_height7">72px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_rl_margin_left7">18px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_height7">60px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_iv_height8">36px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_rl_margin_left8">18px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_tv_margin_left8">15px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_tv_text_size8">24px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_iv_height8">60px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_iv_padding8">6px</dimen>
+    <dimen name="activity_book4_popup_menu_item_iv_iv_margin_left8">18px</dimen>
+
+    <dimen name="activity_book4_popup_menu_item_tv_margin_left">15px</dimen>
+    <dimen name="activity_book4_popup_menu_item_tv_text_size">24px</dimen>
+    <dimen name="activity_book4_popup_menu_item_tv_height">36px</dimen>
+    <dimen name="activity_book4_popup_menu_item_tv_margin">18px</dimen>
+
+    <dimen name="activity_book4_popup_menu_separator_height">1px</dimen>
+    <dimen name="activity_book4_popup_menu_separator_margin_top">12px</dimen>
+
+
+
+
+
+</resources>

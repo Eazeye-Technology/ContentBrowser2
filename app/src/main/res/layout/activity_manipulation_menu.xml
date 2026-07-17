@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/activity_book4_popup_menu_width"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="50px"
+    android:layout_marginTop="50px"
+    android:orientation="horizontal"
+    >
+    <!--300px-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_vertical"
+        app:cardBackgroundColor="#F1EDEC"
+        app:cardCornerRadius="@dimen/activity_book4_popup_menu_corner"
+        app:cardElevation="@dimen/activity_book4_popup_menu_elevation"
+        >
+<!--
+cardElevation
+-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="0px">
+            <!--padding=10px-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:layout_margin="0px"
+                android:background="@drawable/context_menu_outline"
+                android:elevation="@dimen/activity_book4_popup_menu_elevation2"
+                >
+<!--
+androidx.cardview.widget.CardView
+app:cardBackgroundColor="#00585858"
+                app:cardCornerRadius="30px"
+                app:cardElevation="0px"
+                -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/activity_book4_popup_menu_padding_top"
+                    android:paddingBottom="@dimen/activity_book4_popup_menu_padding_bottom">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="0px"
+                        android:id="@+id/popTextViewSelectItems"
+                        >
+
+                        <ImageView
+                            android:layout_width="0px"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:paddingRight="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_baseline_content_cut_24"
+                            android:text="PEN"
+                            android:textAllCaps="true"
+                            android:textSize="11px"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_tv_height"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/activity_book4_popup_menu_item_tv_margin"
+                            android:gravity="center|center_vertical"
+                            android:text="Select item(s)"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="0px"
+                        android:id="@+id/popTextViewSelectAll"
+                        >
+                        <!--popTextViewTranscriptLanguage-->
+
+                        <ImageView
+                            android:layout_width="0px"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:paddingRight="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_baseline_content_cut_24"
+                            android:text="PEN"
+                            android:textAllCaps="true"
+                            android:textSize="11px"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_tv_height"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/activity_book4_popup_menu_item_tv_margin"
+                            android:gravity="center|center_vertical"
+                            android:text="Select all"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                        android:orientation="horizontal"
+                        android:id="@+id/popButtonDeselectAll"
+                        >
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/activity_book4_popup_menu_item_iv_tv_margin_left8"
+                            android:layout_marginRight="@dimen/activity_book4_popup_menu_item_iv_tv_margin_left8"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Deselect all"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_iv_tv_text_size8"
+                            android:visibility="visible" />
+
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_separator_height"
+                        android:layout_marginTop="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:layout_marginBottom="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:background="#C4C7C8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="0px"
+                        android:id="@+id/popTextViewNewFolder"
+                        >
+
+                        <ImageView
+                            android:layout_width="0px"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:paddingRight="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_baseline_content_cut_24"
+                            android:text="PEN"
+                            android:textAllCaps="true"
+                            android:textSize="11px"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_tv_height"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/activity_book4_popup_menu_item_tv_margin"
+                            android:gravity="center|center_vertical"
+                            android:text="New folder"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_separator_height"
+                        android:layout_marginTop="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:layout_marginBottom="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:background="#C4C7C8" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:id="@+id/popTextViewCut"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="@dimen/activity_book4_popup_menu_item_iv_height2"
+                                android:layout_height="@dimen/activity_book4_popup_menu_item_iv_height2"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                                android:paddingRight="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_baseline_content_cut_24"
+                                android:text="PEN"
+                                android:textAllCaps="true"
+                                android:textSize="11px"
+                                android:layout_marginLeft="@dimen/activity_book4_popup_menu_item_iv_margin2"
+                                android:layout_marginRight="@dimen/activity_book4_popup_menu_item_iv_margin2"
+                                />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/activity_book4_popup_menu_item_tv_margin_left"
+                            android:gravity="center"
+                            android:text="Cut"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:id="@+id/popTextViewCopy"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="@dimen/activity_book4_popup_menu_item_iv_height"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_iv_height"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_menu_copy"
+                            android:text="PEN"
+                            android:textAllCaps="true"
+                            android:textSize="11px"
+                            />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/activity_book4_popup_menu_item_tv_margin_left"
+                            android:gravity="center"
+                            android:text="Copy"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:id="@+id/popTextViewPaste"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:id="@+id/ivMenuPaste"
+                                android:layout_width="@dimen/activity_book4_popup_menu_item_iv_height2"
+                                android:layout_height="@dimen/activity_book4_popup_menu_item_iv_height2"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                                android:paddingRight="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_baseline_content_paste_24"
+                                android:text="PEN"
+                                android:textAllCaps="true"
+                                android:textSize="11px"
+                                android:layout_marginLeft="@dimen/activity_book4_popup_menu_item_iv_margin2"
+                                android:layout_marginRight="@dimen/activity_book4_popup_menu_item_iv_margin2"
+                                />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvMenuPaste"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/activity_book4_popup_menu_item_tv_margin_left"
+                            android:gravity="center"
+                            android:text="Paste"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_separator_height"
+                        android:layout_marginTop="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:layout_marginBottom="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:background="#C4C7C8" />
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="0px"
+                        android:id="@+id/popTextViewRenameFile"
+                        >
+
+                        <ImageView
+                            android:layout_width="0px"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:paddingRight="@dimen/activity_book4_popup_menu_item_iv_padding2"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_baseline_content_cut_24"
+                            android:text="PEN"
+                            android:textAllCaps="true"
+                            android:textSize="11px"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_tv_height"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/activity_book4_popup_menu_item_tv_margin"
+                            android:gravity="center|center_vertical"
+                            android:text="Rename"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_tv_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_separator_height"
+                        android:background="#C4C7C8"
+                        android:layout_marginTop="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        android:layout_marginBottom="@dimen/activity_book4_popup_menu_separator_margin_top"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/activity_book4_popup_menu_item_height"
+                        android:orientation="horizontal"
+                        android:id="@+id/popButtonDelete"
+                        >
+
+                        <ImageView
+                            android:layout_width="@dimen/activity_book4_popup_menu_item_iv_height8"
+                            android:layout_height="@dimen/activity_book4_popup_menu_item_iv_height8"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_delete_recording"
+                            android:text="PEN"
+                            android:textAllCaps="true"
+                            android:textSize="11px"
+                            android:visibility="visible"
+                            android:paddingTop="5px"
+                            android:layout_marginLeft="@dimen/activity_book4_popup_menu_item_iv_rl_margin_left8"
+                            android:layout_marginRight="@dimen/activity_book4_popup_menu_item_iv_rl_margin_left8"
+                            />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/activity_book4_popup_menu_item_iv_tv_margin_left8"
+                            android:layout_marginRight="@dimen/activity_book4_popup_menu_item_iv_tv_margin_left8"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Delete"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/activity_book4_popup_menu_item_iv_tv_text_size8"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

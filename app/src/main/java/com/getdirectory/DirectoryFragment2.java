@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -32,15 +33,18 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.pdf.info.ExtUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.loadingindicator.LoadingIndicator;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 
 import org.w3c.dom.Text;
+import org.zwobble.mammoth.internal.documents.Image;
 import org.zwobble.mammoth.internal.documents.Run;
 
 import java.io.BufferedReader;
@@ -50,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,6 +65,8 @@ import gm.com.dosya.utils.FileTransactions;
 //FIXME:listRoots()
 //FIXME:listFiles(new File(extStorage));
 public class DirectoryFragment2 extends Fragment {
+    public final static boolean USE_NEW_MENU = true;
+
     private final static boolean USE_NEW_DIALOG_STYLE = true;
     private final static boolean AUTO_WRAP_CLICK_CLEAR_SEARCH = true;
 
@@ -1119,6 +1126,7 @@ public class DirectoryFragment2 extends Fragment {
     public final static String OPERATION_TYPE_ZIP = "zip";
     public final static String OPERATION_TYPE_DELETE = "delete";
     String operationType = "";
+    boolean isPasteMenuEnable = false;
     MenuItem deletemenu;
     MenuItem pastemenu;
     MenuItem copymenu;
@@ -1130,359 +1138,370 @@ public class DirectoryFragment2 extends Fragment {
     MenuItem cancelmenu;
     MenuItem selectallmenu;
     public void showPopupMenuDirectoryFragment2(View view) {
-        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(android.view.MenuItem item) {
-//                return true;
-//            }
-//        });
-        Menu menu = popupMenu.getMenu();
-        deletemenu = menu.findItem(R.id.delete);
-        pastemenu = menu.findItem(R.id.paste);
-        copymenu = menu.findItem(R.id.copy);
-        editmenu = menu.findItem(R.id.edit);
-        cutmenu = menu.findItem(R.id.cut);
-        createmenu = menu.findItem(R.id.create);
-        zipmenu = menu.findItem(R.id.zip);
-        infomenu = menu.findItem(R.id.info);
-        selectallmenu = menu.findItem(R.id.selectallmenu);
-        cancelmenu = menu.findItem(R.id.cancelmenu);
-        if (counter == 1) {
-            editmenu.setVisible(true);
-            infomenu.setVisible(true);
+        if (USE_NEW_MENU) {
+            if (CopyCutMenuDialog.isOpen == false) {
+                CopyCutMenuDialog.isOpen = true;
+
+                CardView btnMore = getActivity().findViewById(R.id.btnMore);
+                ImageView ivBtnMore = getActivity().findViewById(R.id.ivBtnMore);
+                if (btnMore != null && ivBtnMore != null) {
+                    btnMore.setCardBackgroundColor(0xFF000000);
+                    ivBtnMore.setColorFilter(0xFFFFFFFF, PorterDuff.Mode.SRC_ATOP);
+                }
+
+                CopyCutMenuDialog.show(getActivity(), view, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (view != null) {
+                            if (view.getId() == R.id.popTextViewSelectItems) {
+                                doSelectallSelect(true);
+                            } else if (view.getId() == R.id.popTextViewSelectAll) {
+                                doSelectallSelect(false);
+                            } else if (view.getId() == R.id.popButtonDeselectAll) {
+                                cancelSelect();
+                            } else if (view.getId() == R.id.popTextViewNewFolder) {
+                                newFolderSelect();
+                            } else if (view.getId() == R.id.popTextViewCut) {
+                                cutSelect();
+                            } else if (view.getId() == R.id.popTextViewCopy) {
+                                copySelect();
+                            } else if (view.getId() == R.id.popTextViewPaste) {
+                                pasteSelect();
+                            } else if (view.getId() == R.id.popTextViewRenameFile) {
+                                renameSelect();
+                            } else if (view.getId() == R.id.popButtonDelete) {
+                                deleteSelect();
+                            }
+                        }
+                    }
+                }, isPasteMenuEnable, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CardView btnMore = getActivity().findViewById(R.id.btnMore);
+                        ImageView ivBtnMore = getActivity().findViewById(R.id.ivBtnMore);
+                        if (btnMore != null && ivBtnMore != null) {
+                            btnMore.setCardBackgroundColor(0x00000000);
+                            ivBtnMore.clearColorFilter();
+                        }
+                    }
+                });
+            }
         } else {
-            editmenu.setVisible(false);
-            infomenu.setVisible(false);
+            PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+            popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+            //        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            //            @Override
+            //            public boolean onMenuItemClick(android.view.MenuItem item) {
+            //                return true;
+            //            }
+            //        });
+            Menu menu = popupMenu.getMenu();
+            deletemenu = menu.findItem(R.id.delete);
+            pastemenu = menu.findItem(R.id.paste);
+            copymenu = menu.findItem(R.id.copy);
+            editmenu = menu.findItem(R.id.edit);
+            cutmenu = menu.findItem(R.id.cut);
+            createmenu = menu.findItem(R.id.create);
+            zipmenu = menu.findItem(R.id.zip);
+            infomenu = menu.findItem(R.id.info);
+            selectallmenu = menu.findItem(R.id.selectallmenu);
+            cancelmenu = menu.findItem(R.id.cancelmenu);
+            if (counter == 1) {
+                if (editmenu != null) {
+                    editmenu.setVisible(true);
+                }
+                if (infomenu != null) {
+                    infomenu.setVisible(true);
+                }
+            } else {
+                if (editmenu != null) {
+                    editmenu.setVisible(false);
+                }
+                if (infomenu != null) {
+                    infomenu.setVisible(false);
+                }
+            }
+            if (copyList.size() > 0) {
+                if (pastemenu != null) {
+                    pastemenu.setVisible(true);
+                }
+                isPasteMenuEnable = true;
+            } else {
+                if (pastemenu != null) {
+                    pastemenu.setVisible(false);
+                }
+                isPasteMenuEnable = false;
+            }
+            boolean foundAtLeastOneItemToDelete = false;
+            for (ListItem item : items) {
+                if (item.check) {
+                    foundAtLeastOneItemToDelete = true;
+                    // Early exit if we already found more than 1
+                    break;
+                }
+            }
+            if (deletemenu != null) {
+                deletemenu.setEnabled(foundAtLeastOneItemToDelete);
+            }
+            if (counter > 0) {
+                if (createmenu != null) {
+                    createmenu.setVisible(false);
+                }
+                if (zipmenu != null) {
+                    zipmenu.setVisible(true);
+                }
+            } else {
+                if (createmenu != null) {
+                    createmenu.setVisible(true);
+                }
+                if (zipmenu != null) {
+                    zipmenu.setVisible(false);
+                }
+            }
+
+            //debug, hide not used menu
+            if (true) {
+                if (editmenu != null) {
+                    editmenu.setVisible(false);
+                }
+                if (createmenu != null) {
+                    createmenu.setVisible(false);
+                }
+                if (zipmenu != null) {
+                    zipmenu.setVisible(false);
+                }
+                if (infomenu != null) {
+                    infomenu.setVisible(false);
+                }
+            }
+            if (selectallmenu != null) {
+                selectallmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                        selectallSelect();
+                        return false;
+                    }
+                });
+            }
+            if (cancelmenu != null) {
+                cancelmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                        cancelSelect();
+                        return false;
+                    }
+                });
+            }
+            if (copymenu != null) {
+                copymenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        copySelect();
+                        return false;
+                    }
+                });
+            }
+            if (cutmenu != null) {
+                cutmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        cutSelect();
+                        return false;
+                    }
+                });
+            }
+            if (pastemenu != null) {
+                pastemenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        pasteSelect();
+                        return false;
+                    }
+                });
+            }
+            if (infomenu != null) {
+                infomenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        //                try {
+                        //                    infoliste();
+                        //                    MaterialDialog builder = new MaterialDialog.Builder(getActivity())
+                        //                            .titleColorAttr(android.R.attr.colorAccent)
+                        //                            .itemsColorRes(R.color.md_black_1000)
+                        //                            .title("Information")
+                        //                            .items(infoList)
+                        //                            .itemsCallback(new MaterialDialog.ListCallback() {
+                        //                                @Override
+                        //                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        //                                }
+                        //                            })
+                        //                            .positiveText("OK")
+                        //                            .show();
+                        //                    listFiles(currentDir);
+                        //                    infoList.clear();
+                        //                    click = true;
+                        //                    return false;
+                        //                } catch (Exception e) {
+                        //                    showErrorBox("The operation could not be performed.");
+                        //                    return false;
+                        //                }
+                        return false;
+                    }
+                });
+            }
+            if (deletemenu != null) {
+                deletemenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        deleteSelect();
+                        return false;
+                    }
+                });
+            }
+            if (editmenu != null) {
+                editmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        //                try {
+                        //                    String isim = null;
+                        //                    for (ListItem gecici : items) {
+                        //                        if (gecici.getCheck()) {
+                        //                            isim = gecici.getTitle();
+                        //                        }
+                        //                    }
+                        //                    MaterialDialog builder = new MaterialDialog.Builder(getActivity())
+                        //                            .title("Add Item")
+                        //                            .widgetColor(getResources().getColor(R.color.colorPrimaryDark))
+                        //                            .inputType(InputType.TYPE_CLASS_TEXT)
+                        //                            .input(null, isim, new MaterialDialog.InputCallback() {
+                        //                                @Override
+                        //                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                        //                                    for (int count = 0; count < items.size(); count++) {
+                        //                                        if (items.get(count).getCheck()) {
+                        //                                            String newname = input.toString();
+                        //                                            renamePath = items.get(count).getThumb();
+                        //                                            File konum = new File(renamePath);
+                        //                                            File yeniisim = new File(konum.getParent(), newname);
+                        //                                            konum.renameTo(yeniisim);
+                        //                                        }
+                        //                                    }
+                        //                                    listFiles(currentDir);
+                        //                                }
+                        //                            })
+                        //                            .negativeText("Cancel")
+                        //                            .show();
+                        //                    click = true;
+                        //                    return false;
+                        //                } catch (Exception e) {
+                        //                    showErrorBox("The operation could not be performed.");
+                        //                    return false;
+                        //                }
+                        return false;
+                    }
+                });
+            }
+            if (zipmenu != null) {
+                zipmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        //                try {
+                        //                    if (!catagory) {
+                        //                        islem = "zip";
+                        //                        MaterialDialog builder = new MaterialDialog.Builder(getActivity())
+                        //                                .title("Add Item")
+                        //                                .widgetColor(getResources().getColor(R.color.colorPrimaryDark))
+                        //                                .inputType(InputType.TYPE_CLASS_TEXT)
+                        //                                .input(null, null, new MaterialDialog.InputCallback() {
+                        //                                    @Override
+                        //                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        //                                        String anewzipfolder = input.toString();
+                        //                AsyncClass task = new AsyncClass();
+                        //                if (android.os.Build.VERSION.SDK_INT < 11) {
+                        //                    task.execute();
+                        //                } else {
+                        //                    task.executeOnExecutor(newFixedThreadPool);
+                        //                }
+                        //                                        newzipfolder = anewzipfolder;
+                        //                                    }
+                        //                                })
+                        //                                .negativeText("Cancel")
+                        //                                .show();
+                        //                        click = true;
+                        //                    } else {
+                        //                        showErrorBox("You cannot zip here");
+                        //                    }
+                        //                } catch (Exception e) {
+                        //                    showErrorBox("The compression process could not be performed.");
+                        //                }
+                        return false;
+                    }
+                });
+            }
+            if (createmenu != null) {
+                createmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        //                try {
+                        //                    if (!catagory) {
+                        //                        MaterialDialog builder = new MaterialDialog.Builder(getActivity())
+                        //                                .title("Add Item")
+                        //                                .widgetColor(getResources().getColor(R.color.colorPrimaryDark))
+                        //                                .inputType(InputType.TYPE_CLASS_TEXT)
+                        //                                .input(null, null, new MaterialDialog.InputCallback() {
+                        //                                    @Override
+                        //                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        //                                        String newfolder = input.toString();
+                        //                                        File folder = new File(currentDir.getAbsoluteFile() +
+                        //                                                File.separator + newfolder);
+                        //                                        boolean success = true;
+                        //                                        if (!folder.exists()) {
+                        //                                            success = folder.mkdir();
+                        //                                        }
+                        //                                        if (success) {
+                        //                                            // Do something on success
+                        //                                        } else {
+                        //                                            // Do something else on failure
+                        //                                        }
+                        //                                        listFiles(currentDir);
+                        //                                    }
+                        //                                })
+                        //                                .negativeText("Cancel")
+                        //                                .show();
+                        //                        click = true;
+                        //                    } else {
+                        //                        showErrorBox("You cannot create a folder here");
+                        //                    }
+                        //                    return false;
+                        //                } catch (Exception e) {
+                        //                    showErrorBox("The operation could not be performed");
+                        //                    return false;
+                        //                }
+                        return false;
+                    }
+                });
+            }
+            popupMenu.show();
         }
-        if (copyList.size() > 0) {
-            pastemenu.setVisible(true);
-        } else {
-            pastemenu.setVisible(false);
-        }
-        boolean foundAtLeastOneItemToDelete = false;
-        for (ListItem item : items) {
-            if (item.check) {
-                foundAtLeastOneItemToDelete = true;
-                // Early exit if we already found more than 1
+    }
+    public void selectallSelect() {
+        boolean isAllSelcted = true;
+        for (int count = 0; count < items.size(); count++) {
+            if (!items.get(count).check) {
+                isAllSelcted = false;
                 break;
             }
         }
-        deletemenu.setEnabled(foundAtLeastOneItemToDelete);
-        if (counter > 0) {
-            createmenu.setVisible(false);
-            zipmenu.setVisible(true);
-        } else {
-            createmenu.setVisible(true);
-            zipmenu.setVisible(false);
+        doSelectallSelect(isAllSelcted);
+    }
+    public void doSelectallSelect(boolean isAllSelcted) {
+        counter = 0;
+        for (int count = 0; count < items.size(); count++) {
+            items.get(count).visible = true;
+            items.get(count).check = !isAllSelcted;//true;
+            cpy = true;
         }
-
-        //debug, hide not used menu
-        if (true) {
-            editmenu.setVisible(false);
-            createmenu.setVisible(false);
-            zipmenu.setVisible(false);
-            infomenu.setVisible(false);
-        }
-        selectallmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                counter = 0;
-                boolean isAllSelcted = true;
-                for (int count = 0; count < items.size(); count++) {
-                    if (!items.get(count).check) {
-                        isAllSelcted = false;
-                        break;
-                    }
-                }
-                for (int count = 0; count < items.size(); count++) {
-                    items.get(count).visible = true;
-                    items.get(count).check = !isAllSelcted;//true;
-                    cpy = true;
-                }
-                clickMode = false;
-                listAdapter.notifyDataSetChanged();
-                return false;
-            }
-        });
-        cancelmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                cancelSelect();
-                return false;
-            }
-        });
-        copymenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                boolean CHANGE_VISIBLE = false;
-                try {
-                    performCopy();
-                    if (cpy && copyList.size() > 0) {
-                        if (CHANGE_VISIBLE) {
-                            pastemenu.setVisible(true);
-                        }
-                        for (int count = 0; count < items.size(); count++) {
-                            items.get(count).visible = false;
-                        }
-                        listAdapter.notifyDataSetChanged();
-                        clickMode = true;
-                        cpy = false;
-                        if (CHANGE_VISIBLE) {
-                            copymenu.setVisible(false);
-                        }
-                    }
-                    return false;
-                } catch (Exception e) {
-                    showErrorBox("The copy operation could not be performed");
-                    return false;
-                }
-            }
-        });
-        cutmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                boolean CHANGE_VISIBLE = false;
-                try {
-                    performCopy();
-                    if (cpy && copyList.size() > 0) {
-                        if (CHANGE_VISIBLE) {
-                            pastemenu.setVisible(true);
-                        }
-                        for (int count = 0; count < items.size(); count++) {
-                            items.get(count).visible = false;
-                        }
-                        listAdapter.notifyDataSetChanged();
-                        clickMode = true;
-                        cpy = false;
-                        if (CHANGE_VISIBLE) {
-                            copymenu.setVisible(false);
-                            cutmenu.setVisible(false);
-                        }
-                        tasi = true;
-                    }
-                    return false;
-                } catch (Exception e) {
-                    showErrorBox("The cut operation could not be completed");
-                    return false;
-                }
-            }
-        });
-        pastemenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                operationType = OPERATION_TYPE_PASTE;
-                AsyncClass task = new AsyncClass();
-                if (android.os.Build.VERSION.SDK_INT < 11) {
-                    task.execute();
-                } else {
-                    task.executeOnExecutor(newFixedThreadPool);
-                }
-                return false;
-            }
-        });
-        infomenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-//                try {
-//                    infoliste();
-//                    MaterialDialog builder = new MaterialDialog.Builder(getActivity())
-//                            .titleColorAttr(android.R.attr.colorAccent)
-//                            .itemsColorRes(R.color.md_black_1000)
-//                            .title("Information")
-//                            .items(infoList)
-//                            .itemsCallback(new MaterialDialog.ListCallback() {
-//                                @Override
-//                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-//                                }
-//                            })
-//                            .positiveText("OK")
-//                            .show();
-//                    listFiles(currentDir);
-//                    infoList.clear();
-//                    click = true;
-//                    return false;
-//                } catch (Exception e) {
-//                    showErrorBox("The operation could not be performed.");
-//                    return false;
-//                }
-                return false;
-            }
-        });
-        deletemenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (USE_NEW_DIALOG_STYLE) {
-//                    showErrorBox("this is an error");
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            operationType = OPERATION_TYPE_DELETE;
-                            AsyncClass task = new AsyncClass();
-                            if (android.os.Build.VERSION.SDK_INT < 11) {
-                                task.execute();
-                            } else {
-                                task.executeOnExecutor(newFixedThreadPool);
-                            }
-                        }
-                    };
-                    androidx.appcompat.app.AlertDialog dialog =
-                            new DirectoryFragment2DeleteDialog(getActivity(),  runnable).create();
-                    dialog.show();
-                    return false;
-                } else {
-                    try {
-                        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
-                        ad.setTitle("Delete the file");
-                        ad.setMessage("Are you sure ?");
-                        ad.setCancelable(false);
-                        ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                operationType = OPERATION_TYPE_DELETE;
-                                AsyncClass task = new AsyncClass();
-                                if (android.os.Build.VERSION.SDK_INT < 11) {
-                                    task.execute();
-                                } else {
-                                    task.executeOnExecutor(newFixedThreadPool);
-                                }
-                            }
-                        });
-                        ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-
-                            }
-                        });
-                        AlertDialog alertDialog = ad.create();
-                        alertDialog.show();
-                        clickMode = true;
-                        return false;
-                    } catch (Exception e) {
-                        showErrorBox("The deletion operation could not be performed.");
-                        return false;
-                    }
-                }
-            }
-        });
-        editmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-//                try {
-//                    String isim = null;
-//                    for (ListItem gecici : items) {
-//                        if (gecici.getCheck()) {
-//                            isim = gecici.getTitle();
-//                        }
-//                    }
-//                    MaterialDialog builder = new MaterialDialog.Builder(getActivity())
-//                            .title("Add Item")
-//                            .widgetColor(getResources().getColor(R.color.colorPrimaryDark))
-//                            .inputType(InputType.TYPE_CLASS_TEXT)
-//                            .input(null, isim, new MaterialDialog.InputCallback() {
-//                                @Override
-//                                public void onInput(MaterialDialog dialog, CharSequence input) {
-//                                    for (int count = 0; count < items.size(); count++) {
-//                                        if (items.get(count).getCheck()) {
-//                                            String newname = input.toString();
-//                                            renamePath = items.get(count).getThumb();
-//                                            File konum = new File(renamePath);
-//                                            File yeniisim = new File(konum.getParent(), newname);
-//                                            konum.renameTo(yeniisim);
-//                                        }
-//                                    }
-//                                    listFiles(currentDir);
-//                                }
-//                            })
-//                            .negativeText("Cancel")
-//                            .show();
-//                    click = true;
-//                    return false;
-//                } catch (Exception e) {
-//                    showErrorBox("The operation could not be performed.");
-//                    return false;
-//                }
-                return false;
-            }
-        });
-        zipmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-//                try {
-//                    if (!catagory) {
-//                        islem = "zip";
-//                        MaterialDialog builder = new MaterialDialog.Builder(getActivity())
-//                                .title("Add Item")
-//                                .widgetColor(getResources().getColor(R.color.colorPrimaryDark))
-//                                .inputType(InputType.TYPE_CLASS_TEXT)
-//                                .input(null, null, new MaterialDialog.InputCallback() {
-//                                    @Override
-//                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-//                                        String anewzipfolder = input.toString();
-//                AsyncClass task = new AsyncClass();
-//                if (android.os.Build.VERSION.SDK_INT < 11) {
-//                    task.execute();
-//                } else {
-//                    task.executeOnExecutor(newFixedThreadPool);
-//                }
-//                                        newzipfolder = anewzipfolder;
-//                                    }
-//                                })
-//                                .negativeText("Cancel")
-//                                .show();
-//                        click = true;
-//                    } else {
-//                        showErrorBox("You cannot zip here");
-//                    }
-//                } catch (Exception e) {
-//                    showErrorBox("The compression process could not be performed.");
-//                }
-                return false;
-            }
-        });
-        createmenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-//                try {
-//                    if (!catagory) {
-//                        MaterialDialog builder = new MaterialDialog.Builder(getActivity())
-//                                .title("Add Item")
-//                                .widgetColor(getResources().getColor(R.color.colorPrimaryDark))
-//                                .inputType(InputType.TYPE_CLASS_TEXT)
-//                                .input(null, null, new MaterialDialog.InputCallback() {
-//                                    @Override
-//                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-//                                        String newfolder = input.toString();
-//                                        File folder = new File(currentDir.getAbsoluteFile() +
-//                                                File.separator + newfolder);
-//                                        boolean success = true;
-//                                        if (!folder.exists()) {
-//                                            success = folder.mkdir();
-//                                        }
-//                                        if (success) {
-//                                            // Do something on success
-//                                        } else {
-//                                            // Do something else on failure
-//                                        }
-//                                        listFiles(currentDir);
-//                                    }
-//                                })
-//                                .negativeText("Cancel")
-//                                .show();
-//                        click = true;
-//                    } else {
-//                        showErrorBox("You cannot create a folder here");
-//                    }
-//                    return false;
-//                } catch (Exception e) {
-//                    showErrorBox("The operation could not be performed");
-//                    return false;
-//                }
-                return false;
-            }
-        });
-        popupMenu.show();
+        clickMode = false;
+        listAdapter.notifyDataSetChanged();
     }
     public void cancelSelect() {
         clickMode = true;
@@ -1492,6 +1511,185 @@ public class DirectoryFragment2 extends Fragment {
             e.printStackTrace();
         }
     }
+    public void copySelect() {
+        boolean CHANGE_VISIBLE = false;
+        try {
+            performCopy();
+            if (cpy && copyList.size() > 0) {
+                if (CHANGE_VISIBLE) {
+                    if (pastemenu != null) {
+                        pastemenu.setVisible(true);
+                    }
+                    isPasteMenuEnable = true;
+                }
+                for (int count = 0; count < items.size(); count++) {
+                    items.get(count).visible = false;
+                }
+                listAdapter.notifyDataSetChanged();
+                clickMode = true;
+                cpy = false;
+                if (CHANGE_VISIBLE) {
+                    if (copymenu != null) {
+                        copymenu.setVisible(false);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            showErrorBox("The copy operation could not be performed");
+        }
+    }
+    public void cutSelect() {
+        boolean CHANGE_VISIBLE = false;
+        try {
+            performCopy();
+            if (cpy && copyList.size() > 0) {
+                if (CHANGE_VISIBLE) {
+                    if (pastemenu != null) {
+                        pastemenu.setVisible(true);
+                    }
+                    isPasteMenuEnable = true;
+                }
+                for (int count = 0; count < items.size(); count++) {
+                    items.get(count).visible = false;
+                }
+                listAdapter.notifyDataSetChanged();
+                clickMode = true;
+                cpy = false;
+                if (CHANGE_VISIBLE) {
+                    if (copymenu != null) {
+                        copymenu.setVisible(false);
+                    }
+                    if (cutmenu != null) {
+                        cutmenu.setVisible(false);
+                    }
+                }
+                tasi = true;
+            }
+        } catch (Exception e) {
+            showErrorBox("The cut operation could not be completed");
+        }
+    }
+    public void pasteSelect() {
+        if (!isPasteMenuEnable) {
+            return;
+        }
+        operationType = OPERATION_TYPE_PASTE;
+        AsyncClass task = new AsyncClass();
+        if (android.os.Build.VERSION.SDK_INT < 11) {
+            task.execute();
+        } else {
+            task.executeOnExecutor(newFixedThreadPool);
+        }
+    }
+    public void deleteSelect() {
+        if (USE_NEW_DIALOG_STYLE) {
+            //                    showErrorBox("this is an error");
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    operationType = OPERATION_TYPE_DELETE;
+                    AsyncClass task = new AsyncClass();
+                    if (android.os.Build.VERSION.SDK_INT < 11) {
+                        task.execute();
+                    } else {
+                        task.executeOnExecutor(newFixedThreadPool);
+                    }
+                }
+            };
+            androidx.appcompat.app.AlertDialog dialog =
+                    new DirectoryFragment2DeleteDialog(getActivity(), runnable).create();
+            dialog.show();
+        } else {
+            try {
+                AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+                ad.setTitle("Delete the file");
+                ad.setMessage("Are you sure ?");
+                ad.setCancelable(false);
+                ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        operationType = OPERATION_TYPE_DELETE;
+                        AsyncClass task = new AsyncClass();
+                        if (android.os.Build.VERSION.SDK_INT < 11) {
+                            task.execute();
+                        } else {
+                            task.executeOnExecutor(newFixedThreadPool);
+                        }
+                    }
+                });
+                ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = ad.create();
+                alertDialog.show();
+                clickMode = true;
+            } catch (Exception e) {
+                showErrorBox("The deletion operation could not be performed.");
+            }
+        }
+    }
+    DirectoryFragment2NewFolderDialog builder = null;
+    public void newFolderSelect() {
+        builder = null;
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (builder == null) {
+                    return;
+                }
+                String newfolder = builder.getInput();
+                if (newfolder == null || newfolder.isEmpty()) {
+                    showErrorBox("Folder name is empty");
+                    return;
+                }
+                File folder = new File(currentDir.getAbsoluteFile() +
+                        File.separator + newfolder);
+                boolean success = true;
+                if (!folder.exists()) {
+                    success = folder.mkdir();
+                }
+                if (success) {
+                    // Do something on success
+                } else {
+                    // Do something else on failure
+                    showErrorBox("Failed to create folder");
+                }
+                listFiles(currentDir, false);
+            }
+        };
+        builder = new DirectoryFragment2NewFolderDialog(getActivity(), runnable);
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    DirectoryFragment2RenameDialog builder2 = null;
+    public void renameSelect() {
+        builder2 = null;
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (builder2 == null) {
+                    return;
+                }
+                for (int count = 0; count < items.size(); count++) {
+                    if (items.get(count).check) {
+                        String newname = builder2.getInput();
+                        File renamePath = items.get(count).file;
+                        File konum = renamePath;
+                        File yeniisim = new File(konum.getParent(), newname);
+                        konum.renameTo(yeniisim);
+                    }
+                }
+                listFiles(currentDir, false);
+            }
+        };
+        builder2 = new DirectoryFragment2RenameDialog(getActivity(), runnable);
+        androidx.appcompat.app.AlertDialog dialog = builder2.create();
+        dialog.show();
+    }
+
     private void performCopy() {
         if (cpy) {
             for (int count = 0; count < items.size(); count++) {
@@ -1599,15 +1797,27 @@ public class DirectoryFragment2 extends Fragment {
             }
             if (operationType.equals(OPERATION_TYPE_PASTE)) {
                 if (tasi) {
-                    pastemenu.setVisible(false);
-                    copymenu.setVisible(true);
-                    cutmenu.setVisible(true);
+                    if (pastemenu != null) {
+                        pastemenu.setVisible(false);
+                    }
+                    isPasteMenuEnable = false;
+                    if (copymenu != null) {
+                        copymenu.setVisible(true);
+                    }
+                    if (cutmenu != null) {
+                        cutmenu.setVisible(true);
+                    }
                     tasi = false;
                     copyList.clear();
                     listFiles(currentDir, false);
                 } else {
-                    pastemenu.setVisible(false);
-                    copymenu.setVisible(true);
+                    if (pastemenu != null) {
+                        pastemenu.setVisible(false);
+                    }
+                    isPasteMenuEnable = false;
+                    if (copymenu != null) {
+                        copymenu.setVisible(true);
+                    }
                     copyList.clear();
                     listFiles(currentDir, false);
                 }

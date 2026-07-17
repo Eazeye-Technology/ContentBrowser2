@@ -209,16 +209,20 @@
                         android:focusable="true"
                         android:layout_width="@dimen/fragment_home2_title_search_rl_cv_width"
                         android:layout_height="@dimen/fragment_home2_title_search_rl_cv_height"
-                        app:cardCornerRadius="@dimen/fragment_home2_title_search_rl_cv_corner"
                         app:cardElevation="0px"
+                        app:cardCornerRadius="20px"
                         app:cardBackgroundColor="#00000000"
                         android:id="@+id/btnMore"
                         android:layout_centerInParent="true"
                         >
+                        <!--
+                        app:cardCornerRadius="@dimen/fragment_home2_title_search_rl_cv_corner"
+                        -->
                     <RelativeLayout
                         android:layout_width="@dimen/fragment_home2_title_search_rl_cv_rl_width"
                         android:layout_height="@dimen/fragment_home2_title_search_rl_cv_rl_height">
                         <ImageView
+                            android:id="@+id/ivBtnMore"
                             android:layout_width="@dimen/fragment_home2_title_search_rl_cv_rl_iv_width"
                             android:layout_height="@dimen/fragment_home2_title_search_rl_cv_rl_iv_height"
                             android:layout_centerInParent="true"
