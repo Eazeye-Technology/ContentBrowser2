@@ -78,6 +78,7 @@ import com.foobnix.ui2.adapter.FileMetaAdapter;
 import com.foobnix.ui2.fast.FastScrollRecyclerView;
 import com.foobnix.ui2.fast.FastScrollStateChangeListener;
 import com.txkj.contentbrowser2.R;
+import com.txkj.contentbrowser2.activity.DualScreenConstant;
 import com.txkj.contentbrowser2.activity.MainActivity2;
 
 import org.greenrobot.eventbus.EventBus;
@@ -223,6 +224,8 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
+                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                     }
                     FileMeta meta = pageList.get(position);
                     File file = new File(meta.getPath());
@@ -301,6 +304,8 @@ class PreferencesKeys {
                     } else {
                          intent.setClassName("com.txkj.drawingapp",
                                  "com.txkj.notemobile2.BookListActivity");
+                         intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                     }
 
                     FileMeta meta = recentNoteList.get(position);

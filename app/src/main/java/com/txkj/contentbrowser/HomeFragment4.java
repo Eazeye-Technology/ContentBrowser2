@@ -90,6 +90,7 @@ import com.foobnix.work.SearchAllBooksWorker;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.txkj.contentbrowser2.R;
+import com.txkj.contentbrowser2.activity.DualScreenConstant;
 import com.txkj.drawingapp.db.NoteItem;
 import com.txkj.drawingapp.db.SDNotesDatabase;
 
@@ -505,6 +506,8 @@ public class HomeFragment4 extends Fragment {
                         } else {
                             intent.setClassName("com.txkj.drawingapp",
                                     "com.txkj.notemobile2.BookListActivity");
+                            intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                    DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                         }
                         String APP_FILE = meta.getPathTxt();
                         intent.putExtra("APP_FILE", APP_FILE);
@@ -529,6 +532,8 @@ public class HomeFragment4 extends Fragment {
                         } else {
                             intent.setClassName("com.txkj.readingapp",
                                     "org.ebookdroid.ui.viewer.VerticalViewActivity");
+                            intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                    DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                         }
 
                         AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));

@@ -102,6 +102,8 @@ public class MainActivity3NotUsed extends AppCompatActivity {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
+                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");

@@ -23,7 +23,9 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
+import com.dseink.EinkUtils;
+import com.foobnix.android.utils.Keyboards;
 import com.foobnix.model.AppProfile;
 import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.Android6Mod;
@@ -93,10 +97,43 @@ public class MainActivity2 extends AppCompatActivity {
             R.id.menu_bar_item_6_R,
             R.id.menu_bar_item_7_R,
     };
+    private void hideNavigation() {
+        final View decorView = this.getWindow().getDecorView();
+        decorView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= 19) {
+                    decorView.setSystemUiVisibility(//
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE //
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN//
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);//
+                } else {
+                    decorView.setSystemUiVisibility( //
+                            View.SYSTEM_UI_FLAG_LOW_PROFILE //
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN); //
+                }
+            }
+        }, 100);
+    }
+
+    //FIXME:added
+    private void setupPadding() {
+        if (true) {
+            //root_layout
+            LinearLayout rootLayout = findViewById(R.id.llTab);
+            rootLayout.setPadding(0, 50, 0, 0);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home2);
+        setupPadding();
+        //hideNavigation();
         if (this.getSupportActionBar() != null) {
             this.getSupportActionBar().hide();
         }
@@ -325,6 +362,8 @@ public class MainActivity2 extends AppCompatActivity {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
+                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -622,6 +661,8 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             fragmentTransaction.commit();
         }
         onUpdateMenu();
+        //FIXME:
+        EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout));
     }
 
     //https://github.com/microsoft/Visual-Audience-Polling/blob/db9536339145aa87a526c1a5fbf207e730ca7859/src/RosterList.java#L379

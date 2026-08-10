@@ -3,11 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white" >
+    android:background="@android:color/white"
+    >
 
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/actiontool_bar" />
+        layout="@layout/actiontool_bar"
+        android:visibility="visible"
+        />
+
+    <View
+        android:id="@+id/vBox"
+        android:layout_width="500px"
+        android:layout_height="500px"
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        />
 
     <RelativeLayout
         android:id="@+id/fragment_container"

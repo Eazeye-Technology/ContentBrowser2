@@ -1,10 +1,18 @@
 package com.getdirectory;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -20,6 +28,35 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = null;
     private FragmentTransaction fragmentTransaction = null;
     private DirectoryFragment mDirectoryFragment;
+
+    public void hideNavigation() {
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(0x00CCCCCC);
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+//        View decorView = getWindow().getDecorView();
+//        decorView.setSystemUiVisibility(
+//                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        View findViewById = window.findViewById(Window.ID_ANDROID_CONTENT);
+        if (findViewById != null) {
+            View childAt = ((ViewGroup) findViewById).getChildAt(0);
+            if (childAt != null) {
+                ViewCompat.setFitsSystemWindows(childAt, false);
+                ViewCompat.requestApplyInsets(childAt);
+            }
+        }
+    }
+    public static int getStatusBarHeight(Context context) {
+        int identifier = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (identifier > 0) {
+            return context.getResources().getDimensionPixelSize(identifier);
+        }
+        return 0;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +125,17 @@ public class MainActivity extends AppCompatActivity {
         });
         fragmentTransaction.add(R.id.fragment_container, mDirectoryFragment, "" + mDirectoryFragment.toString());
         fragmentTransaction.commit();
-
+//        toolbar.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                //hideNavigation();
+//                int height = getStatusBarHeight(MainActivity.this);
+//                if (height > 0) {
+//                    View vBox = findViewById(R.id.vBox);
+//                    vBox.setLayoutParams(new LinearLayout.LayoutParams(height, height));
+//                }
+//            }
+//        }, 2/*2000*/);
     }
 	
     @Override

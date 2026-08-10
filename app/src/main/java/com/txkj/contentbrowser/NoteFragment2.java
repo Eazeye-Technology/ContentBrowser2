@@ -44,6 +44,7 @@ import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
+import com.txkj.contentbrowser2.activity.DualScreenConstant;
 import com.txkj.drawingapp.db.NoteItem;
 import com.txkj.drawingapp.db.SDNotesDatabase;
 
@@ -170,6 +171,8 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
+                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -275,6 +278,8 @@ class PreferencesKeys {
                         } else {
                             intent.setClassName("com.txkj.drawingapp",
                                     "com.txkj.notemobile2.BookListActivity");
+                            intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                    DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                         }
                         FileMeta meta = recentNoteList.get(position);
                         String APP_FILE = meta.getPathTxt();

@@ -1,5 +1,6 @@
 package com.getdirectory;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -10,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -1872,6 +1874,54 @@ public class DirectoryFragment2 extends Fragment {
                 tvEmpty1.setText("Nothing here yet");
                 tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
             }
+        }
+    }
+
+
+
+    private static final int REQUEST_CODE_OPEN_DOCUMENT = 1;
+
+    private void openFileManager() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        // Uri initialUri = Uri.parse("content://com.android.externalstorage.documents/document/primary:%2FDCIM%2FCamera%2F");
+        // intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, initialUri);
+        startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT);
+    }
+    //@Override
+    protected void onActivityResult_(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_OPEN_DOCUMENT && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                Uri selectedFileUri = data.getData();
+            }
+        }
+    }
+
+
+    //https://github.com/aenu1/aps3e/blob/b5ae1af50d5e2f3b705506e7380a4504e086840b/app/src/main/java/aenu/aps3e/Utils.java#L186
+    static void open_file_manager(Activity activity)  {
+        try{
+            Intent it=new Intent(Intent.ACTION_VIEW);
+            it.setClassName("com.android.documentsui",
+                    "com.android.documentsui.files.FilesActivity");
+            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(it);
+            return;
+        }
+        catch(Exception e){
+        }
+        //android 10+
+        try{
+            Intent it=new Intent(Intent.ACTION_VIEW);
+            it.setClassName("com.google.android.documentsui",
+                    "com.android.documentsui.files.FilesActivity");
+            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(it);
+            return;
+        }
+        catch(Exception e){
         }
     }
 }

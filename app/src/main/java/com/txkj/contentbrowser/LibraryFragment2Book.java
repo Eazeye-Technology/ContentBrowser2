@@ -83,6 +83,7 @@ import com.foobnix.work.CheckDeletedBooksWorker;
 import com.foobnix.work.SearchAllBooksWorker;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
+import com.txkj.contentbrowser2.activity.DualScreenConstant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -268,6 +269,8 @@ public class LibraryFragment2Book extends Fragment {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
+                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
                     }
                     FileMeta meta = pageList.get(position);
                     AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));
