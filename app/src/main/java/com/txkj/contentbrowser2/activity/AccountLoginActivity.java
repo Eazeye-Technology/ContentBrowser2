@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dseink.DualScreenConstant;
 import com.txkj.contentbrowser2.R;
 
 public class AccountLoginActivity extends AppCompatActivity {
@@ -16,9 +17,10 @@ public class AccountLoginActivity extends AppCompatActivity {
 
     private void gotoMainActivity(){
         Intent intent = new Intent(this, MainActivity2.class);
-        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
-        intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        DualScreenConstant.launchFull(intent);
+        if (DualScreenConstant.USE_HOME) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        }
         startActivity(intent);
         finish();
     }

@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -37,9 +36,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.BaseExtractor;
@@ -49,7 +45,6 @@ import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.Safe;
 import com.foobnix.android.utils.TxtUtils;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.ext.CacheZipUtils;
@@ -58,41 +53,28 @@ import com.foobnix.model.AppState;
 import com.foobnix.model.SimpleMeta;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.view.AlertDialogs;
 import com.foobnix.pdf.info.view.MyPopupMenu;
-import com.foobnix.pdf.info.view.MyProgressBar;
-import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.info.wrapper.PopupHelper;
 import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
 import com.foobnix.pdf.search.activity.msg.OpenDirMessage;
 import com.foobnix.pdf.search.activity.msg.UpdateAllFragments;
-import com.foobnix.sys.ImageExtractor;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.adapter.AuthorsAdapter2;
-import com.foobnix.ui2.adapter.DefaultListeners;
-import com.foobnix.ui2.adapter.FileMetaAdapter;
-import com.foobnix.ui2.fast.FastScrollRecyclerView;
-import com.foobnix.ui2.fast.FastScrollStateChangeListener;
 import com.txkj.contentbrowser2.R;
-import com.txkj.contentbrowser2.activity.DualScreenConstant;
+import com.dseink.DualScreenConstant;
 import com.txkj.contentbrowser2.activity.MainActivity2;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
 import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -224,8 +206,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
                     FileMeta meta = pageList.get(position);
                     File file = new File(meta.getPath());
@@ -304,8 +285,7 @@ class PreferencesKeys {
                     } else {
                          intent.setClassName("com.txkj.drawingapp",
                                  "com.txkj.notemobile2.BookListActivity");
-                         intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
 
                     FileMeta meta = recentNoteList.get(position);

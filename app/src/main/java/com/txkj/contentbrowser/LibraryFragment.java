@@ -17,13 +17,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,13 +35,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
@@ -68,14 +62,10 @@ import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.Prefs;
 import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.view.AlertDialogs;
 import com.foobnix.pdf.info.view.EditTextHelper;
 import com.foobnix.pdf.info.view.KeyCodeDialog;
 import com.foobnix.pdf.info.view.MyPopupMenu;
-import com.foobnix.pdf.info.view.MyProgressBar;
 import com.foobnix.pdf.info.widget.DialogTranslateFromTo;
-import com.foobnix.pdf.info.widget.PrefDialogs;
-import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.info.wrapper.PopupHelper;
 import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
 import com.foobnix.pdf.search.activity.msg.OpenDirMessage;
@@ -86,26 +76,20 @@ import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.BooksService;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.adapter.AuthorsAdapter2;
-import com.foobnix.ui2.adapter.DefaultListeners;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
-import com.foobnix.ui2.fast.FastScrollRecyclerView;
-import com.foobnix.ui2.fast.FastScrollStateChangeListener;
 import com.foobnix.work.CheckDeletedBooksWorker;
 import com.foobnix.work.SearchAllBooksWorker;
-import com.foobnix.work.SelfTestWorker;
 import com.txkj.contentbrowser2.R;
-import com.txkj.contentbrowser2.activity.DualScreenConstant;
+import com.dseink.DualScreenConstant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EmptyStackException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -252,8 +236,7 @@ public class LibraryFragment extends Fragment {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
                     FileMeta meta = pageList.get(position);
                     AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));

@@ -1,4 +1,6 @@
-package com.txkj.contentbrowser2.activity;
+package com.dseink;
+
+import android.content.Intent;
 
 public class DualScreenConstant {
     /**
@@ -12,4 +14,16 @@ public class DualScreenConstant {
     public static final int EXTRA_LAUNCH_SCREEN_PANEL_A 	= 1;
     public static final int EXTRA_LAUNCH_SCREEN_PANEL_B		= 2;
     public static final int EXTRA_LAUNCH_SCREEN_PANEL_BOTH 	= 3;
+
+    public static boolean USE_HOME = false;
+    public static boolean FORCE_BOTH_SCREEN = true;
+    public static void launchFull(Intent intent) {
+        if (intent == null) {
+            return;
+        }
+        if (FORCE_BOTH_SCREEN) {
+            intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                    DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+        }
+    }
 }

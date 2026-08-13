@@ -31,15 +31,13 @@ import com.BaseExtractor;
 import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.Keyboards;
 import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.StringDB;
-import com.foobnix.android.utils.TxtUtils;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
 import com.txkj.contentbrowser2.R;
-import com.txkj.contentbrowser2.activity.DualScreenConstant;
+import com.dseink.DualScreenConstant;
 
 import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
@@ -151,8 +149,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -202,8 +199,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
                     FileMeta meta = recentNoteList.get(position);
                     String APP_FILE = meta.getPathTxt();

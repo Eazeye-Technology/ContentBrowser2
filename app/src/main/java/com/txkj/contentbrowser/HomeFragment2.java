@@ -1,6 +1,5 @@
 package com.txkj.contentbrowser;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,13 +15,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.GridView;
@@ -33,7 +30,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -64,8 +60,7 @@ import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.adapter.AuthorsAdapter2;
 import com.txkj.contentbrowser2.R;
-import com.txkj.contentbrowser2.activity.DualScreenConstant;
-import com.txkj.contentbrowser2.activity.MainActivity2;
+import com.dseink.DualScreenConstant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -196,8 +191,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
                     FileMeta meta = pageList.get(position);
                     File file = new File(meta.getPath());
@@ -249,8 +243,7 @@ class PreferencesKeys {
                     } else {
                          intent.setClassName("com.txkj.drawingapp",
                                  "com.txkj.notemobile2.BookListActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                         DualScreenConstant.launchFull(intent);
                     }
 
                     FileMeta meta = recentNoteList.get(position);

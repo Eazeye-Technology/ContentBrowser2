@@ -1,11 +1,9 @@
 package com.txkj.contentbrowser2.activity;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,25 +12,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -42,10 +34,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
+import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
-import com.foobnix.android.utils.Keyboards;
 import com.foobnix.model.AppProfile;
-import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.Android6Mod;
 import com.foobnix.pdf.info.ExtUtils;
 import com.getdirectory.DirectoryFragment2;
@@ -67,10 +58,14 @@ import com.txkj.smartanswer.AnswerFragment;
 import com.upgradetool.upgrade.UpgradeUtil;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
+    public void onDialogDismiss() {
+        //FIXME:
+        EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout));
+    }
+
     AutoCompleteTextView searchEditTextGlobal;
 
     @Override
@@ -343,6 +338,8 @@ public class MainActivity2 extends AppCompatActivity {
                         }
                     }
                 }
+                //FIXME:
+                EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout));
             }
         });
         View button = this.findViewById(R.id.btnTitleNewBook);
@@ -362,8 +359,7 @@ public class MainActivity2 extends AppCompatActivity {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");

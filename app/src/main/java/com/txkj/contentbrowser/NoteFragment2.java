@@ -1,11 +1,8 @@
 package com.txkj.contentbrowser;
 
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -44,7 +41,7 @@ import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
-import com.txkj.contentbrowser2.activity.DualScreenConstant;
+import com.dseink.DualScreenConstant;
 import com.txkj.drawingapp.db.NoteItem;
 import com.txkj.drawingapp.db.SDNotesDatabase;
 
@@ -52,13 +49,10 @@ import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -171,8 +165,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -278,8 +271,7 @@ class PreferencesKeys {
                         } else {
                             intent.setClassName("com.txkj.drawingapp",
                                     "com.txkj.notemobile2.BookListActivity");
-                            intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                    DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                            DualScreenConstant.launchFull(intent);
                         }
                         FileMeta meta = recentNoteList.get(position);
                         String APP_FILE = meta.getPathTxt();

@@ -18,24 +18,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.codeteenager.systemsettings.SystemSettingFragment;
+import com.dseink.DualScreenConstant;
 import com.foobnix.model.AppProfile;
-import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.Android6Mod;
 import com.getdirectory.DirectoryFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigationrail.NavigationRailView;
-import com.google.android.material.snackbar.Snackbar;
 import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
 import com.txkj.contentbrowser.ChatFragment;
@@ -52,8 +48,6 @@ import com.txkj.smartanswer.AnswerFragment;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import io.material.catalog.navigationrail.NavigationRailSubMenuDemoFragment;
 
 public class MainActivity3NotUsed extends AppCompatActivity {
     @Override
@@ -102,8 +96,7 @@ public class MainActivity3NotUsed extends AppCompatActivity {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
-                                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH);
+                        DualScreenConstant.launchFull(intent);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
