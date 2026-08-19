@@ -16,7 +16,7 @@ public class AccountLoginActivity extends AppCompatActivity {
     }
 
     private void gotoMainActivity(){
-        Intent intent = new Intent(this, MainActivity2.class);
+        Intent intent = new Intent(this, MainActivity2.class); //MainActivity6
         DualScreenConstant.launchFull(intent);
         if (DualScreenConstant.USE_HOME) {
             intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);

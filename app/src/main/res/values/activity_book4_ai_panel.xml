@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_book4_ai_panel_rec_btn_height">60px</dimen>
+
+    <dimen name="activity_book4_ai_panel_rec_btn1_margin_left">24px</dimen>
+
+    <dimen name="activity_book4_ai_panel_rec_btn1_corner">30px</dimen>
+    <dimen name="activity_book4_ai_panel_rec_btn1_margin">5px</dimen>
+    <dimen name="activity_book4_ai_panel_rec_btn1_padding_left">20px</dimen>
+    <dimen name="activity_book4_ai_panel_rec_btn1_iv_height">20px</dimen>
+    <dimen name="activity_book4_ai_panel_rec_btn1_iv_margin">10px</dimen>
+    <dimen name="activity_book4_ai_panel_rec_btn1_tv_text_size">14px</dimen>
+    <dimen name="activity_book4_ai_panel_rec_btn1_tv_margin_right">30px</dimen>
+</resources>
