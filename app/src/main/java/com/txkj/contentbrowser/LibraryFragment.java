@@ -236,7 +236,7 @@ public class LibraryFragment extends Fragment {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, false, false);
                     }
                     FileMeta meta = pageList.get(position);
                     AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));

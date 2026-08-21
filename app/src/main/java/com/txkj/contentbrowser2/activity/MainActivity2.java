@@ -359,7 +359,7 @@ public class MainActivity2 extends AppCompatActivity {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, true, false);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");

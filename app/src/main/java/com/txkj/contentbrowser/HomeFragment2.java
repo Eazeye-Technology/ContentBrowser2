@@ -191,7 +191,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.readingapp",
                                 "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, false, false);
                     }
                     FileMeta meta = pageList.get(position);
                     File file = new File(meta.getPath());
@@ -243,7 +243,7 @@ class PreferencesKeys {
                     } else {
                          intent.setClassName("com.txkj.drawingapp",
                                  "com.txkj.notemobile2.BookListActivity");
-                         DualScreenConstant.launchFull(intent);
+                         DualScreenConstant.launchFull(intent, true, false);
                     }
 
                     FileMeta meta = recentNoteList.get(position);

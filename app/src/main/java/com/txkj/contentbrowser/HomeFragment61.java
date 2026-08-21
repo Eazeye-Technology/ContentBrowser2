@@ -51,6 +51,8 @@ import java.util.ArrayList;
 
 //from MainActivity2
 public class HomeFragment61 extends Fragment {
+    final private boolean NEW_HOME = true;
+
     private View g_rootView = null;
     private View findViewById(int id) {
         if (g_rootView == null) {
@@ -197,8 +199,8 @@ public class HomeFragment61 extends Fragment {
         mBrowserFragment = new BrowserFragment();
         mSettingFragment = new SettingFragment();
         mNoteFragment = new NoteFragment2();
-        mLibraryFragment2Book = new LibraryFragment2Book();
-        mLibraryFragment2Pdf = new LibraryFragment2Pdf();
+        mLibraryFragment2Book = new LibraryFragment2Readings();//LibraryFragment2Book();
+        mLibraryFragment2Pdf = new LibraryFragment2Readings();//LibraryFragment2Pdf();
         mChatFragment = new ChatFragment();
         mAppsFragment = new AppsFragment();
         mHome3Fragment = new HomeFragment3();
@@ -271,7 +273,7 @@ public class HomeFragment61 extends Fragment {
         if (savedInstanceState != null) {
             this.currentTabId = savedInstanceState.getInt(KEY_CURRENT_TAB_ID, 0);//R.id.function_bar_item_home);
         }
-        onClick2(this.currentTabId, false);
+        onClick2(this.currentTabId, false);  //default choose home
 
         this.findViewById(R.id.top_left_menu_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,7 +320,7 @@ public class HomeFragment61 extends Fragment {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, true, false);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -347,22 +349,32 @@ public class HomeFragment61 extends Fragment {
 
     private boolean toggleSearch(boolean forceShowSearchButton) {
         boolean result = findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE;
-        if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
-            findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
-            findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
-            //findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
-            findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            //AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
-            if (searchEditTextGlobal != null) {
-                searchEditTextGlobal.setText("");
-            }
-        } else {
+        if (NEW_HOME) {
             findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
             findViewById(R.id.tvTitleText).setVisibility(View.GONE);
             //findViewById(R.id.btnSearch).setVisibility(View.GONE);
             findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
             if (searchEditTextGlobal != null) {
                 searchEditTextGlobal.requestFocus();
+            }
+        } else {
+            if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
+                findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
+                findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
+                //findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
+                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+                //AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
+                if (searchEditTextGlobal != null) {
+                    searchEditTextGlobal.setText("");
+                }
+            } else {
+                findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
+                findViewById(R.id.tvTitleText).setVisibility(View.GONE);
+                //findViewById(R.id.btnSearch).setVisibility(View.GONE);
+                findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+                if (searchEditTextGlobal != null) {
+                    searchEditTextGlobal.requestFocus();
+                }
             }
         }
         onUpdateMenu();
@@ -417,8 +429,8 @@ public class HomeFragment61 extends Fragment {
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
     private NoteFragment2 mNoteFragment;
-    private LibraryFragment2Book mLibraryFragment2Book;
-    private LibraryFragment2Pdf mLibraryFragment2Pdf;
+    private LibraryFragment2Readings/*LibraryFragment2Book*/ mLibraryFragment2Book;
+    private LibraryFragment2Readings/*LibraryFragment2Pdf*/ mLibraryFragment2Pdf;
     private ChatFragment mChatFragment;
     private AppsFragment mAppsFragment;
     private HomeFragment3 mHome3Fragment;
@@ -630,13 +642,21 @@ public class HomeFragment61 extends Fragment {
             return isActive ? R.drawable.ic_my_nav2_note_002: R.drawable.ic_my_nav_note_002;
         } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
             //ic_my_nav_book_003_w
-            return isActive ? R.drawable.ic_my_nav2_book_003: R.drawable.ic_my_nav_book_003;
+            if (false) {
+                return isActive ? R.drawable.ic_my_nav2_book_003 : R.drawable.ic_my_nav_book_003;
+            } else {
+                return isActive ? R.drawable.home_readings2 : R.drawable.home_readings;
+            }
         } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
             //ic_my_nav_pdf_004_w
             return isActive ? R.drawable.ic_my_nav2_pdf_004: R.drawable.ic_my_nav_pdf_004;
         } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
             //ic_my_nav_file_005_w
-            return isActive ? R.drawable.ic_my_nav2_storage_005: R.drawable.ic_my_nav_file_005;
+            if (false) {
+                return isActive ? R.drawable.ic_my_nav2_storage_005 : R.drawable.ic_my_nav_file_005;
+            } else {
+                return isActive ? R.drawable.home_storage_ic2 : R.drawable.home_storage_ic;
+            }
         } else if (id == R.id.menu_bar_item_6 || id == R.id.menu_bar_item_6_R) {
             //ic_my_nav_apps_006_w
             return isActive ? R.drawable.ic_my_nav2_apps_006: R.drawable.ic_my_nav_apps_006;
@@ -731,36 +751,41 @@ public class HomeFragment61 extends Fragment {
                 }
             }
         } else {
-            if (this.currentTabId == R.id.menu_bar_item_2 ||
-                    this.currentTabId == R.id.menu_bar_item_2_R) {
-                //note, show
-                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            } else if (this.currentTabId == R.id.menu_bar_item_5 ||
-                    this.currentTabId == R.id.menu_bar_item_5_R) {
-                //storage, show
-                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            } else {
-                //hide
+            if (NEW_HOME) {
                 findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
-            }
-            if (this.currentTabId == R.id.menu_bar_item_7 ||
-                    this.currentTabId == R.id.menu_bar_item_7_R) {
-                //settings hide
                 findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
-            } else if (this.currentTabId == R.id.menu_bar_item_5 ||
-                    this.currentTabId == R.id.menu_bar_item_5_R) {
-                //storage fragment hide
-                findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
-
-                try {
-                    if (mDirectoryFragment != null) {
-                        mDirectoryFragment.cancelSelect();
-                    }
-                } catch (Throwable eee) {
-                    eee.printStackTrace();
-                }
             } else {
-                findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+                if (this.currentTabId == R.id.menu_bar_item_2 ||
+                        this.currentTabId == R.id.menu_bar_item_2_R) {
+                    //note, show
+                    findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+                } else if (this.currentTabId == R.id.menu_bar_item_5 ||
+                        this.currentTabId == R.id.menu_bar_item_5_R) {
+                    //storage, show
+                    findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+                } else {
+                    //hide
+                    findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+                }
+                if (this.currentTabId == R.id.menu_bar_item_7 ||
+                        this.currentTabId == R.id.menu_bar_item_7_R) {
+                    //settings hide
+                    findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+                } else if (this.currentTabId == R.id.menu_bar_item_5 ||
+                        this.currentTabId == R.id.menu_bar_item_5_R) {
+                    //storage fragment hide
+                    findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+
+                    try {
+                        if (mDirectoryFragment != null) {
+                            mDirectoryFragment.cancelSelect();
+                        }
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+                }
             }
         }
     }

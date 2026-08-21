@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continue reading"
+            android:textSize="24px"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="94px"
+            android:layout_marginBottom="94px"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You're not reading anything yet"
+                    android:textSize="32px"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="There's a sea of knowledge out there"
+                    android:textSize="28px"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40px"
+                    >
+                    <!--
+                    android:layout_marginLeft="@dimen/activity_book4_ai_panel_rec_btn1_margin_left"
+                    -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="#F6F3F2"
+                        app:cardCornerRadius="@dimen/activity_dialog_upgrade_text_size1"
+                        android:layout_gravity="center|center_vertical"
+                        android:layout_marginLeft="10px"
+                        android:id="@+id/startDiarization"
+                        android:visibility="visible"
+                        android:layout_centerInParent="true"
+                        app:cardElevation="0px"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        >
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="0px"
+                            android:background="@drawable/border_background_dark"
+                            android:id="@+id/llStartDiarizationOuter"
+                            >
+                            <TextView
+                                android:id="@+id/tvStartDiarization"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16px"
+                                android:textColor="#ffffff"
+                                android:textStyle="bold"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_margin="@dimen/activity_dialog_upgrade_text_size2"
+                                android:visibility="visible"
+                                android:text="Choose a book"
+                                />
+                            <!--
+                            android:text="Start speaker diarization"
+                                -->
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continue working"
+            android:textSize="24px"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="94px"
+            android:layout_marginBottom="94px"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thought of something? "
+                    android:textSize="32px"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Write it down"
+                    android:textSize="28px"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40px"
+                    >
+                    <!--
+                    android:layout_marginLeft="@dimen/activity_book4_ai_panel_rec_btn1_margin_left"
+                    -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="#F6F3F2"
+                        app:cardCornerRadius="@dimen/activity_dialog_upgrade_text_size1"
+                        android:layout_gravity="center|center_vertical"
+                        android:layout_marginLeft="10px"
+                        android:visibility="visible"
+                        android:layout_centerInParent="true"
+                        app:cardElevation="0px"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        >
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="0px"
+                            android:background="@drawable/border_background_dark"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16px"
+                                android:textColor="#ffffff"
+                                android:textStyle="bold"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_margin="@dimen/activity_dialog_upgrade_text_size2"
+                                android:visibility="visible"
+                                android:text="Create your first note"
+                                />
+                            <!--
+                            android:text="Start speaker diarization"
+                                -->
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

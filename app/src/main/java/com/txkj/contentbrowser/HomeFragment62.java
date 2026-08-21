@@ -38,6 +38,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class HomeFragment62 extends Fragment {
+    final private boolean NEW_HOME = true;
+
     private View g_rootView = null;
     private View findViewById(int id) {
         if (g_rootView == null) {
@@ -80,6 +82,10 @@ public class HomeFragment62 extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home6_2, container, false);
         g_rootView = view;
+
+        if (NEW_HOME) {
+            findViewById(R.id.llTab).setVisibility(View.GONE);
+        }
 
         for (int id : icons) {
             if (findViewById(id) != null) {
@@ -259,7 +265,7 @@ public class HomeFragment62 extends Fragment {
         if (savedInstanceState != null) {
             this.currentTabId = savedInstanceState.getInt(KEY_CURRENT_TAB_ID, 0);//R.id.function_bar_item_home);
         }
-        onClick2(this.currentTabId, false);
+        onClick2(this.currentTabId, false); //default choose home
 
         this.findViewById(R.id.top_left_menu_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,7 +312,7 @@ public class HomeFragment62 extends Fragment {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, true, false);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -335,22 +341,32 @@ public class HomeFragment62 extends Fragment {
 
     private boolean toggleSearch(boolean forceShowSearchButton) {
         boolean result = findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE;
-        if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
-            findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
-            findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
-            //findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
-            findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            //AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
-            if (searchEditTextGlobal != null) {
-                searchEditTextGlobal.setText("");
-            }
-        } else {
+        if (NEW_HOME) {
             findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
             findViewById(R.id.tvTitleText).setVisibility(View.GONE);
             //findViewById(R.id.btnSearch).setVisibility(View.GONE);
             findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
             if (searchEditTextGlobal != null) {
                 searchEditTextGlobal.requestFocus();
+            }
+        } else {
+            if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
+                findViewById(R.id.ll_search_wx_global).setVisibility(View.GONE);
+                findViewById(R.id.tvTitleText).setVisibility(View.VISIBLE);
+                //findViewById(R.id.btnSearch).setVisibility(View.VISIBLE);
+                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+                //AutoCompleteTextView searchEditTextGlobal = (AutoCompleteTextView) findViewById(R.id.filterLine_Library_global);
+                if (searchEditTextGlobal != null) {
+                    searchEditTextGlobal.setText("");
+                }
+            } else {
+                findViewById(R.id.ll_search_wx_global).setVisibility(View.VISIBLE);
+                findViewById(R.id.tvTitleText).setVisibility(View.GONE);
+                //findViewById(R.id.btnSearch).setVisibility(View.GONE);
+                findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+                if (searchEditTextGlobal != null) {
+                    searchEditTextGlobal.requestFocus();
+                }
             }
         }
         onUpdateMenu();
@@ -722,36 +738,41 @@ public class HomeFragment62 extends Fragment {
                 }
             }
         } else {
-            if (this.currentTabId == R.id.menu_bar_item_2 ||
-                    this.currentTabId == R.id.menu_bar_item_2_R) {
-                //note, show
-                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            } else if (this.currentTabId == R.id.menu_bar_item_5 ||
-                    this.currentTabId == R.id.menu_bar_item_5_R) {
-                //storage, show
-                findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
-            } else {
-                //hide
+            if (NEW_HOME) {
                 findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
-            }
-            if (this.currentTabId == R.id.menu_bar_item_7 ||
-                    this.currentTabId == R.id.menu_bar_item_7_R) {
-                //settings hide
                 findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
-            } else if (this.currentTabId == R.id.menu_bar_item_5 ||
-                    this.currentTabId == R.id.menu_bar_item_5_R) {
-                //storage fragment hide
-                findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
-
-                try {
-                    if (mDirectoryFragment != null) {
-                        mDirectoryFragment.cancelSelect();
-                    }
-                } catch (Throwable eee) {
-                    eee.printStackTrace();
-                }
             } else {
-                findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+                if (this.currentTabId == R.id.menu_bar_item_2 ||
+                        this.currentTabId == R.id.menu_bar_item_2_R) {
+                    //note, show
+                    findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+                } else if (this.currentTabId == R.id.menu_bar_item_5 ||
+                        this.currentTabId == R.id.menu_bar_item_5_R) {
+                    //storage, show
+                    findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
+                } else {
+                    //hide
+                    findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+                }
+                if (this.currentTabId == R.id.menu_bar_item_7 ||
+                        this.currentTabId == R.id.menu_bar_item_7_R) {
+                    //settings hide
+                    findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+                } else if (this.currentTabId == R.id.menu_bar_item_5 ||
+                        this.currentTabId == R.id.menu_bar_item_5_R) {
+                    //storage fragment hide
+                    findViewById(R.id.ll_btnSearch).setVisibility(View.GONE);
+
+                    try {
+                        if (mDirectoryFragment != null) {
+                            mDirectoryFragment.cancelSelect();
+                        }
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    findViewById(R.id.ll_btnSearch).setVisibility(View.VISIBLE);
+                }
             }
         }
     }

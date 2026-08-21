@@ -149,7 +149,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, true, false);
                     }
 
                     intent.putExtra("APP_OPEN", "NEW");
@@ -199,7 +199,7 @@ class PreferencesKeys {
                     } else {
                         intent.setClassName("com.txkj.drawingapp",
                                 "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent);
+                        DualScreenConstant.launchFull(intent, true, false);
                     }
                     FileMeta meta = recentNoteList.get(position);
                     String APP_FILE = meta.getPathTxt();

@@ -506,7 +506,7 @@ public class HomeFragment4 extends Fragment {
                         } else {
                             intent.setClassName("com.txkj.drawingapp",
                                     "com.txkj.notemobile2.BookListActivity");
-                            DualScreenConstant.launchFull(intent);
+                            DualScreenConstant.launchFull(intent, true, false);
                         }
                         String APP_FILE = meta.getPathTxt();
                         intent.putExtra("APP_FILE", APP_FILE);
@@ -531,7 +531,7 @@ public class HomeFragment4 extends Fragment {
                         } else {
                             intent.setClassName("com.txkj.readingapp",
                                     "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                            DualScreenConstant.launchFull(intent);
+                            DualScreenConstant.launchFull(intent, false, false);
                         }
 
                         AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));

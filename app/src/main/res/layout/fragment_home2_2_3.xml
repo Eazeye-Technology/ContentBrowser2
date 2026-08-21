@@ -4,15 +4,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/fragment_home2_2_linearlayout_padding"
     >
-    <View
-        android:layout_width="@dimen/fragment_home2_2_view_height"
-        android:layout_height="@dimen/fragment_home2_2_view_height"
-        />
+    <!--android:padding="@dimen/fragment_home2_2_linearlayout_padding"
+    -->
+    <!--    <View-->
+    <!--        android:layout_width="@dimen/fragment_home2_2_view_height"-->
+    <!--        android:layout_height="@dimen/fragment_home2_2_view_height"-->
+    <!--        />-->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,15 +96,17 @@
                             android:layout_width="@dimen/fragment_home2_2_item_iv_width"
                             android:layout_height="@dimen/fragment_home2_2_item_iv_height"
                             android:padding="@dimen/fragment_home2_2_item_iv_padding"
-                            android:background="@drawable/ic_baseline_book_24"
+                            android:background="@drawable/home_readings"
                             android:tag="binding_1"
                             />
+                        <!--android:background="@drawable/ic_baseline_book_24"
+                            -->
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Books"
+                    android:text="Readings"
                     android:textColor="#000000"
                     android:textSize="@dimen/fragment_home2_2_item_tv_text_size"
                     android:layout_gravity="center_vertical|center"
@@ -134,9 +142,12 @@
                             android:layout_width="@dimen/fragment_home2_2_item_iv_width"
                             android:layout_height="@dimen/fragment_home2_2_item_iv_height"
                             android:padding="@dimen/fragment_home2_2_item_iv_padding"
-                            android:background="@drawable/ic_baseline_phone_android_24"
                             android:tag="binding_1"
+                            android:background="@drawable/home_storage_ic"
                             />
+                        <!--
+                        android:background="@drawable/ic_baseline_phone_android_24"
+                            -->
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <TextView

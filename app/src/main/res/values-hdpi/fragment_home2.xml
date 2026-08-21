@@ -19,8 +19,8 @@
 
     <dimen name="fragment_home2_title_et_margin_left">29px</dimen>
     <dimen name="fragment_home2_title_et_padding_left">29px</dimen>
-    <dimen name="fragment_home2_title_et_iv_sch_width">22px</dimen>
-    <dimen name="fragment_home2_title_et_iv_sch_height">22px</dimen>
+    <dimen name="fragment_home2_title_et_iv_sch_width">44px</dimen>
+    <dimen name="fragment_home2_title_et_iv_sch_height">44px</dimen>
     <dimen name="fragment_home2_title_et_iv_sch_margin_right">18px</dimen>
 
     <dimen name="fragment_home2_title_space_height">18px</dimen>
