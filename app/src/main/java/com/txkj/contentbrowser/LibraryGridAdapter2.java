@@ -110,6 +110,9 @@ public class LibraryGridAdapter2 extends BaseAdapter {
         if (dataList != null) {
             FileMeta fileMeta = dataList.get(position);
             if (fileMeta != null) {
+                if (fileMeta.getPath() != null && fileMeta.getPath().contains(".pdf")) {
+//                    System.out.println(".pdf");
+                }
                 bindFileMetaView(gridholder, position);
                 boolean needRefresh = TxtUtils.isEmpty(fileMeta.getPathTxt());
                 int imageSize = 0;

@@ -467,6 +467,11 @@ public class HomeRightFragment extends Fragment {
         onCreateViewFilter(view);
         loadFilter();
 
+        global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.GONE);
+        global_view.findViewById(R.id.llTopHalf).setVisibility(View.VISIBLE);
+        global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.GONE);
+        global_view.findViewById(R.id.llBottomHalf).setVisibility(View.VISIBLE);
+
         if (getHomeGuideAccept()){
             view.findViewById(R.id.home_top).setVisibility(View.VISIBLE);
             view.findViewById(R.id.home_top2).setVisibility(View.GONE);
@@ -2053,6 +2058,14 @@ public class HomeRightFragment extends Fragment {
 
             fillBookInfo();
 
+            if (!searchAdapter.getItemsList().isEmpty()) {
+                global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.GONE);
+                global_view.findViewById(R.id.llBottomHalf).setVisibility(View.VISIBLE);
+            } else {
+                global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.VISIBLE);
+                global_view.findViewById(R.id.llBottomHalf).setVisibility(View.GONE);
+            }
+
             handler.postDelayed(new Runnable() {
 
                 @Override
@@ -2909,6 +2922,16 @@ public class HomeRightFragment extends Fragment {
         if (resultReadings.size() > 0) {
             fileMeta = resultReadings.get(0);
         }
+
+        if (fileMeta != null) {
+            global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.GONE);
+            global_view.findViewById(R.id.llTopHalf).setVisibility(View.VISIBLE);
+        } else {
+            global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.VISIBLE);
+            global_view.findViewById(R.id.llTopHalf).setVisibility(View.GONE);
+        }
+
+
         final FileMeta fileMeta_ = fileMeta;
         if (fileMeta != null && global_view != null) {
             String path = fileMeta.getPathTxt() != null ? fileMeta.getPathTxt() : "";
@@ -2936,7 +2959,7 @@ public class HomeRightFragment extends Fragment {
             ((TextView) global_view.findViewById(R.id.bookName)).setText(path);
             ((TextView) global_view.findViewById(R.id.tvLastTime)).setText(recentTime);
             ((TextView) global_view.findViewById(R.id.tvProgress)).setText(progress);
-            ((TextView) global_view.findViewById(R.id.btnResumeReading)).setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener jump = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
@@ -2965,14 +2988,16 @@ public class HomeRightFragment extends Fragment {
                         eee.printStackTrace();
                     }
                 }
-            });
+            };
+            global_view.findViewById(R.id.btnResumeReading).setOnClickListener(jump);
             ImageView ivCover = (ImageView) global_view.findViewById(R.id.ivCover);
+            ivCover.setOnClickListener(jump);
             IMG.getCoverPageWithEffect(ivCover, fileMeta.getPath(), IMG.getImageSize(), new IMG.ResourceReady() {
                 @Override
                 public void onResourceReady(Bitmap bitmap) {
-                    if (ivCover != null) {
-                        ivCover.setImageBitmap(bitmap);
-                    }
+                    //FIXME: don't make ivCover.setImageBitmap(bitmap), it has been set
+                    //FIXME: don't do this:  if (ivCover != null) { ivCover.setImageBitmap(bitmap);}
+                    //because bitmap == null
                 }
             });
         }
