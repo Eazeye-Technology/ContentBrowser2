@@ -369,7 +369,7 @@ class PreferencesKeys {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     LinkedJSONObject item = jsonArray.getJSONObject(i);
                     if (item != null) {
-                        String preview = item.optString("preview");
+                        String preview = item.optString("preview"); //cover.png
                         String name = item.optString("name");
                         String path = item.optString("path");
                         String createTime = item.optString("createTime");
@@ -392,7 +392,16 @@ class PreferencesKeys {
                             }
                             fileMeta.setDateTxt(updateTimeStr);
                         }
-                        fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+                        //FIXME:adapt to cover.png
+                        if (preview == null || preview.isEmpty()) {
+                            String APP_FILE = (path != null ? path : "");
+                            String rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                            String sketchPath = new File(rootPath, APP_FILE).getAbsolutePath();
+                            String coverPath = new File(sketchPath, "cover.png").getAbsolutePath();
+                            fileMeta.setPath(coverPath != null ? coverPath : BaseExtractor.BASE64_PREFIX);
+                        } else {
+                            fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+                        }
 
                         if (txt != null && txt.length() > 0) {
                             if (name.toLowerCase().contains(txt.toLowerCase())) {

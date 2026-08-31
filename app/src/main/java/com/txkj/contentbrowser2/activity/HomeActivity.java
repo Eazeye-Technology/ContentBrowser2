@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dseink.DualScreenConstant;
 import com.txkj.contentbrowser2.R;
 
-public class AccountLoginActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -463,11 +463,19 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
     private void checkPermission(){
         // Check whether this app has write external storage permission or not.
         int writeExternalStoragePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int writeExternalStoragePermission2 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS);
+        int writeExternalStoragePermission3 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.REQUEST_INSTALL_PACKAGES);
         // If do not grant write external storage permission.
-        if (writeExternalStoragePermission!= PackageManager.PERMISSION_GRANTED) {
+        if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED ||
+                writeExternalStoragePermission2 != PackageManager.PERMISSION_GRANTED ||
+                writeExternalStoragePermission3 != PackageManager.PERMISSION_GRANTED
+        ) {
             // Request user to grant write external storage permission.
             ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.REQUEST_INSTALL_PACKAGES,
+            }, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
         } else {
             getPermission2();
         }
@@ -478,7 +486,11 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         Android6Mod.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             int grantResultsLength = grantResults.length;
-            if (grantResultsLength > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResultsLength >= 3 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[2] == PackageManager.PERMISSION_GRANTED
+            ) {
                 //Toast.makeText(getApplicationContext(), "You grant write external storage permission. Please click original button again to continue.", Toast.LENGTH_LONG).show();
                 getPermission2();
             } else {

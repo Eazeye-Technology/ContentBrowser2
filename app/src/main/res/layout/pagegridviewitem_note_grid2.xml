@@ -48,6 +48,12 @@ android:background="@drawable/toolbar_button"
                     android:layout_height="0px"
                     android:layout_weight="1"
                     >
+                    <ImageView
+                        android:id="@+id/browserItemIcon_library_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10px"
+                        />
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/browserItemIcon_library"
                         android:layout_width="match_parent"

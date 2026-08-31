@@ -81,6 +81,7 @@ public class LibraryGridAdapter4 extends BaseAdapter {
             gridholder.tfBookName = (TextView) convertView.findViewById(R.id.bookgrid_name_library);
             gridholder.tfBookName2 = (TextView) convertView.findViewById(R.id.bookgrid_name_library2);
             gridholder.ivCoverImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library);
+            gridholder.ivBgImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library_bg);
             gridholder.tvSuffix = (TextView) convertView.findViewById(R.id.tvSuffix);
             gridholder.switchOpen = (SwitchMaterial) convertView.findViewById(R.id.switchOpen);
             gridholder.switchOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -153,7 +154,7 @@ public class LibraryGridAdapter4 extends BaseAdapter {
 
     private final static class GridViewHolder {
         private TextView tfBookName, tfBookName2;
-        private ImageView ivCoverImage;
+        private ImageView ivCoverImage, ivBgImage;
         private ImageView ivCoverImageBack;
         private TextView tvSuffix;
         private SwitchMaterial switchOpen;

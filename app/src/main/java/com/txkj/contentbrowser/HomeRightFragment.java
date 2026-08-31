@@ -1,5 +1,6 @@
 package com.txkj.contentbrowser;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -11,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +24,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.telephony.mbms.FileInfo;
 import android.text.Editable;
@@ -48,6 +51,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -449,6 +453,28 @@ public class HomeRightFragment extends Fragment {
                 DualScreenConstant.launchFull(intent, false, false);
                 // FIXME:
                 //AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));
+                if (true) {
+                    try {
+                        Cursor cursor = getActivity().getContentResolver().query(selectedFileUri, null, null, null, null);
+                        if (cursor != null && cursor.moveToFirst()) {
+                            @SuppressLint("Range")
+                            String fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                            AppData.get().addRecent(new SimpleMeta(fileName, System.currentTimeMillis()));
+                            @SuppressLint("Range")
+                            int fileSize = cursor.getInt(cursor.getColumnIndex(OpenableColumns.SIZE));
+                            cursor.close();
+                        }
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    DocumentFile documentFile = DocumentFile.fromSingleUri(getActivity(), selectedFileUri);
+                    String fileName = documentFile.getName();
+                    AppData.get().addRecent(new SimpleMeta(fileName, System.currentTimeMillis()));
+                    //boolean isDirectory = documentFile.isDirectory();
+                }
+
+
                 intent.setData(selectedFileUri);
                 //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -485,15 +511,25 @@ public class HomeRightFragment extends Fragment {
             public void onClick(View view) {
                 view.findViewById(R.id.buttonGuide1checked).setVisibility(View.VISIBLE);
                 //stylus settings
-                try {
+                if (false) {
+                    try {
 //                    Intent mIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
 //                    mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Intent mIntent = new Intent();
-                    mIntent.setClassName("com.fctek.settings",
-                            "com.fctek.settings.MainActivity");
-                    startActivity(mIntent);
-                } catch (Throwable eee)  {
-                    eee.printStackTrace();
+                        Intent mIntent = new Intent();
+                        mIntent.setClassName("com.fctek.settings",
+                                "com.fctek.settings.MainActivity");
+                        startActivity(mIntent);
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    try {
+                        Intent intent = new Intent("com.fctek.systemui.pensetting");
+                        //intent.putExtra("setPenWidth", penWidthValue);
+                        getActivity().sendBroadcast(intent);
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
                 }
             }
         });
@@ -2724,7 +2760,7 @@ public class HomeRightFragment extends Fragment {
                     try {
                         LinkedJSONObject item = new LinkedJSONObject(itemNote.getNoteContent());
                         if (item != null) {
-                            String preview = item.optString("preview");
+                            String preview = item.optString("preview"); //cover.png
                             String name = item.optString("name");
                             String path = item.optString("path");
                             String createTime = item.optString("createTime");
@@ -2761,7 +2797,16 @@ public class HomeRightFragment extends Fragment {
                                 }
                                 fileMeta.setDateTxt(updateTimeStr);
                             }
-                            fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+                            //FIXME:adapt to cover.png
+                            if (preview == null || preview.isEmpty()) {
+                                String APP_FILE = (path != null ? path : "");
+                                String rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                                String sketchPath = new File(rootPath, APP_FILE).getAbsolutePath();
+                                String coverPath = new File(sketchPath, "cover.png").getAbsolutePath();
+                                fileMeta.setPath(coverPath != null ? coverPath : BaseExtractor.BASE64_PREFIX);
+                            } else {
+                                fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+                            }
 
                             if (txt != null && txt.length() > 0) {
                                 if (name.toLowerCase().contains(txt.toLowerCase())) {
@@ -2818,7 +2863,7 @@ public class HomeRightFragment extends Fragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             LinkedJSONObject item = jsonArray.getJSONObject(i);
                             if (item != null) {
-                                String preview = item.optString("preview");
+                                String preview = item.optString("preview");  //cover.png
                                 String name = item.optString("name");
                                 String path = item.optString("path");
                                 String createTime = item.optString("createTime");
@@ -2855,7 +2900,16 @@ public class HomeRightFragment extends Fragment {
                                     }
                                     fileMeta.setDateTxt(updateTimeStr);
                                 }
-                                fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+                                //FIXME:adapt to cover.png
+                                if (preview == null || preview.isEmpty()) {
+                                    String APP_FILE = (path != null ? path : "");
+                                    String rootPath = new File(Environment.getExternalStorageDirectory(), APPNAME_NEW).toString();
+                                    String sketchPath = new File(rootPath, APP_FILE).getAbsolutePath();
+                                    String coverPath = new File(sketchPath, "cover.png").getAbsolutePath();
+                                    fileMeta.setPath(coverPath != null ? coverPath : BaseExtractor.BASE64_PREFIX);
+                                } else {
+                                    fileMeta.setPath(preview != null ? BaseExtractor.BASE64_PREFIX + preview : null);
+                                }
 
                                 if (txt != null && txt.length() > 0) {
                                     if (name.toLowerCase().contains(txt.toLowerCase())) {

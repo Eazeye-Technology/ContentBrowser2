@@ -74,6 +74,7 @@ public class NoteListAdapter extends BaseAdapter {
             gridholder.ivCoverImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library);
             gridholder.tfBookTime = (TextView) convertView.findViewById(R.id.bookgrid_time_library);
 //            gridholder.ivCoverImageBack = (ImageView) convertView.findViewById(R.id.bookgrid_pic_backgroud);
+            gridholder.ivBgImage = (ImageView) convertView.findViewById(R.id.browserItemIcon_library_bg);
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
@@ -95,6 +96,20 @@ public class NoteListAdapter extends BaseAdapter {
                     gridholder.ivCoverImage.setImageResource(R.drawable.glyphicons_144_database_search);
                     bindFileMetaView(gridholder, position);
                 } else {
+                    if (fileMeta.getPath() != null && fileMeta.getPath().endsWith("/cover.png")) {
+                        IMG.getCoverPageWithEffect(gridholder.ivBgImage,
+                                fileMeta.getPath().replace("/cover.png", "/bg.png"),
+                                imageSize, new IMG.ResourceReady() {
+                                    @Override
+                                    public void onResourceReady(Bitmap bitmap) {
+                                        try {
+                                            bindFileMetaView(gridholder, position);
+                                        } catch (Exception e) {
+                                            LOG.e(e);
+                                        }
+                                    }
+                                });
+                    }
                     IMG.getCoverPageWithEffect(gridholder.ivCoverImage, fileMeta.getPath(), imageSize, new IMG.ResourceReady() {
                         @Override
                         public void onResourceReady(Bitmap bitmap) {
@@ -150,5 +165,6 @@ public class NoteListAdapter extends BaseAdapter {
         private TextView tfBookTime;
         private ImageView ivCoverImage;
         private ImageView ivCoverImageBack;
+        private ImageView ivBgImage;
     }
 }

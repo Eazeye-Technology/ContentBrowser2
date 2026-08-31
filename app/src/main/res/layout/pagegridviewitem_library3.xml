@@ -53,13 +53,23 @@ android:background="@android:color/transparent"
                         >
                         <!--#E8E8E8-->
                         <!--browserItemIcon_library-->
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/browserItemIcon_library"
+                        <RelativeLayout
                             android:layout_width="@dimen/library_grid_adapter3_iv_width"
                             android:layout_height="@dimen/library_grid_adapter3_iv_width"
-                            android:padding="0dp"
-                            android:scaleType="fitXY"
-                            />
+                            >
+                            <ImageView
+                                android:id="@+id/browserItemIcon_library_bg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                />
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/browserItemIcon_library"
+                                android:padding="0dp"
+                                android:scaleType="fitXY"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                />
+                        </RelativeLayout>
                         <!--
                         android:background="@drawable/ic_app_name"
 

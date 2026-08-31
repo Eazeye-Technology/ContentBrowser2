@@ -59,14 +59,26 @@ android:background="@android:color/transparent"
 <!--                        app:cardElevation="0px">-->
 <!--                    </androidx.cardview.widget.CardView>-->
                     <!--browserItemIcon_library-->
+                    <RelativeLayout
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        >
+                        <ImageView
+                            android:id="@+id/browserItemIcon_library_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            />
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/browserItemIcon_library"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:padding="0dp"
                             android:scaleType="fitXY"
                             android:tint="@color/md_theme_onSurfaceVariant_highContrast"
                             />
+                    </RelativeLayout>
+
                         <!--width and height should be 80px x 100px x times
                          so 134=168*80/100
                          -->
