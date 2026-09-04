@@ -100,6 +100,8 @@ import com.foobnix.work.SearchAllBooksWorker;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.txkj.contentbrowser2.R;
+import com.txkj.contentbrowser2.activity.MainActivity2;
+import com.txkj.contentbrowser2.activity.MainActivity6;
 import com.txkj.drawingapp.db.NoteItem;
 import com.txkj.drawingapp.db.SDNotesDatabase;
 
@@ -506,6 +508,49 @@ public class HomeRightFragment extends Fragment {
             view.findViewById(R.id.home_top).setVisibility(View.GONE);
             view.findViewById(R.id.home_top2).setVisibility(View.VISIBLE);
         }
+        view.findViewById(R.id.btnChooseABook).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{
+                        "application/epub+zip",
+                        "application/pdf"
+                });
+                startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT);
+            }
+        });
+        view.findViewById(R.id.btnCreateNewNote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent();
+//                    intent.setAction(android.content.Intent.ACTION_VIEW);
+                    if (false) {
+                        intent.setClassName("com.txkj.notemobile2",
+                                "com.txkj.notemobile2.BookListActivity");
+                    } else if (false) {
+                        intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
+                                "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
+                    } else {
+                        intent.setClassName("com.txkj.drawingapp",
+                                "com.txkj.notemobile2.BookListActivity");
+                        DualScreenConstant.launchFull(intent, true, false);
+                    }
+
+                    intent.putExtra("APP_OPEN", "NEW");
+
+                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         view.findViewById(R.id.buttonGuide1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -525,7 +570,8 @@ public class HomeRightFragment extends Fragment {
                 } else {
                     try {
                         Intent intent = new Intent("com.fctek.systemui.pensetting");
-                        //intent.putExtra("setPenWidth", penWidthValue);
+                        float penWidthValue = 8;
+                        intent.putExtra("setPenWidth", penWidthValue);
                         getActivity().sendBroadcast(intent);
                     } catch (Throwable eee) {
                         eee.printStackTrace();
@@ -538,12 +584,20 @@ public class HomeRightFragment extends Fragment {
             public void onClick(View view) {
                 view.findViewById(R.id.buttonGuide2checked).setVisibility(View.VISIBLE);
                 //wifi settings
-                try {
-                    Intent mIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                    mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mIntent);
-                } catch (Throwable eee)  {
-                    eee.printStackTrace();
+                if (true) {
+                    try {
+                        Intent mIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                        mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(mIntent);
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    if (getActivity() instanceof MainActivity2) {
+                        ((MainActivity2) getActivity()).checkVersion();
+                    } else if (getActivity() instanceof MainActivity6) {
+                        ((MainActivity6) getActivity()).checkVersion();
+                    }
                 }
             }
         });

@@ -61,6 +61,15 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
+    public void checkVersion() {
+        if (UpgradeUtil.USE_UPGRADE) {
+            if (upgradeUtil != null) {
+                //upgradeUtil.onCreateUpdateReceiver();
+                upgradeUtil.checkVersion();
+            }
+        }
+    }
+
     public void onDialogDismiss() {
         //FIXME:
         EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout));

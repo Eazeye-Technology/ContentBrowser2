@@ -543,7 +543,9 @@ public class HomeFragment62 extends Fragment {
         }
         onUpdateMenu();
         //FIXME:
-        EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout62));
+        if (DualScreenConstant.FORCE_TAB_REFRESH) {
+            EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout62));
+        }
     }
 
     //https://github.com/microsoft/Visual-Audience-Polling/blob/db9536339145aa87a526c1a5fbf207e730ca7859/src/RosterList.java#L379

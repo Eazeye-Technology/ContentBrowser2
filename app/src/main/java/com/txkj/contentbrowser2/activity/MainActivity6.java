@@ -63,6 +63,15 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity6 extends AppCompatActivity {
+    public void checkVersion() {
+        if (UpgradeUtil.USE_UPGRADE) {
+            if (upgradeUtil != null) {
+                //upgradeUtil.onCreateUpdateReceiver();
+                upgradeUtil.checkVersion();
+            }
+        }
+    }
+
     @Override
     protected void attachBaseContext(Context context) {
         AppProfile.init(context); //for recent files search

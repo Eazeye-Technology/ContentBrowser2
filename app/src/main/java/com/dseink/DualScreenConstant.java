@@ -3,8 +3,10 @@ package com.dseink;
 import android.content.Intent;
 
 public class DualScreenConstant {
+    public static boolean FORCE_TAB_REFRESH = false;
+
     /**
-     *	20211012,add for dual-screen.whitch screen we want to launcher
+     *	20211012,add for dual-screen. which screen we want to launcher
      *	the activity.
      */
     public static final String EXTRA_LAUNCH_SCREEN =

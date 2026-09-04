@@ -36,6 +36,7 @@ import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppData;
 import com.foobnix.model.SimpleMeta;
 import com.txkj.contentbrowser2.R;
+import com.txkj.contentbrowser2.activity.MainActivity2;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ import java.util.concurrent.Executors;
 import dev.dworks.apps.anexplorer.provider.AppsProviderMy;
 
 public class AppsFragment extends Fragment {
+    private final static boolean SHOW_SYSTEM_APP = false;
+
     private final static String STR_NO_ITEMS = "No apps here yet";//"No items.";
     private final static String STR_LOADING = "Loading...";
 
@@ -182,7 +185,9 @@ public class AppsFragment extends Fragment {
             List<AppsProviderMy.MyResult> resultsUser = AppsProviderMy.getUserApps(getContext(), true);
             Collections.sort(resultsSystem, comparator);
             Collections.sort(resultsUser, comparator);
-            results.addAll(resultsSystem);
+            if (SHOW_SYSTEM_APP) {
+                results.addAll(resultsSystem);
+            }
             results.addAll(resultsUser);
             for (AppsProviderMy.MyResult item : results) {
                 if (item != null) {

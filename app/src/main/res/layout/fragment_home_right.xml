@@ -84,11 +84,11 @@
                                 app:cardCornerRadius="@dimen/activity_dialog_upgrade_text_size1"
                                 android:layout_gravity="center|center_vertical"
                                 android:layout_marginLeft="10px"
-                                android:id="@+id/startDiarization"
                                 android:visibility="visible"
                                 android:layout_centerInParent="true"
                                 app:cardElevation="0px"
                                 android:foreground="?android:attr/selectableItemBackground"
+                                android:id="@+id/btnChooseABook"
                                 >
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -353,6 +353,7 @@
                                 android:layout_centerInParent="true"
                                 app:cardElevation="0px"
                                 android:foreground="?android:attr/selectableItemBackground"
+                                android:id="@+id/btnCreateNewNote"
                                 >
                                 <LinearLayout
                                     android:layout_width="wrap_content"
