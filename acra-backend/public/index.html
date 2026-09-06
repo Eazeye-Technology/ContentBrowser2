@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACRA崩溃报告管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .api-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .btn-danger {
+            background-color: #f44336;
+        }
+        .btn-danger:hover {
+            background-color: #da190b;
+        }
+        .response {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .report-item {
+            margin: 5px 0;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ACRA崩溃报告管理</h1>
+        
+        <div class="api-section">
+            <h2>服务状态</h2>
+            <button class="btn" onclick="checkHealth()">检查服务健康状态</button>
+            <div id="health-result"></div>
+        </div>
+        
+        <div class="api-section">
+            <h2>崩溃报告列表</h2>
+            <button class="btn" onclick="getReports()">获取崩溃报告列表</button>
+            <div id="reports-list"></div>
+        </div>
+        
+        <div class="api-section">
+            <h2>发送测试崩溃报告</h2>
+            <button class="btn" onclick="sendTestReport()">发送测试崩溃报告</button>
+            <div id="test-result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+        
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const url = `${API_BASE}${endpoint}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                const data = await response.json();
+                return { ok: response.ok, data, status: response.status };
+            } catch (error) {
+                return { ok: false, error: error.message };
+            }
+        }
+        
+        async function checkHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.innerHTML = '正在检查...';
+            
+            const result = await apiCall('/health');
+            
+            if (result.ok) {
+                resultDiv.innerHTML = `
+                    <div class="response">
+                        服务状态: ${result.data.status}<br>
+                        时间戳: ${result.data.timestamp}
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `<div class="response">错误: ${result.error || '未知错误'}</div>`;
+            }
+        }
+        
+        async function getReports() {
+            const resultDiv = document.getElementById('reports-list');
+            resultDiv.innerHTML = '正在加载...';
+            
+            const result = await apiCall('/reports');
+            
+            if (result.ok) {
+                if (result.data.reports.length === 0) {
+                    resultDiv.innerHTML = '<p>暂无崩溃报告</p>';
+                    return;
+                }
+                
+                let tableHtml = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                result.data.reports.forEach(report => {
+                    const dateStr = new Date(report.createdAt).toLocaleString('zh-CN');
+                    tableHtml += `
+                        <tr>
+                            <td>${report.fileName}</td>
+                            <td>${dateStr}</td>
+                            <td>
+                                <button class="btn" onclick="downloadReport('${report.fileName}')">下载</button>
+                                <button class="btn btn-danger" onclick="viewReport('${report.fileName}')">查看</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                tableHtml += '</tbody></table>';
+                resultDiv.innerHTML = tableHtml;
+            } else {
+                resultDiv.innerHTML = `<div class="response">错误: ${result.error || '未知错误'}</div>`;
+            }
+        }
+        
+        async function sendTestReport() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.innerHTML = '正在发送测试报告...';
+            
+            // 模拟ACRA崩溃数据
+            const crashData = new URLSearchParams({
+                'REPORT_ID': 'test-report-' + Date.now(),
+                'APP_VERSION_CODE': '1',
+                'APP_VERSION_NAME': '1.0.0',
+                'PACKAGE_NAME': 'com.example.testapp',
+                'FILE_PATH': '/data/data/com.example.testapp',
+                'PHONE_MODEL': 'TestDevice',
+                'ANDROID_VERSION': '11',
+                'BUILD': '{"BRAND":"test","DEVICE":"test","MODEL":"TestDevice","BOARD":"testboard","DISPLAY":"test_display","FINGERPRINT":"test_fingerprint","HARDWARE":"test_hw","HOST":"test_host","ID":"test_id","MANUFACTURER":"TestManufacturer","PRODUCT":"test_product","TAGS":"test_tags","TIME":1234567890,"TYPE":"user","USER":"test_user","VERSION.CODENAME":"REL","VERSION.INCREMENTAL":"1","VERSION.RELEASE":"11","VERSION.SDK_INT":30}',
+                'BRAND': 'TestBrand',
+                'PRODUCT': 'TestProduct',
+                'TOTAL_MEM_SIZE': '1073741824',
+                'AVAILABLE_MEM_SIZE': '536870912',
+                'BUILD_CONFIG': '{}',
+                'CUSTOM_DATA': '{}',
+                'IS_SILENT': 'false',
+                'DEVICE_FEATURES': '{}',
+                'ENVIRONMENT': '{}',
+                'SETTINGS_GLOBAL': '{}',
+                'SETTINGS_SECURE': '{}',
+                'SETTINGS_SYSTEM': '{}',
+                'SHARED_PREFERENCES': '{}',
+                'SIGNAL_STRENGTH': '{}',
+                'SYSTEM_LOG': 'D/test: Test log entry',
+                'THREAD_DETAILS': 'main(1): tid=1 systid=1234',
+                'USER_APP_START_DATE': '2023-01-01T00:00:00.000Z',
+                'USER_CRASH_DATE': '2023-01-01T12:00:00.000Z',
+                'USER_EMAIL': '',
+                'STACK_TRACE': 'java.lang.RuntimeException: Test crash\n\tat com.example.TestClass.testMethod(TestClass.java:10)\n\tat java.lang.reflect.Method.invoke(Native Method)',
+                'APPLICATION_LOG': 'D/Application: Starting application\nE/Application: Unhandled exception occurred'
+            });
+            
+            try {
+                const response = await fetch(`${API_BASE}/report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: crashData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="response">
+                            发送成功!<br>
+                            消息: ${data.message}<br>
+                            文件名: ${data.fileName}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="response">错误: ${data.error || '未知错误'}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="response">错误: ${error.message}</div>`;
+            }
+        }
+        
+        function downloadReport(fileName) {
+            window.open(`${API_BASE}/report/${fileName}`, '_blank');
+        }
+        
+        async function viewReport(fileName) {
+            try {
+                const response = await fetch(`${API_BASE}/report/${fileName}`);
+                const reportData = await response.json();
+                
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>查看崩溃报告: ${fileName}</title>
+                            <style>
+                                body { font-family: monospace; padding: 20px; }
+                                .header { background-color: #f5f5f5; padding: 10px; margin-bottom: 20px; }
+                                pre { white-space: pre-wrap; word-break: break-word; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="header">
+                                <h2>崩溃报告: ${fileName}</h2>
+                                <p>接收时间: ${reportData.receivedAt}</p>
+                            </div>
+                            <pre>${JSON.stringify(reportData, null, 2)}</pre>
+                        </body>
+                    </html>
+                `);
+            } catch (error) {
+                alert('查看报告失败: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
