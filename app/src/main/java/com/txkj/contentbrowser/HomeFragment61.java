@@ -521,6 +521,16 @@ public class HomeFragment61 extends Fragment {
                 fragmentTransaction.replace(R.id.content_layout61, mHomeFragment4);//mHomeFragment); //mHomeFragment, mHomeFragment2
             }
             fragmentTransaction.commit();
+
+            //FIXME:check version
+            if (isClick) {
+                if (getActivity() instanceof MainActivity2) {
+                    ((MainActivity2) getActivity()).checkVersion();
+                } else if (getActivity() instanceof MainActivity6) {
+                    ((MainActivity6) getActivity()).checkVersion();
+                }
+            }
+
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
             tvTitleText.setText("Notes");
             fragmentTransaction.replace(R.id.content_layout61, mNoteFragment);

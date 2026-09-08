@@ -19,12 +19,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +40,7 @@ import com.foobnix.model.AppData;
 import com.foobnix.model.SimpleMeta;
 import com.txkj.contentbrowser2.R;
 import com.txkj.contentbrowser2.activity.MainActivity2;
+import com.txkj.contentbrowser2.activity.MainActivity6;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,6 +53,26 @@ import java.util.concurrent.Executors;
 import dev.dworks.apps.anexplorer.provider.AppsProviderMy;
 
 public class AppsFragment extends Fragment {
+    public void showPopupMenuNoteFragment2(View view) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_apps, popupMenu.getMenu());
+        Menu menu = popupMenu.getMenu();
+        MenuItem autoupdate = menu.findItem(R.id.autoupdate);
+        autoupdate.setEnabled(true);
+        autoupdate.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                if (getActivity() instanceof MainActivity2) {
+                    ((MainActivity2) getActivity()).checkVersion();
+                } else if (getActivity() instanceof MainActivity6) {
+                    ((MainActivity6) getActivity()).checkVersion();
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
     private final static boolean SHOW_SYSTEM_APP = false;
 
     private final static String STR_NO_ITEMS = "No apps here yet";//"No items.";

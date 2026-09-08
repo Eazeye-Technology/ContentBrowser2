@@ -455,15 +455,23 @@ public class HomeRightFragment extends Fragment {
                 DualScreenConstant.launchFull(intent, false, false);
                 // FIXME:
                 //AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));
+                String path = null;
+
                 if (true) {
                     try {
                         Cursor cursor = getActivity().getContentResolver().query(selectedFileUri, null, null, null, null);
                         if (cursor != null && cursor.moveToFirst()) {
-                            @SuppressLint("Range")
-                            String fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                            AppData.get().addRecent(new SimpleMeta(fileName, System.currentTimeMillis()));
-                            @SuppressLint("Range")
-                            int fileSize = cursor.getInt(cursor.getColumnIndex(OpenableColumns.SIZE));
+//                            @SuppressLint("Range")
+//                            String fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//
+//                            @SuppressLint("Range")
+//                            int fileSize = cursor.getInt(cursor.getColumnIndex(OpenableColumns.SIZE));
+
+                            int index = cursor.getColumnIndex("_data");
+                            if (index > -1) {
+                                path = cursor.getString(index);
+                            }
+
                             cursor.close();
                         }
                     } catch (Throwable eee) {
@@ -477,7 +485,14 @@ public class HomeRightFragment extends Fragment {
                 }
 
 
-                intent.setData(selectedFileUri);
+                if (false) {
+                    intent.setData(selectedFileUri);
+                } else if (path != null) {
+                    AppData.get().addRecent(new SimpleMeta(path, System.currentTimeMillis()));
+
+                    File file = new File(path);
+                    intent.setData(Uri.fromFile(file));
+                }
                 //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -511,14 +526,7 @@ public class HomeRightFragment extends Fragment {
         view.findViewById(R.id.btnChooseABook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{
-                        "application/epub+zip",
-                        "application/pdf"
-                });
-                startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT);
+                chooseFile();
             }
         });
         view.findViewById(R.id.btnCreateNewNote).setOnClickListener(new View.OnClickListener() {
@@ -605,15 +613,7 @@ public class HomeRightFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 view.findViewById(R.id.buttonGuide3checked).setVisibility(View.VISIBLE);
-
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{
-                        "application/epub+zip",
-                        "application/pdf"
-                });
-                startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT);
+                chooseFile();
             }
         });
         view.findViewById(R.id.buttonGuide4).setOnClickListener(new View.OnClickListener() {
@@ -3143,6 +3143,38 @@ public class HomeRightFragment extends Fragment {
         } else {
             long years = days / 365;
             return years + "yeas ago";
+        }
+    }
+
+    private void chooseFile() {
+        if (false) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{
+                    "application/epub+zip",
+                    "application/pdf"
+            });
+            startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT);
+        } else if (false) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*"); // TODO filter types
+            startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT);
+        } else if (false) {
+            Intent it = new Intent(Intent.ACTION_VIEW);
+            it.setClassName("com.android.documentsui",
+                    "com.android.documentsui.files.FilesActivity");
+            //it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivityForResult(it, REQUEST_CODE_OPEN_DOCUMENT);
+        } else {
+            Intent intent = new Intent();
+            intent.setClassName("com.txkj.readingapp",
+                    "com.foobnix.ui2.MainTabs2");
+            intent.putExtra("EXTRA_PAGE_NUMBER", 1); //TAB 1 (index from zero) is Folder
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                    DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_A);
+            startActivity(intent);
         }
     }
 }

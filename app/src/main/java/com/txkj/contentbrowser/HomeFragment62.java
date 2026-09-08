@@ -120,7 +120,8 @@ public class HomeFragment62 extends Fragment {
                 }
                 boolean res = false;
                 if (currentFragment instanceof DirectoryFragment2 ||
-                        currentFragment instanceof NoteFragment2) {
+                        currentFragment instanceof NoteFragment2 ||
+                        currentFragment instanceof AppsFragment) {
                     //skip, because I hide the search button
                 } else {
                     res = toggleSearch(true);
@@ -134,6 +135,8 @@ public class HomeFragment62 extends Fragment {
 //                        fragmentTransaction = fragmentManager.beginTransaction();
 //                        fragmentTransaction.replace(R.id.content_layout62, mHomeFragment2);
 //                        fragmentTransaction.commit();
+                    } else if (currentFragment instanceof AppsFragment) {
+                        ((AppsFragment) currentFragment).showPopupMenuNoteFragment2(view);
                     } else {
                         //showPopupMenu(view);
                     }
@@ -545,6 +548,14 @@ public class HomeFragment62 extends Fragment {
         //FIXME:
         if (DualScreenConstant.FORCE_TAB_REFRESH) {
             EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout62));
+        }
+
+        if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
+            findViewById(R.id.llTab).setVisibility(View.GONE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.llTab).setVisibility(View.VISIBLE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
         }
     }
 
