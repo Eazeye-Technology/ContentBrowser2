@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dseink.DualScreenConstant;
+import com.dseink.EinkUtils;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser.LibraryGridAdapter3;
 import com.txkj.contentbrowser.LibraryGridAdapter4;
@@ -132,10 +134,15 @@ public class SystemSettingFragment extends Fragment {
         mRecyclerView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics DM = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(DM);
-        if (DM.heightPixels > DM.widthPixels) {
-            mRecyclerView.setNumColumns(2);
-        } else {
+        if (EinkUtils.getCurrentScreenPos(getActivity(), 0) ==
+                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH) {
             mRecyclerView.setNumColumns(3);
+        } else {
+            if (DM.heightPixels > DM.widthPixels) {
+                mRecyclerView.setNumColumns(2);
+            } else {
+                mRecyclerView.setNumColumns(3);
+            }
         }
         settingsAdapter = new LibraryGridAdapter4(getActivity(), data);
         mRecyclerView.setAdapter(settingsAdapter);

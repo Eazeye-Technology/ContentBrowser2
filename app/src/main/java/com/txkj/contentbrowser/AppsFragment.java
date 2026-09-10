@@ -1,7 +1,9 @@
 package com.txkj.contentbrowser;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -35,9 +37,11 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.dseink.EinkUtils;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppData;
 import com.foobnix.model.SimpleMeta;
+import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser2.R;
 import com.txkj.contentbrowser2.activity.MainActivity2;
 import com.txkj.contentbrowser2.activity.MainActivity6;
@@ -53,26 +57,7 @@ import java.util.concurrent.Executors;
 import dev.dworks.apps.anexplorer.provider.AppsProviderMy;
 
 public class AppsFragment extends Fragment {
-    public void showPopupMenuNoteFragment2(View view) {
-        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_apps, popupMenu.getMenu());
-        Menu menu = popupMenu.getMenu();
-        MenuItem autoupdate = menu.findItem(R.id.autoupdate);
-        autoupdate.setEnabled(true);
-        autoupdate.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                if (getActivity() instanceof MainActivity2) {
-                    ((MainActivity2) getActivity()).checkVersion();
-                } else if (getActivity() instanceof MainActivity6) {
-                    ((MainActivity6) getActivity()).checkVersion();
-                }
-                return true;
-            }
-        });
-        popupMenu.show();
-    }
-
+    private final static boolean TEST_EMPTY = false;
     private final static boolean SHOW_SYSTEM_APP = false;
 
     private final static String STR_NO_ITEMS = "No apps here yet";//"No items.";
@@ -88,6 +73,42 @@ public class AppsFragment extends Fragment {
     private LinearLayout llEmpty1;
 
     private ExecutorService newFixedThreadPool;
+
+    public void showPopupMenuNoteFragment2(View view) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_apps, popupMenu.getMenu());
+        Menu menu = popupMenu.getMenu();
+        if (false) {
+            MenuItem appapps = menu.findItem(R.id.appapps);
+            appapps.setEnabled(true);
+            appapps.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_ALL_APPS);
+                        startActivity(intent);
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                    return true;
+                }
+            });
+        }
+        MenuItem autoupdate = menu.findItem(R.id.autoupdate);
+        autoupdate.setEnabled(true);
+        autoupdate.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                if (getActivity() instanceof MainActivity2) {
+                    ((MainActivity2) getActivity()).checkVersion();
+                } else if (getActivity() instanceof MainActivity6) {
+                    ((MainActivity6) getActivity()).checkVersion();
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,6 +144,53 @@ public class AppsFragment extends Fragment {
 
         llEmpty1 = (LinearLayout) view.findViewById(R.id.llEmpty1);
         recyclerView.setEmptyView(llEmpty1);
+        recyclerView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Runnable removeOperate = new Runnable() {
+                    @Override
+                    public void run() {
+                        FileMeta meta = pageList.get(i);
+                        if (meta != null) {
+                            String packageName = meta.getPath();
+                            if (packageName != null) {
+                                if (true) {
+                                    Uri packageURI = Uri.parse("package:" + packageName);
+                                    Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+                                    startActivity(uninstallIntent);
+                                } else {
+                                    Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
+                                    intent.setData(Uri.parse("package:" + packageName));
+                                    //intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
+                                    //startActivityForResult(intent, UNINSTALL_REQUEST_CODE);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+                    }
+                };
+                AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+                ad.setTitle("Remove this app");
+                ad.setMessage("Are you sure ?");
+                ad.setCancelable(false);
+                ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        removeOperate.run();
+                    }
+                });
+                ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = ad.create();
+                alertDialog.show();
+                EinkUtils.centerToRightScreen(getActivity(), alertDialog);
+                return true;
+            }
+        });
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -213,6 +281,11 @@ public class AppsFragment extends Fragment {
                 results.addAll(resultsSystem);
             }
             results.addAll(resultsUser);
+
+            if (TEST_EMPTY) {
+                results.clear();
+            }
+
             for (AppsProviderMy.MyResult item : results) {
                 if (item != null) {
                     if (this.mText == null || this.mText.length() == 0 ||
@@ -361,9 +434,12 @@ public class AppsFragment extends Fragment {
             tvEmpty1.setText("No results");
             tvEmpty2.setText("We couldn’t find any results for that. Check your spelling or try a different search term.");
         } else {
-            ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
-            tvEmpty1.setText("Nothing here yet");
-            tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
+            //ivEmpty1.setImageResource(R.drawable.ic_baseline_folder_copy_24);
+            ivEmpty1.setImageResource(R.drawable.apps_empty_icon);
+            //tvEmpty1.setText("Nothing here yet");
+            tvEmpty1.setText("No apps here yet");
+            //tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
+            tvEmpty2.setText("Download apps to get started—upload from device, or browse the store to install apps.");
         }
     }
 }

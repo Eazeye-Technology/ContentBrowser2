@@ -33,17 +33,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.dseink.EinkUtils;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.pdf.info.ExtUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.loadingindicator.LoadingIndicator;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
+import com.upgradetool.upgrade.UriUtil;
 
 import org.w3c.dom.Text;
 import org.zwobble.mammoth.internal.documents.Image;
@@ -406,8 +409,12 @@ public class DirectoryFragment2 extends Fragment {
                     return;
                 }
             } else {
-                //for avoid android.os.FileUriExposedException
-                ExtUtils.openWith(getActivity(), file);
+                if (file != null && file.toString().toLowerCase().endsWith(".apk")) {
+                    installApk(file, getActivity());
+                } else {
+                    //for avoid android.os.FileUriExposedException
+                    ExtUtils.openWith(getActivity(), file);
+                }
             }
         }
     }
@@ -907,10 +914,12 @@ public class DirectoryFragment2 extends Fragment {
                     new DirectoryFragment2ErrorDialog(getActivity(), null, error)
                     .create();
             dialog.show();
+            EinkUtils.centerToLeftScreen(getActivity(), dialog);
         } else {
-            new AlertDialog.Builder(getActivity())
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getString(R.string.app_name))
                     .setMessage(error).setPositiveButton("OK", null).show();
+            EinkUtils.centerToLeftScreen(getActivity(), dialog);
         }
     }
 
@@ -1601,6 +1610,7 @@ public class DirectoryFragment2 extends Fragment {
             androidx.appcompat.app.AlertDialog dialog =
                     new DirectoryFragment2DeleteDialog(getActivity(), runnable).create();
             dialog.show();
+            EinkUtils.centerToLeftScreen(getActivity(), dialog);
         } else {
             try {
                 AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
@@ -1665,6 +1675,7 @@ public class DirectoryFragment2 extends Fragment {
         builder = new DirectoryFragment2NewFolderDialog(getActivity(), runnable);
         androidx.appcompat.app.AlertDialog dialog = builder.create();
         dialog.show();
+        EinkUtils.centerToLeftScreen(getActivity(), dialog);
     }
     DirectoryFragment2RenameDialog builder2 = null;
     public void renameSelect() {
@@ -1690,6 +1701,7 @@ public class DirectoryFragment2 extends Fragment {
         builder2 = new DirectoryFragment2RenameDialog(getActivity(), runnable);
         androidx.appcompat.app.AlertDialog dialog = builder2.create();
         dialog.show();
+        EinkUtils.centerToLeftScreen(getActivity(), dialog);
     }
 
     private void performCopy() {
@@ -1922,6 +1934,25 @@ public class DirectoryFragment2 extends Fragment {
             return;
         }
         catch(Exception e){
+        }
+    }
+
+    private static void installApk(File apk, Activity mAct) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                intent.setDataAndType(Uri.fromFile(apk), "application/vnd.android.package-archive");
+            } else {
+                Uri uri = UriUtil.fromFile(mAct, apk);
+                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                UriUtil.prepare(intent);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mAct.startActivity(intent);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            Toast.makeText(mAct, "Install apk failed", Toast.LENGTH_LONG).show();
         }
     }
 }

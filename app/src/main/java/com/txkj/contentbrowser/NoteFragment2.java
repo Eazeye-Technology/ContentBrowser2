@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.BaseExtractor;
+import com.dseink.EinkUtils;
 import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.Keyboards;
 import com.foobnix.android.utils.LOG;
@@ -188,10 +189,15 @@ class PreferencesKeys {
         if (USE_COLUMN_NUM) {
             //note
         }
-        if (DM.heightPixels > DM.widthPixels) {
-            recentNoteView.setNumColumns(3);//4);//3);
+        if (EinkUtils.getCurrentScreenPos(getActivity(), 0) ==
+                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH) {
+            recentNoteView.setNumColumns(3);
         } else {
-            recentNoteView.setNumColumns(4);//6);//4);
+            if (DM.heightPixels > DM.widthPixels) {
+                recentNoteView.setNumColumns(3);//4);//3);
+            } else {
+                recentNoteView.setNumColumns(4);//6);//4);
+            }
         }
         //recentNoteView.setBackgroundColor(Color.WHITE);
         recentNoteAdapter = new NoteGridAdapter2(this.getContext(), recentNoteList);
@@ -697,6 +703,7 @@ class PreferencesKeys {
                 };
                 androidx.appcompat.app.AlertDialog dialog = new NoteFragment2DeleteDialog(getActivity(), r).create();
                 dialog.show();
+                EinkUtils.centerToLeftScreen(getActivity(), dialog);
                 return true;
             }
         });

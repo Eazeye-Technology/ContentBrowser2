@@ -76,4 +76,40 @@ public class EinkUtils {
             }
         }
     }
+
+    public static void centerToRightScreen(Activity act, Dialog dialog) {
+        if (act == null) {
+            return;
+        }
+        if (dialog == null) {
+            return;
+        }
+        if (EinkUtils.getCurrentScreenPos(act, 0) ==
+                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH) {
+            Window window = dialog.getWindow();
+            if (window != null) {
+//                            window.setGravity(Gravity.BOTTOM);
+//                            WindowManager.LayoutParams params = window.getAttributes();
+//                            params.x = 0;
+//                            params.y = 0;
+//                            window.setAttributes(params);
+
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int screenWidth = displayMetrics.widthPixels;
+//                            window.setGravity(Gravity.CENTER_VERTICAL);
+//                            window.setLayout((int) (screenWidth * 0.5), WindowManager.LayoutParams.WRAP_CONTENT);
+
+                //WindowManager.LayoutParams params = window.getAttributes();
+                WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+                params.copyFrom(window.getAttributes());
+                params.x = +(int)(screenWidth*0.25);//-310;
+//                            params.y = 200;
+                params.width = (int)(screenWidth*0.25);//500;
+//                            params.height = 200;
+                window.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+                window.setAttributes(params);
+            }
+        }
+    }
 }

@@ -45,6 +45,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
+import com.dseink.EinkUtils;
 import com.foobnix.LibreraApp;
 import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.BaseItemLayoutAdapter;
@@ -230,10 +231,15 @@ public class LibraryFragment2Book extends Fragment {
         if (NoteFragment2.USE_COLUMN_NUM) {
             //note
         }
-        if (DM.heightPixels > DM.widthPixels) {
-            recyclerView.setNumColumns(3);//4);//3);
+        if (EinkUtils.getCurrentScreenPos(getActivity(), 0) ==
+                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH) {
+            recyclerView.setNumColumns(3);
         } else {
-            recyclerView.setNumColumns(4);//6);//4);
+            if (DM.heightPixels > DM.widthPixels) {
+                recyclerView.setNumColumns(3);//4);//3);
+            } else {
+                recyclerView.setNumColumns(4);//6);//4);
+            }
         }
 
 

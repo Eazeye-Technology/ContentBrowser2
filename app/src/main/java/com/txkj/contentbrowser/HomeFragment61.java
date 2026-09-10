@@ -559,7 +559,15 @@ public class HomeFragment61 extends Fragment {
         onUpdateMenu();
         //FIXME:
         if (DualScreenConstant.FORCE_TAB_REFRESH) {
-            EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout61));
+            EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout62));
+        }
+
+        if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
+            findViewById(R.id.llTab).setVisibility(View.GONE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.llTab).setVisibility(View.VISIBLE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.VISIBLE);
         }
     }
 
