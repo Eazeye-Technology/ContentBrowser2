@@ -33,6 +33,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -107,6 +108,24 @@ public class AppsFragment extends Fragment {
                 return true;
             }
         });
+        MenuItem resetguide = menu.findItem(R.id.resetguide);
+        resetguide.setEnabled(true);
+        resetguide.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                HomeRightFragment.setHomeGuideAccept(getActivity(), false);
+
+                try {
+                    if (getActivity() instanceof MainActivity6) {
+                        ((MainActivity6) getActivity()).mHomeFragment62.mHomeFragmentRight.showGuide();
+                    }
+                } catch (Throwable eee) {
+                    eee.printStackTrace();
+                }
+                return false;
+            }
+        });
+
         popupMenu.show();
     }
 
@@ -157,37 +176,43 @@ public class AppsFragment extends Fragment {
                                 if (true) {
                                     Uri packageURI = Uri.parse("package:" + packageName);
                                     Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-                                    startActivity(uninstallIntent);
+                                    uninstallIntent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
+                                    startActivityForResult(uninstallIntent, UNINSTALL_REQUEST_CODE);
+                                    //startActivity(uninstallIntent);
                                 } else {
                                     Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
                                     intent.setData(Uri.parse("package:" + packageName));
-                                    //intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
-                                    //startActivityForResult(intent, UNINSTALL_REQUEST_CODE);
-                                    startActivity(intent);
+                                    intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
+                                    startActivityForResult(intent, UNINSTALL_REQUEST_CODE);
+                                    //startActivity(intent);
                                 }
                             }
                         }
                     }
                 };
-                AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
-                ad.setTitle("Remove this app");
-                ad.setMessage("Are you sure ?");
-                ad.setCancelable(false);
-                ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        removeOperate.run();
-                    }
-                });
-                ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
+                if (false) {
+                    AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+                    ad.setTitle("Remove this app");
+                    ad.setMessage("Are you sure ?");
+                    ad.setCancelable(false);
+                    ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            removeOperate.run();
+                        }
+                    });
+                    ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
 
-                    }
-                });
-                AlertDialog alertDialog = ad.create();
-                alertDialog.show();
-                EinkUtils.centerToRightScreen(getActivity(), alertDialog);
+                        }
+                    });
+                    AlertDialog alertDialog = ad.create();
+                    alertDialog.show();
+                    EinkUtils.centerToRightScreen(getActivity(), alertDialog);
+                } else {
+                    removeOperate.run();
+                }
                 return true;
             }
         });
@@ -440,6 +465,20 @@ public class AppsFragment extends Fragment {
             tvEmpty1.setText("No apps here yet");
             //tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
             tvEmpty2.setText("Download apps to get started—upload from device, or browse the store to install apps.");
+        }
+    }
+
+    private final static int UNINSTALL_REQUEST_CODE = 1001;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == UNINSTALL_REQUEST_CODE) {
+            GetBookListTask task = new GetBookListTask(null);
+            if (android.os.Build.VERSION.SDK_INT < 11) {
+                task.execute();
+            } else {
+                task.executeOnExecutor(newFixedThreadPool);
+            }
         }
     }
 }

@@ -421,7 +421,7 @@ public class HomeFragment62 extends Fragment {
     private HomeFragment mHomeFragment;
     private HomeFragment2 mHomeFragment2;
     private HomeFragment4 mHomeFragment4;
-    private HomeRightFragment mHomeFragmentRight;
+    public HomeRightFragment mHomeFragmentRight;
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
     private NoteFragment2 mNoteFragment;

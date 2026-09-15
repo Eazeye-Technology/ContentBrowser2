@@ -111,8 +111,8 @@ public class MainActivity6 extends AppCompatActivity {
         }
     }
 
-    HomeFragment61 mHomeFragment61;
-    HomeFragment62 mHomeFragment62;
+    public HomeFragment61 mHomeFragment61;
+    public HomeFragment62 mHomeFragment62;
     private FragmentManager fragmentManager = null;
     private FragmentTransaction fragmentTransaction1 = null;
     private FragmentTransaction fragmentTransaction2 = null;

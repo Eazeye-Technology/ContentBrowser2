@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="425dp"
+    android:layout_height="wrap_content"
+    android:padding="40dp"
+    android:background="@drawable/bg_geometry_white"
+    >
+    <!--
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/black_30"
+            android:text="Pen Width Setting"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black_30"
+            android:text="Pen"
+            />
+
+        <TextView
+            android:id="@+id/tv_pencil"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:gravity="center"
+            android:text="Pencil"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/tv_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_marginStart="20dp"
+            android:gravity="center"
+            android:text="Fountain Pen"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/tv_pen_brush"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:gravity="center"
+            android:text="Writing Brush"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tv_pen_ball"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:gravity="center"
+            android:text="Ball Pen"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        android:gravity="center|center_vertical"
+        >
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black_30"
+            android:text="Line Diameter"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/line_1"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_line_1"
+            />
+
+        <ImageView
+            android:id="@+id/line_2"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/icon_line_2"
+            />
+
+        <ImageView
+            android:id="@+id/line_3"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/icon_line_3"
+            />
+
+        <ImageView
+            android:id="@+id/line_4"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/icon_line_4"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black_30"
+            android:text="Rule Chart"
+            />
+
+        <Switch
+            android:id="@+id/sw_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/click_btn_line_black_5dp"
+            android:gravity="center"
+            android:tag="beta_confirm_button"
+            android:text="Exit"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/click_btn_line_black_5dp"
+            android:gravity="center"
+            android:tag="beta_confirm_button"
+            android:text="Yes"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+</LinearLayout>

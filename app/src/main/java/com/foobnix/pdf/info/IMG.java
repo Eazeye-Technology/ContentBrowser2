@@ -135,8 +135,10 @@ public class IMG {
     }
 
     public static void clearMemoryCache() {
-        if (LibreraApp.context != null) {
-            Glide.get(LibreraApp.context).clearMemory();
+        if (true) {
+            if (LibreraApp.context != null) {
+                Glide.get(LibreraApp.context).clearMemory();
+            }
         }
     }
 
@@ -185,20 +187,20 @@ public class IMG {
     }
 
     public static void clearDiscCache() {
-
-        new Thread("@T clearDiscCache") {
-            @Override
-            public void run() {
-                try {
-                    if (LibreraApp.context != null) {
-                        Glide.get(LibreraApp.context).clearDiskCache();
+        if (true) {
+            new Thread("@T clearDiscCache") {
+                @Override
+                public void run() {
+                    try {
+                        if (LibreraApp.context != null) {
+                            Glide.get(LibreraApp.context).clearDiskCache();
+                        }
+                    } catch (Exception e) {
+                        LOG.e(e);
                     }
-                } catch (Exception e) {
-                    LOG.e(e);
                 }
-            }
-        }.start();
-
+            }.start();
+        }
     }
 
     public static void clearCache(String path) {
@@ -240,33 +242,35 @@ public class IMG {
     }
 
     public static void getCoverPageWithEffect(ImageView img, String path, int width, ResourceReady run) {
-        String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, width);
-        LOG.d("Bitmap-test-load", path);
-        IMG.with(img.getContext())
-                .asBitmap()
-                .load(url)
-                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        LOG.d("Bitmap-test-2", "failed");
+        if (true) {
+            String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, 100);//width);
+            LOG.d("Bitmap-test-load", path);
+            IMG.with(img.getContext())
+                    .asBitmap()
+                    .load(url)
+                    .override(100, 100)//Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            LOG.d("Bitmap-test-2", "failed");
 
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        target.onResourceReady(bitmap, null);
-                        LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-
-                        if (run != null) {
-                            run.onResourceReady(null);
+                            return false;
                         }
-                        return true;
-                    }
-                })
-                .into(img);
+
+                        @Override
+                        public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            target.onResourceReady(bitmap, null);
+                            LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+
+                            if (run != null) {
+                                run.onResourceReady(null);
+                            }
+                            return true;
+                        }
+                    })
+                    .into(img);
+        }
     }
 
 

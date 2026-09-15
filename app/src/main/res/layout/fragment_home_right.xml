@@ -205,7 +205,9 @@
                         android:layout_below="@id/notificationTitle"
                         android:paddingLeft="6dp"
                         android:paddingRight="3dp"
-                        android:paddingTop="2dp" />
+                        android:paddingTop="2dp"
+                        android:max="100"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"

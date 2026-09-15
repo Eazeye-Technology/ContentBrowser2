@@ -46,6 +46,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ import com.BaseExtractor;
 import com.bumptech.glide.Glide;
 import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
+import com.dseink.PaintingLinerSelectDialog;
 import com.foobnix.LibreraApp;
 import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.BaseItemLayoutAdapter;
@@ -142,6 +145,13 @@ import java.util.TimeZone;
 // View view = inflater.inflate(R.layout.fragment_home_right, container, false);
 //
 public class HomeRightFragment extends Fragment {
+    public void showGuide() {
+        if (global_view != null) {
+            global_view.findViewById(R.id.home_top).setVisibility(View.GONE);
+            global_view.findViewById(R.id.home_top2).setVisibility(View.VISIBLE);
+        }
+    }
+
     private final static boolean NEW_HOME = true;
 
     public final static boolean USE_AUTO_SEARCH_PDF = true;
@@ -426,16 +436,18 @@ public class HomeRightFragment extends Fragment {
 
     private final static String PREF_GUIDE_ACCEPT = "HomeGuidePrefs";
     private final static String PREF_KEY_GUIDE_ACCEPT = "HomeGuideAccepted";
-    private void setHomeGuideAccept(boolean accepted){
-        SharedPreferences.Editor prefs = getActivity().getSharedPreferences(
+    public static void setHomeGuideAccept(Activity act, boolean accepted){
+        if (act == null) return;
+        SharedPreferences.Editor prefs = act.getSharedPreferences(
                 PREF_GUIDE_ACCEPT,
                 Context.MODE_PRIVATE).edit();
         prefs.putBoolean(PREF_KEY_GUIDE_ACCEPT, accepted);
         prefs.apply();
     }
-    private boolean getHomeGuideAccept(){
-        SharedPreferences prefs = getActivity().getSharedPreferences(
-                PREF_KEY_GUIDE_ACCEPT,
+    public static boolean getHomeGuideAccept(Activity act) {
+        if (act == null) return false;
+        SharedPreferences prefs = act.getSharedPreferences(
+                PREF_GUIDE_ACCEPT,
                 Context.MODE_PRIVATE);
         return prefs.getBoolean(PREF_KEY_GUIDE_ACCEPT, false);
     }
@@ -516,7 +528,7 @@ public class HomeRightFragment extends Fragment {
         global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.GONE);
         global_view.findViewById(R.id.llBottomHalf).setVisibility(View.VISIBLE);
 
-        if (getHomeGuideAccept()){
+        if (getHomeGuideAccept(getActivity())){
             view.findViewById(R.id.home_top).setVisibility(View.VISIBLE);
             view.findViewById(R.id.home_top2).setVisibility(View.GONE);
         } else {
@@ -576,7 +588,7 @@ public class HomeRightFragment extends Fragment {
                     } catch (Throwable eee) {
                         eee.printStackTrace();
                     }
-                } else {
+                } else if (false) {
                     try {
                         Intent intent = new Intent("com.fctek.systemui.pensetting");
                         float penWidthValue = 8;
@@ -585,6 +597,38 @@ public class HomeRightFragment extends Fragment {
                     } catch (Throwable eee) {
                         eee.printStackTrace();
                     }
+                } else {
+                    PaintingLinerSelectDialog dialog = new PaintingLinerSelectDialog(getActivity())
+                            .builder();
+                    dialog.setOnSelectListener(new PaintingLinerSelectDialog.OnSelectListener() {
+                        @Override
+                        public void setWidth(int var1) {
+
+                        }
+
+                        @Override
+                        public void setDrawType(int var1) {
+
+                        }
+
+                        @Override
+                        public void setOpenRule(boolean var1) {
+
+                        }
+
+                        @Override
+                        public void setPenWidth(int penWidth) {
+                            try {
+                                Intent intent = new Intent("com.fctek.systemui.pensetting");
+                                int penWidthValue = penWidth;
+                                intent.putExtra("setPenWidth", penWidthValue);
+                                getActivity().sendBroadcast(intent);
+                            } catch (Throwable eee) {
+                                eee.printStackTrace();
+                            }
+                        }
+                    });
+                    dialog.show();
                 }
             }
         });
@@ -620,6 +664,8 @@ public class HomeRightFragment extends Fragment {
         view.findViewById(R.id.buttonGuide4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HomeRightFragment.setHomeGuideAccept(getActivity(), true);
+
                 global_view.findViewById(R.id.home_top).setVisibility(View.VISIBLE);
                 global_view.findViewById(R.id.home_top2).setVisibility(View.GONE);
             }
@@ -3049,11 +3095,18 @@ public class HomeRightFragment extends Fragment {
         final FileMeta fileMeta_ = fileMeta;
         if (fileMeta != null && global_view != null) {
             String path = fileMeta.getPathTxt() != null ? fileMeta.getPathTxt() : "";
+            //see holder.date.setText(fileMeta.getDateTxt());
             Long isRecentTime = fileMeta.getIsRecentTime();
             String recentTime = "";//xxx hours ago
-            if (isRecentTime != null) {
-                //FIXME:
-                recentTime = getTimeAgo(isRecentTime);
+            if (false) {
+                if (isRecentTime != null) {
+                    //FIXME:
+                    recentTime = getTimeAgo(isRecentTime);
+                }
+            } else {
+                if (fileMeta.getDateTxt() != null) {
+                    recentTime = fileMeta.getDateTxt();
+                }
             }
             String progress = "";//Page 148 of 216
 
@@ -3063,16 +3116,17 @@ public class HomeRightFragment extends Fragment {
                 path = path.substring(0, path.length() - ".epub".length());
             }
 
-            int pages = fileMeta.getPages() != null ? fileMeta.getPages() : 0;
-            progress = "Page " +
-                    (fileMeta.getIsRecentProgress() != null ?
-                    ((int)(fileMeta.getIsRecentProgress() * pages)) : 0) +
-                    " of " +
-                    pages;
+            //browse_item_list
+            //see holder.size.setText(fileMeta.getSizeTxt() + " (" + fileMeta.getPages() + ")");
+            int pages = fileMeta.getPages() != null ? fileMeta.getPages() : 0; //total page num
+            //see holder.idPercentText.setText("" + (int) (100 * recentProgress) + "%");
+            double recentProgress = fileMeta.getIsRecentProgress() != null ? fileMeta.getIsRecentProgress() : 0; //if progress is 0.1, then 10%
+            progress = "Page " + (int)(recentProgress * pages) + " of " + pages;
 
             ((TextView) global_view.findViewById(R.id.bookName)).setText(path);
             ((TextView) global_view.findViewById(R.id.tvLastTime)).setText(recentTime);
             ((TextView) global_view.findViewById(R.id.tvProgress)).setText(progress);
+            ((ProgressBar) global_view.findViewById(R.id.notificationProgress)).setProgress((int)(recentProgress * 100));
             View.OnClickListener jump = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
