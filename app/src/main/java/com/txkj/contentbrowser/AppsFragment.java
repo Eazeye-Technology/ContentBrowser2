@@ -38,6 +38,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppData;
@@ -118,11 +119,31 @@ public class AppsFragment extends Fragment {
                 try {
                     if (getActivity() instanceof MainActivity6) {
                         ((MainActivity6) getActivity()).mHomeFragment62.mHomeFragmentRight.showGuide();
+                        ((MainActivity6) getActivity()).mHomeFragment62.showHomeRight();
                     }
                 } catch (Throwable eee) {
                     eee.printStackTrace();
                 }
                 return false;
+            }
+        });
+
+        MenuItem choosefile = menu.findItem(R.id.choosefile);
+        choosefile.setEnabled(true);
+        choosefile.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                chooseFile();
+                return true;
+            }
+        });
+        MenuItem opennote = menu.findItem(R.id.opennote);
+        opennote.setEnabled(true);
+        opennote.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                openNote();
+                return true;
             }
         });
 
@@ -479,6 +500,64 @@ public class AppsFragment extends Fragment {
             } else {
                 task.executeOnExecutor(newFixedThreadPool);
             }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void chooseFile() {
+        Intent intent = new Intent();
+        intent.setClassName("com.txkj.readingapp",
+                "com.foobnix.ui2.MainTabs2");
+//        intent.putExtra("EXTRA_PAGE_NUMBER", 1); //TAB 1 (index from zero) is Folder
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_A);
+        startActivity(intent);
+    }
+
+    private void openNote() {
+        try {
+            Intent intent = new Intent();
+//                    intent.setAction(android.content.Intent.ACTION_VIEW);
+            if (false) {
+                intent.setClassName("com.txkj.notemobile2",
+                        "com.txkj.notemobile2.BookListActivity");
+            } else if (false) {
+                intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
+                        "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
+            } else {
+                intent.setClassName("com.txkj.drawingapp",
+                        "com.txkj.notemobile2.BookListActivity");
+                DualScreenConstant.launchFull(intent, true, false);
+            }
+
+//            intent.putExtra("APP_OPEN", "NEW");
+
+            //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

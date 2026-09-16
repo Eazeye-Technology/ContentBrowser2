@@ -144,6 +144,8 @@ import java.util.TimeZone;
 //copy from HomeFragment4
 // View view = inflater.inflate(R.layout.fragment_home_right, container, false);
 //
+//btnChooseABook
+//btnCreateNewNote
 public class HomeRightFragment extends Fragment {
     public void showGuide() {
         if (global_view != null) {
@@ -152,6 +154,7 @@ public class HomeRightFragment extends Fragment {
         }
     }
 
+    private final static boolean TEST_EMPTY = false;
     private final static boolean NEW_HOME = true;
 
     public final static boolean USE_AUTO_SEARCH_PDF = true;
@@ -545,30 +548,7 @@ public class HomeRightFragment extends Fragment {
         view.findViewById(R.id.btnCreateNewNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Intent intent = new Intent();
-//                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                    if (false) {
-                        intent.setClassName("com.txkj.notemobile2",
-                                "com.txkj.notemobile2.BookListActivity");
-                    } else if (false) {
-                        intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
-                                "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
-                    } else {
-                        intent.setClassName("com.txkj.drawingapp",
-                                "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent, true, false);
-                    }
-
-                    intent.putExtra("APP_OPEN", "NEW");
-
-                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                }
+                openNote();
             }
         });
 
@@ -675,30 +655,7 @@ public class HomeRightFragment extends Fragment {
         view.findViewById(R.id.rlOpenNotes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Intent intent = new Intent();
-//                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                    if (false) {
-                        intent.setClassName("com.txkj.notemobile2",
-                                "com.txkj.notemobile2.BookListActivity");
-                    } else if (false) {
-                        intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
-                                "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
-                    } else {
-                        intent.setClassName("com.txkj.drawingapp",
-                                "com.txkj.notemobile2.BookListActivity");
-                        DualScreenConstant.launchFull(intent, true, false);
-                    }
-
-                    intent.putExtra("APP_OPEN", "NEW");
-
-                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                }
+                openNote();
             }
         });
 
@@ -2200,12 +2157,17 @@ public class HomeRightFragment extends Fragment {
 
             fillBookInfo();
 
-            if (!searchAdapter.getItemsList().isEmpty()) {
-                global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.GONE);
-                global_view.findViewById(R.id.llBottomHalf).setVisibility(View.VISIBLE);
-            } else {
+            if (TEST_EMPTY) {
                 global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.VISIBLE);
                 global_view.findViewById(R.id.llBottomHalf).setVisibility(View.GONE);
+            } else {
+                if (!searchAdapter.getItemsList().isEmpty()) {
+                    global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.GONE);
+                    global_view.findViewById(R.id.llBottomHalf).setVisibility(View.VISIBLE);
+                } else {
+                    global_view.findViewById(R.id.llBottomHalfEmpty).setVisibility(View.VISIBLE);
+                    global_view.findViewById(R.id.llBottomHalf).setVisibility(View.GONE);
+                }
             }
 
             handler.postDelayed(new Runnable() {
@@ -3083,12 +3045,17 @@ public class HomeRightFragment extends Fragment {
             fileMeta = resultReadings.get(0);
         }
 
-        if (fileMeta != null) {
-            global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.GONE);
-            global_view.findViewById(R.id.llTopHalf).setVisibility(View.VISIBLE);
-        } else {
+        if (TEST_EMPTY) {
             global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.VISIBLE);
             global_view.findViewById(R.id.llTopHalf).setVisibility(View.GONE);
+        } else {
+            if (fileMeta != null) {
+                global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.GONE);
+                global_view.findViewById(R.id.llTopHalf).setVisibility(View.VISIBLE);
+            } else {
+                global_view.findViewById(R.id.llTopHalfEmpty).setVisibility(View.VISIBLE);
+                global_view.findViewById(R.id.llTopHalf).setVisibility(View.GONE);
+            }
         }
 
 
@@ -3168,6 +3135,11 @@ public class HomeRightFragment extends Fragment {
                     //because bitmap == null
                 }
             });
+        } else {
+            ((TextView) global_view.findViewById(R.id.bookName)).setText("-");
+            ((TextView) global_view.findViewById(R.id.tvLastTime)).setText("-");
+            ((TextView) global_view.findViewById(R.id.tvProgress)).setText("-");
+            ((ProgressBar) global_view.findViewById(R.id.notificationProgress)).setProgress(0);
         }
     }
 
@@ -3235,6 +3207,33 @@ public class HomeRightFragment extends Fragment {
             intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
                     DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_A);
             startActivity(intent);
+        }
+    }
+
+    private void openNote() {
+        try {
+            Intent intent = new Intent();
+//                    intent.setAction(android.content.Intent.ACTION_VIEW);
+            if (false) {
+                intent.setClassName("com.txkj.notemobile2",
+                        "com.txkj.notemobile2.BookListActivity");
+            } else if (false) {
+                intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
+                        "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
+            } else {
+                intent.setClassName("com.txkj.drawingapp",
+                        "com.txkj.notemobile2.BookListActivity");
+                DualScreenConstant.launchFull(intent, true, false);
+            }
+
+            intent.putExtra("APP_OPEN", "NEW");
+
+            //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -129,7 +129,9 @@ public class HomeFragment61 extends Fragment {
                 }
                 boolean res = false;
                 if (currentFragment instanceof DirectoryFragment2 ||
-                        currentFragment instanceof NoteFragment2) {
+                        currentFragment instanceof NoteFragment2 ||
+                        currentFragment instanceof LibraryFragment2Readings
+                        ) {
                     //skip, because I hide the search button
                 } else {
                     res = toggleSearch(true);
@@ -143,6 +145,8 @@ public class HomeFragment61 extends Fragment {
 //                        fragmentTransaction = fragmentManager.beginTransaction();
 //                        fragmentTransaction.replace(R.id.content_layout61, mHomeFragment2);
 //                        fragmentTransaction.commit();
+                    } else if (currentFragment instanceof LibraryFragment2Readings) {
+                        ((LibraryFragment2Readings) currentFragment).showPopupMenuNoteFragment2(view);
                     } else {
                         //showPopupMenu(view);
                     }
@@ -199,8 +203,8 @@ public class HomeFragment61 extends Fragment {
         mBrowserFragment = new BrowserFragment();
         mSettingFragment = new SettingFragment();
         mNoteFragment = new NoteFragment2();
-        mLibraryFragment2Book = new LibraryFragment2Readings();//LibraryFragment2Book();
-        mLibraryFragment2Pdf = new LibraryFragment2Readings();//LibraryFragment2Pdf();
+        mLibraryFragment2Readings = new LibraryFragment2Readings();//LibraryFragment2Book();
+        //mLibraryFragment2Pdf = new LibraryFragment2Readings();//LibraryFragment2Pdf();
         mChatFragment = new ChatFragment();
         mAppsFragment = new AppsFragment();
         mHome3Fragment = new HomeFragment3();
@@ -429,8 +433,8 @@ public class HomeFragment61 extends Fragment {
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
     private NoteFragment2 mNoteFragment;
-    private LibraryFragment2Readings/*LibraryFragment2Book*/ mLibraryFragment2Book;
-    private LibraryFragment2Readings/*LibraryFragment2Pdf*/ mLibraryFragment2Pdf;
+    private LibraryFragment2Readings/*LibraryFragment2Book*/ mLibraryFragment2Readings;
+//    private LibraryFragment2Readings/*LibraryFragment2Pdf*/ mLibraryFragment2Pdf;
     private ChatFragment mChatFragment;
     private AppsFragment mAppsFragment;
     private HomeFragment3 mHome3Fragment;
@@ -536,13 +540,14 @@ public class HomeFragment61 extends Fragment {
             fragmentTransaction.replace(R.id.content_layout61, mNoteFragment);
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
-            tvTitleText.setText("Books");
-            fragmentTransaction.replace(R.id.content_layout61, mLibraryFragment2Book);
+            //tvTitleText.setText("Books");
+            tvTitleText.setText("Readings");
+            fragmentTransaction.replace(R.id.content_layout61, mLibraryFragment2Readings);
             fragmentTransaction.commit();
-        } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
-            tvTitleText.setText("PDFs");
-            fragmentTransaction.replace(R.id.content_layout61, mLibraryFragment2Pdf);
-            fragmentTransaction.commit();
+//        } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
+//            tvTitleText.setText("PDFs");
+//            fragmentTransaction.replace(R.id.content_layout61, mLibraryFragment2Pdf);
+//            fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
             tvTitleText.setText("Storage");
             fragmentTransaction.replace(R.id.content_layout61, mDirectoryFragment);
@@ -564,6 +569,9 @@ public class HomeFragment61 extends Fragment {
 
         if (id == R.id.menu_bar_item_1 || id == R.id.menu_bar_item_1_R) {
             findViewById(R.id.llTab).setVisibility(View.GONE);
+            findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
+        } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) { //readings
+            findViewById(R.id.llTab).setVisibility(View.VISIBLE);
             findViewById(R.id.ll_btnMore).setVisibility(View.GONE);
         } else {
             findViewById(R.id.llTab).setVisibility(View.VISIBLE);
@@ -763,6 +771,9 @@ public class HomeFragment61 extends Fragment {
                     //show
                     findViewById(R.id.btnMore).setVisibility(View.VISIBLE);
                 } else if (currentFragment instanceof HomeFragment) {
+                    //hide
+                    findViewById(R.id.btnMore).setVisibility(View.GONE);
+                } else if (currentFragment instanceof LibraryFragment2Readings) {
                     //hide
                     findViewById(R.id.btnMore).setVisibility(View.GONE);
                 } else {

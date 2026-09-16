@@ -13,4 +13,11 @@
     <item android:id="@+id/resetguide"
         android:title="Guide"
         myapp:showAsAction="always"/>
+
+    <item android:id="@+id/choosefile"
+        android:title="Reading App"
+        myapp:showAsAction="always"/>
+    <item android:id="@+id/opennote"
+        android:title="Drawing App"
+        myapp:showAsAction="always"/>
 </menu>

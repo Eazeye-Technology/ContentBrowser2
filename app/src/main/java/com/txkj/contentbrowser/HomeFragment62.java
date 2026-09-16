@@ -40,6 +40,10 @@ import java.util.ArrayList;
 public class HomeFragment62 extends Fragment {
     final private boolean NEW_HOME = true;
 
+    public void showHomeRight() {
+        onClick2(R.id.menu_bar_item_1, false);
+    }
+
     private View g_rootView = null;
     private View findViewById(int id) {
         if (g_rootView == null) {
