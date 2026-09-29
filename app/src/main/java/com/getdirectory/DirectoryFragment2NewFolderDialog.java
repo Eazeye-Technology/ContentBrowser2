@@ -14,6 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.txkj.contentbrowser2.R;
 import com.txkj.contentbrowser2.activity.MainActivity2;
+import com.txkj.contentbrowser2.activity.MainActivity6;
 
 public class DirectoryFragment2NewFolderDialog {
     public static int getCenteredTitleThemeOverlay() {
@@ -85,6 +86,8 @@ public class DirectoryFragment2NewFolderDialog {
             public void onDismiss(DialogInterface dialogInterface) {
                 if (mContext instanceof MainActivity2) {
                     ((MainActivity2) mContext).onDialogDismiss();
+                } else if (mContext instanceof MainActivity6) {
+                    ((MainActivity6) mContext).onDialogDismiss();
                 }
             }
         });

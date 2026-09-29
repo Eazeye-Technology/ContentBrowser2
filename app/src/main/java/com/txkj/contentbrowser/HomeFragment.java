@@ -65,6 +65,7 @@ import com.foobnix.ui2.adapter.AuthorsAdapter2;
 import com.txkj.contentbrowser2.R;
 import com.dseink.DualScreenConstant;
 import com.txkj.contentbrowser2.activity.MainActivity2;
+import com.txkj.contentbrowser2.activity.MainActivity6;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

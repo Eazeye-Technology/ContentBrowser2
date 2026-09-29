@@ -63,6 +63,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity6 extends AppCompatActivity {
+    public void onDialogDismiss() {
+        //FIXME:
+        EinkUtils.forceEinkFullUpdateWithView(findViewById(R.id.content_layout));
+    }
+
     public void checkVersion() {
         if (UpgradeUtil.USE_UPGRADE) {
             if (upgradeUtil != null) {

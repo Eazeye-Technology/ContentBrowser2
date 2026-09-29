@@ -15,11 +15,11 @@ public class EinkUtils {
         if (view == null) {
             return;
         }
-        try {
-            ReflectUtils.reflect(view).method("forceEinkFullUpdate");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ReflectUtils.reflect(view).method("forceEinkFullUpdate");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     //DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_BOTH

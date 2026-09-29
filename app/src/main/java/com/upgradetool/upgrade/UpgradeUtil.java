@@ -36,6 +36,7 @@ import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
 import com.txkj.contentbrowser2.R;
 import com.txkj.contentbrowser2.activity.MainActivity2;
+import com.txkj.contentbrowser2.activity.MainActivity6;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -537,6 +538,8 @@ public class UpgradeUtil {
                         public void onDismiss(DialogInterface dialogInterface) {
                             if (mAct instanceof MainActivity2) {
                                 ((MainActivity2) mAct).onDialogDismiss();
+                            } else if (mAct instanceof MainActivity6) {
+                                ((MainActivity6) mAct).onDialogDismiss();
                             }
                         }
                     });
