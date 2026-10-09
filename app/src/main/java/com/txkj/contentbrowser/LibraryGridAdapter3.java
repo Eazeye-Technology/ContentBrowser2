@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryGridAdapter3 extends BaseAdapter {
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
     private final static boolean SHOW_PIC_SUFFIX = true;
 
     public void clearItems() {
@@ -76,9 +81,11 @@ public class LibraryGridAdapter3 extends BaseAdapter {
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
+            gridholder.ivCoverImage.setImageBitmap(null);
+            gridholder.ivBgImage.setImageBitmap(null);
         }
 
-        if (dataList != null) {
+        if (dataList != null && position >= 0 && position < dataList.size()) {
             FileMeta fileMeta = dataList.get(position);
             if (fileMeta != null) {
                 bindFileMetaView(gridholder, position);
@@ -99,28 +106,28 @@ public class LibraryGridAdapter3 extends BaseAdapter {
                                 imageSize, new IMG.ResourceReady() {
                                     @Override
                                     public void onResourceReady(Bitmap bitmap) {
-                                        try {
-                                            bindFileMetaView(gridholder, position);
-                                        } catch (Exception e) {
-                                            LOG.e(e);
-                                        }
+//                                        try {
+//                                            bindFileMetaView(gridholder, position);
+//                                        } catch (Exception e) {
+//                                            LOG.e(e);
+//                                        }
                                     }
                                 });
                     }
                     IMG.getCoverPageWithEffect(gridholder.ivCoverImage, fileMeta.getPath(), imageSize, new IMG.ResourceReady() {
                         @Override
                         public void onResourceReady(Bitmap bitmap) {
-                            try {
-                                if (dataList != null && position < dataList.size() && needRefresh) {
-                                    FileMeta it = AppDB.get().load(fileMeta.getPath());
-                                    if (it != null) {
-                                        dataList.set(position, it);
-                                        bindFileMetaView(gridholder, position);
-                                    }
-                                }
-                            } catch (Exception e) {
-                                LOG.e(e);
-                            }
+//                            try {
+//                                if (dataList != null && position < dataList.size() && needRefresh) {
+//                                    FileMeta it = AppDB.get().load(fileMeta.getPath());
+//                                    if (it != null) {
+//                                        dataList.set(position, it);
+//                                        bindFileMetaView(gridholder, position);
+//                                    }
+//                                }
+//                            } catch (Exception e) {
+//                                LOG.e(e);
+//                            }
                         }
                     });
                 } else {

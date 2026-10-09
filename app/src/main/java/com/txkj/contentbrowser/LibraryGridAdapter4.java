@@ -30,6 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryGridAdapter4 extends BaseAdapter {
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
     private final static boolean SHOW_PIC_SUFFIX = true;
 
     public void clearItems() {

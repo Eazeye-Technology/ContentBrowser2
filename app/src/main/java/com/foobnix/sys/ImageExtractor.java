@@ -44,6 +44,7 @@ import com.foobnix.pdf.info.Clouds;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.PageUrl;
+import com.foobnix.ui2.MainTabs2;
 import com.txkj.contentbrowser2.R;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.model.BookCSS;
@@ -548,6 +549,7 @@ public class ImageExtractor {
 
     }
 
+    private final static boolean NO_CRASH = true;
     public InputStream getStream(String imageUri, final Object extra) throws
             IOException {
         if (imageUri == null) {
@@ -555,21 +557,38 @@ public class ImageExtractor {
         }
         final String hash = "" + imageUri.hashCode();
         try {
-            final InputStream streamInner;
-            if (sp.contains(hash)) {
-                LOG.d("Error-crash", imageUri, hash);
-                return messageFile("#crash", "");
+            InputStream streamInner = null;
+            if (!NO_CRASH) {
+                if (sp.contains(hash)) {
+                    LOG.d("Error-crash", imageUri, hash);
+                    return messageFile("#crash", "");
+                }
             }
             try {
-                sp.edit().putBoolean(hash, true).commit();
+                if (!NO_CRASH) {
+                    sp.edit().putBoolean(hash, true).commit();
+                }
+                if (MainTabs2.MOD_VERSION) {
+                    //skip
+                }
                 streamInner = getStreamInner(imageUri, hash);
+            } catch (Throwable eee) {
+                eee.printStackTrace();
+                if (NO_CRASH) {
+                    return messageFile("#crash", "");
+                }
             } finally {
-                sp.edit().remove(hash).commit();
+                if (!NO_CRASH) {
+                    sp.edit().remove(hash).commit();
+                }
             }
             return streamInner;
+        } catch (Throwable eee2) {
+            eee2.printStackTrace();
         } finally {
 
         }
+        return null;
     }
 
     public InputStream getStreamInner(final String imageUri, String hash) throws IOException {

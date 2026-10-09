@@ -112,6 +112,7 @@ public class LibraryFragmentOld extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_library_old2, container, false);
+
 //        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -355,13 +356,11 @@ public class LibraryFragmentOld extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //Safe.clearAll();
-        try {
-            Glide.with(LibreraApp.context).resumeRequests();
-        } catch (Exception e) {
-            LOG.e(e);
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        } else {
+            notifyFragment();
         }
-        notifyFragment();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver_, new IntentFilter(INTENT_TINT_CHANGE));
         EventBus.getDefault().register(this);
         onResume2();
@@ -1180,8 +1179,8 @@ public class LibraryFragmentOld extends Fragment {
         try {
             searchAdapter.clearItems();
             searchAdapter.notifyDataSetChanged();
-            IMG.clearMemoryCache();
-            IMG.clearDiscCache();
+//            IMG.clearMemoryCache();
+//            IMG.clearDiscCache();
             //BooksService.startForeground(getActivity(), BooksService.ACTION_SEARCH_ALL);
 
             SearchAllBooksWorker.run(getActivity());
@@ -1192,6 +1191,9 @@ public class LibraryFragmentOld extends Fragment {
     }
 
     public void checkForDeleteBooks() {
+        if (MainTabs2.MOD_VERSION) {
+            return;
+        }
         try {
             //BooksService.startForeground(getActivity(), BooksService.ACTION_REMOVE_DELETED);
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest

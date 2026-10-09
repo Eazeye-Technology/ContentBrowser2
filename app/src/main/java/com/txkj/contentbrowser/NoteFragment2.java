@@ -38,8 +38,10 @@ import com.foobnix.android.utils.LOG;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.AppsConfig;
+import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
+import com.foobnix.ui2.MainTabs2;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 import com.dseink.DualScreenConstant;
@@ -109,10 +111,12 @@ class PreferencesKeys {
     private List<FileMeta> recentNoteList;
     private GridView recentNoteView;
     NoteGridAdapter2 recentNoteAdapter;
+    private View global_view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note2, container, false);
+        global_view = view;
 
         AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
         autoWrapViewGroup.output("Notes", ""); //"Notes: "
@@ -202,6 +206,7 @@ class PreferencesKeys {
         //recentNoteView.setBackgroundColor(Color.WHITE);
         recentNoteAdapter = new NoteGridAdapter2(this.getContext(), recentNoteList);
         recentNoteView.setAdapter(recentNoteAdapter);
+        IMG.setScroll(recentNoteView, recentNoteAdapter);
 //        recentNoteView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 //            @Override
 //            public void onGlobalLayout() {
@@ -265,32 +270,38 @@ class PreferencesKeys {
 //                intent.setData(((FastFile)files.get(pageIdx)).getUri());
 //                startActivity(intent);
 
-                    try {
-                        Intent intent = new Intent();
+                    IMG.enableGetCover = false;
+                    LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top_note), new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                        if (false) {
-                            intent.setClassName("com.txkj.notemobile2",
-                                    "com.txkj.notemobile2.BookListActivity");
-                        } else if (false) {
-                            intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
-                                    "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
-                        } else {
-                            intent.setClassName("com.txkj.drawingapp",
-                                    "com.txkj.notemobile2.BookListActivity");
-                            DualScreenConstant.launchFull(intent, true, false);
+                                if (false) {
+                                    intent.setClassName("com.txkj.notemobile2",
+                                            "com.txkj.notemobile2.BookListActivity");
+                                } else if (false) {
+                                    intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
+                                            "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
+                                } else {
+                                    intent.setClassName("com.txkj.drawingapp",
+                                            "com.txkj.notemobile2.BookListActivity");
+                                    DualScreenConstant.launchFull(intent, true, false);
+                                }
+                                FileMeta meta = recentNoteList.get(position);
+                                String APP_FILE = meta.getPathTxt();
+                                intent.putExtra("APP_FILE", APP_FILE);
+                                Log.d(TAG, "APP_FILE: " + APP_FILE);
+
+                                //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                startActivity(intent);
+                            } catch (ActivityNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        FileMeta meta = recentNoteList.get(position);
-                        String APP_FILE = meta.getPathTxt();
-                        intent.putExtra("APP_FILE", APP_FILE);
-                        Log.d(TAG, "APP_FILE: " + APP_FILE);
-
-                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    }, global_view.findViewById(R.id.popup_loading));
                 }
             }
         });
@@ -619,8 +630,23 @@ class PreferencesKeys {
     @Override
     public void onResume() {
         super.onResume();
-        //notifyFragment();
-        populate();
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        } else {
+            //notifyFragment();
+        }
+        if (recentNoteView != null) {
+            recentNoteView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (recentNoteAdapter != null) {
+                        recentNoteAdapter.clearAllMapCache();
+                    }
+                    populate();
+
+                }
+            }, 200);
+        }
     }
 
     public void setSearch(String text) {
@@ -754,5 +780,10 @@ class PreferencesKeys {
             tvEmpty1.setText("Nothing here yet");
             tvEmpty2.setText("This space is empty. Add files to get started—drag and drop files, upload from device, or create a new one.");
         }
+    }
+
+    public void onPause() {
+        super.onPause();
+        LoadingNoteDialog.dismiss();
     }
 }

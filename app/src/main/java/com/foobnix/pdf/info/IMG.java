@@ -11,9 +11,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -38,6 +42,11 @@ import com.foobnix.LibreraApp;
 
 import org.ebookdroid.ui.viewer.VerticalViewActivity;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class IMG {
@@ -63,7 +72,13 @@ public class IMG {
     }
 
     public static int getImageSize() {
-        return Dips.dpToPx(Math.max(AppState.get().coverSmallSize, AppState.get().coverBigSize));
+        if (MainTabs2.MOD_VERSION) {
+            //return IMG_SIZE;
+            //see ImageExtractor.decodeImage()
+            return Dips.dpToPx(Math.max(AppState.get().coverSmallSize, AppState.get().coverBigSize));
+        } else {
+            return Dips.dpToPx(Math.max(AppState.get().coverSmallSize, AppState.get().coverBigSize));
+        }
     }
 
     public static void updateLayoutHeightSizeSmall(ViewGroup imageView) {
@@ -241,36 +256,157 @@ public class IMG {
         void onResourceReady(Bitmap bitmap);
     }
 
+    //search LruBitmapPool
+    private static List<Bitmap> globalRemovedBitmap = new ArrayList<>();
+    private static Map<String, Bitmap> globalBitmap = new HashMap<String, Bitmap>();
+    private static Map<String, Integer> globalStatus = new HashMap<String, Integer>();
+//    private static Map<String, Integer> globalNoCache = new HashMap<String, Integer>();
+//    private Map<Integer, GridViewHolder> globalHolder = new HashMap<>();
+    private final static int IMG_SIZE = 100;
+    public static boolean enableGetCover = true;
+//    public static void setNoCache(String path) {
+//        globalNoCache.put(path, 2);
+//    }
     public static void getCoverPageWithEffect(ImageView img, String path, int width, ResourceReady run) {
-        if (true) {
-            String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, 100);//width);
-            LOG.d("Bitmap-test-load", path);
-            IMG.with(img.getContext())
-                    .asBitmap()
-                    .load(url)
-                    .override(100, 100)//Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            LOG.d("Bitmap-test-2", "failed");
+        if (true) { //if (enableGetCover) {
+            if (img != null) {
+                //Integer noCache = globalNoCache.get(path);
+                if (globalStatus.get(path) != null && globalStatus.get(path).equals(2) /*&&
+                        (noCache == null || noCache.intValue() <= 0)*/ ) { //fileMeta.bmpBGStatus == 2) {
+                    Log.e("cover", "recycled bitmap gen 1, " + globalBitmap.get(path));
+                    img.setImageBitmap(globalBitmap.get(path));//fileMeta.bmpBG);
+                } else if (globalStatus.get(path) == null || globalStatus.get(path).equals(0) /*||
+                        (noCache != null && noCache.intValue() > 0)*/) { //fileMeta.bmpBGStatus == 0) {
+//                    if (noCache != null) {
+//                        globalNoCache.put(path, noCache.intValue() - 1);
+//                    }
+                    Log.e("cover", "setImageBitmap 2");
+                    globalStatus.put(path, 1); //fileMeta.bmpBGStatus = 1;
+                    File file = new File(path);
+                    if (!file.exists() || !file.canRead()) {
+                        return;
+                    }
+                    //String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, IMG_SIZE);//width);
+                    String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, width);//width);
+                    LOG.d("Bitmap-test-load", path);
+                    IMG.with(img.getContext())
+                            .asBitmap()
+                            .load(url)
+                            //.override(100, 100)//Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE) //RESOURCE)
+                            .skipMemoryCache(true) //false) //true)
+                            .listener(new RequestListener<Bitmap>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                    LOG.d("Bitmap-test-2", "failed");
 
-                            return false;
-                        }
+                                    globalBitmap.put(path, null);//fileMeta.bmpCover = bitmap;
+                                    globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
+                                    return false;
+                                }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            target.onResourceReady(bitmap, null);
-                            LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+                                @Override
+                                public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                    target.onResourceReady(bitmap, null);
+                                    LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
-                            if (run != null) {
-                                run.onResourceReady(null);
-                            }
-                            return true;
-                        }
-                    })
-                    .into(img);
+                                    if (run != null) {
+                                        run.onResourceReady(bitmap);//null);
+                                    }
+
+                                    globalBitmap.put(path, bitmap);//fileMeta.bmpCover = bitmap;
+                                    globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
+                                    return true;
+                                }
+                            })
+                            .into(img);
+                }
+            }
         }
+    }
+    public static void clearCoverPage(String path) {
+        if (globalBitmap.containsKey(path)) {
+            Bitmap bmp = globalBitmap.get(path);
+            if (bmp != null && !bmp.isRecycled()) {
+                if (false) {
+                    bmp.recycle(); //don't do this, crash
+                } else {
+                    globalRemovedBitmap.add(bmp);
+                }
+            }
+            globalBitmap.remove(path);
+        }
+        if (globalStatus.containsKey(path)) {
+            globalStatus.remove(path);
+        }
+    }
+    public static void clearAllCoverPage() {
+//        clearMemoryCache();
+//        clearDiscCache();
+        if (globalBitmap != null) {
+            //not need, bitmap is reused in Glide
+//            for (Bitmap bitmap : globalBitmap.values()) {
+//                if (bitmap != null) {
+//                    try {
+//                        if (!bitmap.isRecycled()) {
+//                            Log.e("IMG", "recycled bitmap == " + bitmap);
+//                            bitmap.recycle();
+//                        }
+//                    } catch (Throwable eee) {
+//                        eee.printStackTrace();
+//                    }
+//                }
+//            }
+            globalBitmap.clear();
+        }
+        if (globalRemovedBitmap != null) {
+            //not need, bitmap is reused in Glide
+            /*
+            for (Bitmap bitmap : globalRemovedBitmap) {
+                if (bitmap != null) {
+                    try {
+                        if (!bitmap.isRecycled()) {
+                            bitmap.recycle();
+                        }
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                }
+            }*/
+            globalRemovedBitmap.clear();
+        }
+        if (globalStatus != null) {
+            globalStatus.clear();
+        }
+    }
+    public static void setScroll(GridView recyclerView, BaseAdapter searchAdapter) {
+        recyclerView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    try {
+                        Glide.with(LibreraApp.context).resumeRequests(); //simple and faster
+                    } catch (Exception e) {
+                        LOG.e(e);
+                    }
+                    if (searchAdapter != null) {
+                        searchAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    try {
+                        Glide.with(LibreraApp.context).pauseRequests(); //simple and faster
+                    } catch (Exception e) {
+                        LOG.e(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+            }
+        });
     }
 
 

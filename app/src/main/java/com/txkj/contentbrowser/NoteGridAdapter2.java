@@ -27,6 +27,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteGridAdapter2 extends BaseAdapter {
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+    public void clearAllMapCache() {
+        if (dataList != null) {
+            for (FileMeta fileMeta : dataList) {
+                if (fileMeta.getPath() != null && fileMeta.getPath().endsWith("/cover.png")) {
+                    String path = fileMeta.getPath().replace("/cover.png", "/bg.png");
+                    IMG.clearCoverPage(path);
+                }
+            }
+        }
+    }
+
     public int gridHeight = 0;
     AdapterView.OnItemClickListener mListener = null;
     public void setOnItemClickListener2(AdapterView.OnItemClickListener listener) {
@@ -91,6 +106,8 @@ public class NoteGridAdapter2 extends BaseAdapter {
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
+            gridholder.ivCoverImage.setImageBitmap(null);
+            gridholder.ivBgImage.setImageBitmap(null);
         }
 
         if (true) {
@@ -138,28 +155,28 @@ public class NoteGridAdapter2 extends BaseAdapter {
                                 imageSize, new IMG.ResourceReady() {
                                     @Override
                                     public void onResourceReady(Bitmap bitmap) {
-                                        try {
-                                            bindFileMetaView(gridholder, position);
-                                        } catch (Exception e) {
-                                            LOG.e(e);
-                                        }
+//                                        try {
+//                                            bindFileMetaView(gridholder, position);
+//                                        } catch (Exception e) {
+//                                            LOG.e(e);
+//                                        }
                                     }
                                 });
                     }
                     IMG.getCoverPageWithEffect(gridholder.ivCoverImage, fileMeta.getPath(), imageSize, new IMG.ResourceReady() {
                         @Override
                         public void onResourceReady(Bitmap bitmap) {
-                            try {
-                                if (dataList != null && position < dataList.size() && needRefresh) {
-                                    FileMeta it = AppDB.get().load(fileMeta.getPath());
-                                    if (it != null) {
-                                        dataList.set(position, it);
-                                        bindFileMetaView(gridholder, position);
-                                    }
-                                }
-                            } catch (Exception e) {
-                                LOG.e(e);
-                            }
+//                            try {
+//                                if (dataList != null && position < dataList.size() && needRefresh) {
+//                                    FileMeta it = AppDB.get().load(fileMeta.getPath());
+//                                    if (it != null) {
+//                                        dataList.set(position, it);
+//                                        bindFileMetaView(gridholder, position);
+//                                    }
+//                                }
+//                            } catch (Exception e) {
+//                                LOG.e(e);
+//                            }
                         }
                     });
                 }

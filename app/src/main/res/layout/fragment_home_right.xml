@@ -1817,4 +1817,17 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/popup_loading"
+        android:visibility="gone"
+        >
+        <include
+            android:layout_width="350px"
+            android:layout_height="350px"
+            android:layout_centerInParent="true"
+            layout="@layout/activity_book4_popup_loading_note"
+            />
+    </RelativeLayout>
 </RelativeLayout>

@@ -35,6 +35,9 @@ public class DualScreenConstant {
                 } else if (useRightScreen) {
                     intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
                             DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_B);
+                } else {
+                    intent.putExtra(DualScreenConstant.EXTRA_LAUNCH_SCREEN,
+                            DualScreenConstant.EXTRA_LAUNCH_SCREEN_PANEL_A);
                 }
             }
         }

@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -483,8 +484,8 @@ public class HomeFragment4 extends Fragment {
         }
 
 
-        bookGridAdapter = new LibraryGridAdapter2(this.getContext(), pageList);
-        recyclerView.setAdapter(bookGridAdapter);
+        //bookGridAdapter = new LibraryGridAdapter2(this.getContext(), pageList);
+        //recyclerView.setAdapter(bookGridAdapter);
         tvEmpty1 = view.findViewById(R.id.tvEmpty1);
         tvEmpty1.setText(STR_LOADING);
         tvEmpty2 = view.findViewById(R.id.tvEmpty2);
@@ -637,6 +638,9 @@ public class HomeFragment4 extends Fragment {
         onTintChanged();
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(BooksService.INTENT_NAME));
+
+        //from onResume move here:
+        setSegment(currentSeg);
 
         return view;
     }
@@ -825,18 +829,15 @@ public class HomeFragment4 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //Safe.clearAll();
-        try {
-            Glide.with(LibreraApp.context).resumeRequests();
-        } catch (Exception e) {
-            LOG.e(e);
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        } else {
+            notifyFragment();
         }
-        notifyFragment();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver_, new IntentFilter(INTENT_TINT_CHANGE));
         EventBus.getDefault().register(this);
         onResume2();
-
-        setSegment(currentSeg);
+        //setSegment(currentSeg);
     }
 
     @Override
@@ -939,6 +940,7 @@ public class HomeFragment4 extends Fragment {
         }
 
         recyclerView.setAdapter(searchAdapter);
+        IMG.setScroll(recyclerView, searchAdapter);
     }
 
     public boolean onKeyDown(int keyCode) {
@@ -1263,8 +1265,8 @@ public class HomeFragment4 extends Fragment {
         try {
             searchAdapter.clearItems();
             searchAdapter.notifyDataSetChanged();
-            IMG.clearMemoryCache();
-            IMG.clearDiscCache();
+//            IMG.clearMemoryCache();
+//            IMG.clearDiscCache();
             //BooksService.startForeground(getActivity(), BooksService.ACTION_SEARCH_ALL);
 
             SearchAllBooksWorker.run(getActivity());
@@ -1275,6 +1277,9 @@ public class HomeFragment4 extends Fragment {
     }
 
     public void checkForDeleteBooks() {
+        if (MainTabs2.MOD_VERSION) {
+            return;
+        }
         try {
             //BooksService.startForeground(getActivity(), BooksService.ACTION_REMOVE_DELETED);
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest

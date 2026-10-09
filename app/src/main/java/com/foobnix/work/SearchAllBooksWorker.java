@@ -33,6 +33,7 @@ import com.foobnix.sys.ImageExtractor;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.BooksService;
 import com.foobnix.ui2.FileMetaCore;
+import com.foobnix.ui2.MainTabs2;
 
 import org.ebookdroid.common.settings.books.SharedBooks;
 
@@ -53,6 +54,9 @@ public class SearchAllBooksWorker extends MessageWorker {
     }
 
     public static void run(Context context) {
+        if (MainTabs2.MOD_VERSION) {
+            return;
+        }
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest
                 .Builder(SearchAllBooksWorker.class).build();
 

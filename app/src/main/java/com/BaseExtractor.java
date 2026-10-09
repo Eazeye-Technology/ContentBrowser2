@@ -18,6 +18,7 @@ import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.wrapper.MagicHelper;
+import com.foobnix.ui2.MainTabs2;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -136,9 +137,14 @@ public abstract class BaseExtractor {
             // options.inSampleSize = 1;
             options.inJustDecodeBounds = false;
             LOG.d("inSampleSize", options.inSampleSize);
+            if (MainTabs2.MOD_VERSION) {
+                //skip
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+            }
             Bitmap decodeFile = BitmapFactory.decodeFile(path, options);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            //decodeFile.compress(Bitmap.CompressFormat.JPEG, 50, stream);
             decodeFile.compress(Bitmap.CompressFormat.PNG, 95, stream);
 
             return new ByteArrayInputStream(stream.toByteArray());

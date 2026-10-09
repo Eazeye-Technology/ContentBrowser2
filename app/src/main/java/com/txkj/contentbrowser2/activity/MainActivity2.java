@@ -33,12 +33,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
+import com.foobnix.LibreraApp;
+import com.foobnix.android.utils.LOG;
 import com.foobnix.model.AppProfile;
 import com.foobnix.pdf.info.Android6Mod;
 import com.foobnix.pdf.info.ExtUtils;
+import com.foobnix.pdf.info.IMG;
+import com.foobnix.ui2.MainTabs2;
 import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
@@ -387,7 +392,6 @@ public class MainActivity2 extends AppCompatActivity {
             buttonR.setOnClickListener(onClickListenerNewBook);
         }
 
-        int stateStarted = 0;
         if (savedInstanceState != null) {
             stateStarted = savedInstanceState.getInt(STATE_STARTED, 0);
         }
@@ -403,6 +407,8 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }
     }
+    int stateStarted = 0;
+
     private boolean toggleSearch(boolean forceShowSearchButton) {
         boolean result = findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE;
         if (forceShowSearchButton || findViewById(R.id.ll_search_wx_global).getVisibility() == View.VISIBLE) {
@@ -717,6 +723,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         if (UpgradeUtil.USE_UPGRADE && upgradeUtil != null) {
             upgradeUtil.onDestroyUpdateReceiver();
         }
+        IMG.clearAllCoverPage();
     }
 
     @Override
@@ -921,5 +928,40 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             }
         }
         return super.onCreateDialog(id);
+    }
+
+    private boolean isFirst = true;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateStarted != 0){
+            if (MainTabs2.MOD_VERSION) {
+                IMG.clearMemoryCache();
+                if (false) IMG.clearDiscCache();
+            }
+            //Safe.clearAll();
+            try {
+                Glide.with(LibreraApp.context).resumeRequestsRecursive();
+            } catch (Exception e) {
+                LOG.e(e);
+            }
+        } else {
+            try {
+                //Glide.with(LibreraApp.context).pauseAllRequestsRecursive();
+                Glide.with(LibreraApp.context).pauseAllRequestsRecursive();
+            } catch (Exception e) {
+                LOG.e(e);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            Glide.with(LibreraApp.context).pauseAllRequestsRecursive();
+        } catch (Exception e) {
+            LOG.e(e);
+        }
     }
 }

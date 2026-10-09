@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -19,10 +20,34 @@ import com.foobnix.pdf.info.IMG;
 import com.foobnix.ui2.AppDB;
 import com.txkj.contentbrowser2.R;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LibraryGridAdapter2 extends BaseAdapter {
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged(); //used
+    }
+    public void clearAllMapCache() {
+        if (dataList != null) {
+            for (FileMeta fileMeta : dataList) {
+                if (fileMeta.getPath() != null && fileMeta.getPath().endsWith("/cover.png")) {
+                    String path = fileMeta.getPath().replace("/cover.png", "/bg.png");
+                    IMG.clearCoverPage(path);
+                }
+                if (fileMeta.getPath() != null) {
+                    String path = fileMeta.getPath();
+                    IMG.clearCoverPage(path);
+                }
+            }
+        }
+    }
+    public boolean isPause = false;
+
     private final static boolean FIX_NOTE_DISPLAY = true;
     private final static boolean SHOW_PIC_SUFFIX = true;
 
@@ -39,7 +64,7 @@ public class LibraryGridAdapter2 extends BaseAdapter {
     }
 
     private Context context;
-    private GridViewHolder gridholder;
+    //private GridViewHolder gridholder;
     private List<FileMeta> dataList;
     DisplayMetrics DM = new DisplayMetrics();
 
@@ -61,7 +86,11 @@ public class LibraryGridAdapter2 extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        if (dataList != null && position >= 0 && position < dataList.size()) {
+            return dataList.get(position);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -72,6 +101,7 @@ public class LibraryGridAdapter2 extends BaseAdapter {
     //@see com.foobnix.ui2.adapter.FileMetaAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        GridViewHolder gridholder = null;
         if (convertView == null) {
             convertView = View.inflate(this.context, R.layout.pagegridviewitem_library2, null);
             gridholder = new GridViewHolder();
@@ -83,7 +113,12 @@ public class LibraryGridAdapter2 extends BaseAdapter {
             convertView.setTag(gridholder);
         } else {
             gridholder = (GridViewHolder) convertView.getTag();
+            gridholder.ivBgImage.setImageBitmap(null);
+            gridholder.ivCoverImage.setImageBitmap(null);
         }
+//        gridholder.position = position;
+//        final GridViewHolder gridholder_ = gridholder;
+//        globalHolder.put(position, gridholder);
         if (true) {
             ViewGroup.LayoutParams params2 = new AbsListView.LayoutParams(
                     AbsListView.LayoutParams.MATCH_PARENT,
@@ -108,14 +143,14 @@ public class LibraryGridAdapter2 extends BaseAdapter {
             convertView.setLayoutParams(params2);
         }
 
-        if (dataList != null) {
+        if (dataList != null && position >= 0 && position < dataList.size()) {
             FileMeta fileMeta = dataList.get(position);
             if (fileMeta != null) {
                 if (fileMeta.getPath() != null && fileMeta.getPath().contains(".pdf")) {
 //                    System.out.println(".pdf");
                 }
                 bindFileMetaView(gridholder, position);
-                boolean needRefresh = TxtUtils.isEmpty(fileMeta.getPathTxt());
+                //boolean needRefresh = TxtUtils.isEmpty(fileMeta.getPathTxt());
                 int imageSize = 0;
                 if (true) {
                     imageSize = IMG.getImageSize();
@@ -127,35 +162,26 @@ public class LibraryGridAdapter2 extends BaseAdapter {
                     bindFileMetaView(gridholder, position);
                 } else {
                     if (fileMeta.getPath() != null && fileMeta.getPath().endsWith("/cover.png")) {
-                        IMG.getCoverPageWithEffect(gridholder.ivBgImage,
-                                fileMeta.getPath().replace("/cover.png", "/bg.png"),
-                                imageSize, new IMG.ResourceReady() {
-                                    @Override
-                                    public void onResourceReady(Bitmap bitmap) {
-                                        try {
-                                            bindFileMetaView(gridholder, position);
-                                        } catch (Exception e) {
-                                            LOG.e(e);
-                                        }
-                                    }
-                                });
+                       String path = fileMeta.getPath().replace("/cover.png", "/bg.png");
+                       IMG.getCoverPageWithEffect(gridholder.ivBgImage,
+                                   path,
+                                   imageSize, new IMG.ResourceReady() {
+                                       @Override
+                                       public void onResourceReady(Bitmap bitmap) {
+
+                                       }
+                                   });
                     }
-                    IMG.getCoverPageWithEffect(gridholder.ivCoverImage, fileMeta.getPath(), imageSize, new IMG.ResourceReady() {
-                        @Override
-                        public void onResourceReady(Bitmap bitmap) {
-                            try {
-                                if (dataList != null && position < dataList.size() && needRefresh) {
-                                    FileMeta it = AppDB.get().load(fileMeta.getPath());
-                                    if (it != null) {
-                                        dataList.set(position, it);
-                                        bindFileMetaView(gridholder, position);
-                                    }
-                                }
-                            } catch (Exception e) {
-                                LOG.e(e);
+                    if (true) {
+                        //Log.e("LibraryGridAdapter2", "loading page " + position + "-" + this);
+                        String path = fileMeta.getPath();
+                        IMG.getCoverPageWithEffect(gridholder.ivCoverImage, path, imageSize, new IMG.ResourceReady() {
+                            @Override
+                            public void onResourceReady(Bitmap bitmap) {
+
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         }
@@ -188,7 +214,10 @@ public class LibraryGridAdapter2 extends BaseAdapter {
                 if (fileMeta.isNote) {
                     holder.tvSuffix.setText("NOTE");
                     if (fileMeta.getTitle() != null) {
-                        holder.tfBookName.setText(fileMeta.getTitle());
+                        //LocalTime now1 = LocalTime.now();
+                        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
+                        //System.out.println("JDK8 API: " + now1.format(formatter));
+                        holder.tfBookName.setText(fileMeta.getTitle());// + "?t" + now1.format(formatter));
                     }
                 }
             }
@@ -209,5 +238,8 @@ public class LibraryGridAdapter2 extends BaseAdapter {
         private ImageView ivCoverImageBack;
         private TextView tvSuffix;
         private ImageView ivBgImage;
+        private boolean coverLoaded = false;
+        private boolean bgLoaded = false;
+//        public int position = -1;
     }
 }

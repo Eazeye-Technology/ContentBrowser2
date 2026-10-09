@@ -3,6 +3,7 @@ package com.foobnix.sys;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,8 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.Options;
 import com.bumptech.glide.load.data.DataFetcher;
+import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
 import com.bumptech.glide.load.model.ModelLoader;
 import com.bumptech.glide.load.model.ModelLoaderFactory;
@@ -26,13 +29,16 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.foobnix.android.utils.LOG;
 
 import com.foobnix.LibreraApp;
+import com.foobnix.ui2.MainTabs2;
 
 import java.io.InputStream;
 
 import static com.bumptech.glide.load.engine.executor.GlideExecutor.newSourceBuilder;
 
-@GlideModule
+//search GlideBuilder
+@GlideModule(glideName = "LibreraAppGlideModuleName")
 public class LibreraAppGlideModule extends AppGlideModule {
+    static int loadingNumber = 0;
 
     static Bitmap cache;
     static String path;
@@ -53,19 +59,36 @@ public class LibreraAppGlideModule extends AppGlideModule {
                 public void loadData(@NonNull Priority priority, @NonNull DataCallback<? super Bitmap> callback) {
                     try {
 
-                        if (isCanced) {
+                        if (isCanced) {  //this will stop reload
                             return;
                         }
-                        if (s.equals(path)) {
-                            callback.onDataReady(cache);
-                            return;
+                        if (MainTabs2.MOD_VERSION) {
+                            //skip
+                        } else {
+                            if (s.equals(path)) {
+                                callback.onDataReady(cache);
+                                return;
+                            }
                         }
+                        loadingNumber++;
+//                        if (loadingNumber > 20) {
+//                            return;
+//                        }
+                        Log.e("LibreraAppGlideModule", "loadingNumber == " + loadingNumber);
+
                         LOG.d("LibreraAppGlideModule loadData", s);
+                        if (MainTabs2.MOD_VERSION) {
+                            //skip
+                        }
                         final InputStream stream = ImageExtractor.getInstance(LibreraApp.context).getStream(s, null);
                         if (stream instanceof InputStreamBitmap) {
                             Bitmap bitmap = ((InputStreamBitmap) stream).getBitmap();
                             if (bitmap == null) {
-                                Thread.sleep(250);
+                                if (MainTabs2.MOD_VERSION) {
+                                    Thread.sleep(10);
+                                } else {
+                                    Thread.sleep(250);
+                                }
                                 bitmap = ImageExtractor.getInstance(LibreraApp.context).proccessOtherPage(s);
                                 if (bitmap == null) {
                                     LOG.d("Bitmap-test-1-cancel", bitmap, s);
@@ -74,7 +97,7 @@ public class LibreraAppGlideModule extends AppGlideModule {
                                 }
                             }
 
-                            if (isCanced) {
+                            if (isCanced) {  //this will stop reload
                                 LOG.d("Bitmap-test-1-cancel", bitmap, s);
                                 bitmap.recycle();
                                 return;
@@ -99,7 +122,7 @@ public class LibreraAppGlideModule extends AppGlideModule {
 
                 @Override
                 public void cleanup() {
-                    isCanced = true;
+                    //isCanced = true; //this will stop reload
                     LOG.d("LibreraAppGlideModule cleanup", s);
 
 
@@ -107,7 +130,7 @@ public class LibreraAppGlideModule extends AppGlideModule {
 
                 @Override
                 public void cancel() {
-                    isCanced = true;
+                    //isCanced = true; //this will stop reload
                     LOG.d("LibreraAppGlideModule cancel", s);
 
                 }
@@ -129,7 +152,9 @@ public class LibreraAppGlideModule extends AppGlideModule {
         @Override
         public boolean handles(@NonNull String s) {
             LOG.d("LibreraAppGlideModule handles", s);
+            //all file use this filter(???)
             return true;//s.startsWith("{");
+            //return s != null && s.startsWith("{");
         }
     };
 
@@ -137,10 +162,15 @@ public class LibreraAppGlideModule extends AppGlideModule {
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         super.applyOptions(context, builder);
         builder.setDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565));
+        if (MainTabs2.MOD_VERSION) {
+            Log.e("applyOptions", "applyOptions");
+            builder.setMemoryCache(new LruResourceCache(20 * 1024 * 1024L)); //FIXME:added
+            builder.setBitmapPool(new LruBitmapPool(20 * 1024 * 1024L)); //FIXME:added
+        }
         builder.setSourceExecutor(
                 newSourceBuilder()
                         .setUncaughtThrowableStrategy(GlideExecutor.UncaughtThrowableStrategy.IGNORE)
-                        .setThreadCount(1)
+                        .setThreadCount(1) //4
                         //.setThreadTimeoutMillis(2000)
                         .build());
 

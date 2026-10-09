@@ -13,8 +13,10 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -33,12 +35,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.codeteenager.systemsettings.SystemSettingFragment;
 import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
+import com.foobnix.LibreraApp;
+import com.foobnix.android.utils.LOG;
 import com.foobnix.model.AppProfile;
 import com.foobnix.pdf.info.Android6Mod;
 import com.foobnix.pdf.info.ExtUtils;
+import com.foobnix.pdf.info.IMG;
+import com.foobnix.ui2.MainTabs2;
 import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser.BrowserFragment;
@@ -128,48 +135,70 @@ public class MainActivity6 extends AppCompatActivity {
         setContentView(R.layout.fragment_home6);
         setupPadding();
         //hideNavigation();
-        if (this.getSupportActionBar() != null) {
-            this.getSupportActionBar().hide();
-        }
-        if (UpgradeUtil.USE_UPGRADE) {
-            upgradeUtil = new UpgradeUtil(this);
-            upgradeUtil.onCreate_upgrade();
-        }
 
-        mHomeFragment61 = new HomeFragment61();
-        mHomeFragment62 = new HomeFragment62();
+        Log.e("MainActivity6", "MainActivity6==============================================");
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction1 = fragmentManager.beginTransaction();
-        fragmentTransaction2 = fragmentManager.beginTransaction();
+        if (true) {
 
-        fragmentTransaction1.replace(R.id.content_layout1, mHomeFragment61);//mHomeFragment); //mHomeFragment, mHomeFragment2
-        fragmentTransaction1.commit();
 
-        findViewById(R.id.content_layout2).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fragmentTransaction2.replace(R.id.content_layout2, mHomeFragment62);//mHomeFragment); //mHomeFragment, mHomeFragment2
-                fragmentTransaction2.commit();
+            if (this.getSupportActionBar() != null) {
+                this.getSupportActionBar().hide();
             }
-        }, 100);
-
-        int stateStarted = 0;
-        if (savedInstanceState != null) {
-            stateStarted = savedInstanceState.getInt(STATE_STARTED, 0);
-        }
-
-        if (stateStarted == 0) {
-            checkPermission();
-
             if (UpgradeUtil.USE_UPGRADE) {
-                if (upgradeUtil != null) {
-                    upgradeUtil.onCreateUpdateReceiver();
-                    upgradeUtil.checkVersion();
+                upgradeUtil = new UpgradeUtil(this);
+                upgradeUtil.onCreate_upgrade();
+            }
+
+            mHomeFragment61 = new HomeFragment61();
+            mHomeFragment62 = new HomeFragment62();
+
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction1 = fragmentManager.beginTransaction();
+            fragmentTransaction2 = fragmentManager.beginTransaction(); //NOTE:don't move into run()
+            fragmentTransaction1.replace(R.id.content_layout1, mHomeFragment61);//mHomeFragment); //mHomeFragment, mHomeFragment2
+            fragmentTransaction1.commit();
+
+            Log.e("MainActivity6", "mHomeFragment61==============================================");
+            if (true) {
+                findViewById(R.id.content_layout2).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragmentTransaction2.replace(R.id.content_layout2, mHomeFragment62);//mHomeFragment); //mHomeFragment, mHomeFragment2
+                        fragmentTransaction2.commit();
+                    }
+                }, 100);
+            }
+
+            if (savedInstanceState != null) {
+                stateStarted = savedInstanceState.getInt(STATE_STARTED, 0);
+            }
+
+            if (stateStarted == 0) {
+                checkPermission();
+
+                if (UpgradeUtil.USE_UPGRADE) {
+                    if (upgradeUtil != null) {
+                        upgradeUtil.onCreateUpdateReceiver();
+                        upgradeUtil.checkVersion();
+                    }
                 }
             }
+
+            LinearLayout rootLayout = findViewById(R.id.root_layout);
+            rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    //Safe.clearAll();
+                    try {
+                        Glide.with(LibreraApp.context).resumeRequests();
+                    } catch (Exception e) {
+                        LOG.e(e);
+                    }
+                }
+            });
         }
     }
+    int stateStarted = 0;
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -279,6 +308,7 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         if (UpgradeUtil.USE_UPGRADE && upgradeUtil != null) {
             upgradeUtil.onDestroyUpdateReceiver();
         }
+        IMG.clearAllCoverPage();
     }
 
     @Override
@@ -287,6 +317,45 @@ public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
             super.onBackPressed();
         } else if (mHomeFragment62 != null && mHomeFragment62.onBackPressed()) {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateStarted != 0) {
+            if (MainTabs2.MOD_VERSION) {
+                IMG.clearMemoryCache();
+                if (false) IMG.clearDiscCache();
+            }
+            //Safe.clearAll();
+            try {
+                Glide.with(LibreraApp.context).resumeRequests(); //simple and faster
+                //Glide.with(LibreraApp.context).resumeRequestsRecursive();
+            } catch (Exception e) {
+                LOG.e(e);
+            }
+        } else {
+            try {
+                //Glide.with(LibreraApp.context).pauseAllRequestsRecursive();
+                Glide.with(LibreraApp.context).pauseRequests(); //simple and faster
+            } catch (Exception e) {
+                LOG.e(e);
+            }
+        }
+        IMG.enableGetCover = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        IMG.enableGetCover = false;
+        if (false) {
+            try {
+                Glide.with(LibreraApp.context).pauseRequests(); //simple and faster
+            } catch (Exception e) {
+                LOG.e(e);
+            }
         }
     }
 }

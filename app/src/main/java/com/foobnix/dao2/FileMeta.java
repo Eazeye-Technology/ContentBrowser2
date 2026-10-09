@@ -13,6 +13,11 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class FileMeta {
+    public Bitmap bmpCover;
+    public int bmpCoverStatus = 0; //0=ready,1=loading,2=loaded
+    public Bitmap bmpBG;
+    public int bmpBGStatus = 0; //0=ready,1=loading,2=loaded
+
     public Long lastModified;
     public String updateTime;
     public String createTime;

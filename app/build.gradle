@@ -12,8 +12,8 @@ android {
         applicationId "com.txkj.contentbrowser2"
         minSdk 21 //23 //24
         targetSdk 35//36 //35 //
-        versionCode 16112
-        versionName "1.61.12"
+        versionCode 16113
+        versionName "1.61.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -124,7 +124,8 @@ dependencies {
 
 
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    //implementation 'com.github.bumptech.glide:glide:4.16.0'
+    //implementation("androidx.tracing:tracing:2.0.2")
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     //FIXME:???

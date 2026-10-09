@@ -50,6 +50,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 //from MainActivity2
+//search onClick2 if (true)
 public class HomeFragment61 extends Fragment {
     final private boolean NEW_HOME = true;
 
@@ -277,7 +278,9 @@ public class HomeFragment61 extends Fragment {
         if (savedInstanceState != null) {
             this.currentTabId = savedInstanceState.getInt(KEY_CURRENT_TAB_ID, 0);//R.id.function_bar_item_home);
         }
-        onClick2(this.currentTabId, false);  //default choose home
+        if (true) {
+            onClick2(this.currentTabId, false);  //default choose home
+        }
 
         this.findViewById(R.id.top_left_menu_button).setOnClickListener(new View.OnClickListener() {
             @Override

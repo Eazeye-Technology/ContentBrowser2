@@ -1,6 +1,5 @@
 package com.txkj.contentbrowser;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -16,7 +15,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,9 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.OpenableColumns;
 import android.provider.Settings;
-import android.telephony.mbms.FileInfo;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -37,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -47,7 +44,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,7 +110,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -456,6 +451,8 @@ public class HomeRightFragment extends Fragment {
     }
 
     private static final int REQUEST_CODE_OPEN_DOCUMENT = 10001;
+    private static final int REQUEST_CODE_NOTE_NEW = 10002;
+    private static final int REQUEST_CODE_NOTE_OPEN = 10003;
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -513,6 +510,20 @@ public class HomeRightFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
+        } else if (requestCode == REQUEST_CODE_NOTE_NEW || requestCode == REQUEST_CODE_NOTE_OPEN) {
+            if (false) {
+                //don't use this, because callback before returning
+                if (false) {
+                    IMG.clearMemoryCache();
+                    if (false) IMG.clearDiscCache();
+                }
+                IMG.enableGetCover = true;
+                try {
+                    Glide.with(LibreraApp.context).resumeRequests();
+                } catch (Exception e) {
+                    LOG.e(e);
+                }
+            }
         }
     }
 
@@ -520,6 +531,7 @@ public class HomeRightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG, "HomeRightFragment-onCreateView");
         View view = inflater.inflate(R.layout.fragment_home_right, container, false);
         global_view = view;
 
@@ -548,7 +560,13 @@ public class HomeRightFragment extends Fragment {
         view.findViewById(R.id.btnCreateNewNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openNote();
+                IMG.enableGetCover = false;
+                LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top), new Runnable() {
+                    @Override
+                    public void run() {
+                        openNote();
+                    }
+                }, global_view.findViewById(R.id.popup_loading));
             }
         });
 
@@ -655,7 +673,19 @@ public class HomeRightFragment extends Fragment {
         view.findViewById(R.id.rlOpenNotes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openNote();
+//                try {
+//                    Glide.with(LibreraApp.context).pauseAllRequestsRecursive();
+//                    Glide.with(LibreraApp.context).pauseRequests();
+//                } catch (Exception e) {
+//                    LOG.e(e);
+//                }
+                IMG.enableGetCover = false;
+                LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top), new Runnable() {
+                    @Override
+                    public void run() {
+                        openNote();
+                    }
+                }, global_view.findViewById(R.id.popup_loading));
             }
         });
 
@@ -746,62 +776,78 @@ public class HomeRightFragment extends Fragment {
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    FileMeta meta = pageList.get(position);
-                    if (meta != null && meta.isNote) {
-                        Intent intent = new Intent();
+                LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top), new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            FileMeta meta = pageList.get(position);
+                            if (meta != null && meta.isNote) {
+//                                if (true) {
+//                                    FileMeta fileMeta = meta;
+//                                    if (fileMeta.getPath() != null && fileMeta.getPath().endsWith("/cover.png")) {
+//                                        String path = fileMeta.getPath().replace("/cover.png", "/bg.png");
+//                                        IMG.setNoCache(path);
+//                                    }
+//                                    if (fileMeta.getPath() != null) {
+//                                        String path = fileMeta.getPath();
+//                                        IMG.setNoCache(path);
+//                                    }
+//                                }
+                                Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                        if (false) {
-                            intent.setClassName("com.txkj.notemobile2",
-                                    "com.txkj.notemobile2.BookListActivity");
-                        } else if (false) {
-                            intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
-                                    "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
-                        } else {
-                            intent.setClassName("com.txkj.drawingapp",
-                                    "com.txkj.notemobile2.BookListActivity");
-                            DualScreenConstant.launchFull(intent, true, false);
-                        }
-                        String APP_FILE = meta.getPathTxt();
-                        intent.putExtra("APP_FILE", APP_FILE);
-                        Log.d(TAG, "APP_FILE: " + APP_FILE);
+                                if (false) {
+                                    intent.setClassName("com.txkj.notemobile2",
+                                            "com.txkj.notemobile2.BookListActivity");
+                                } else if (false) {
+                                    intent.setClassName("com.txkj.notemobile",//"online.xournal.mobile",
+                                            "com.txkj.notemobile.MainActivity");//"online.xournal.mobile.MainActivity");
+                                } else {
+                                    intent.setClassName("com.txkj.drawingapp",
+                                            "com.txkj.notemobile2.BookListActivity");
+                                    DualScreenConstant.launchFull(intent, true, false);
+                                }
+                                String APP_FILE = meta.getPathTxt();
+                                intent.putExtra("APP_FILE", APP_FILE);
+                                Log.d(TAG, "APP_FILE: " + APP_FILE);
 
-                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        startActivity(intent);
-                    } else {
-                        //int bookType = bookInfoList.get(position).getBookType();
+                                startActivityForResult(intent, REQUEST_CODE_NOTE_OPEN);
+                            } else {
+                                //int bookType = bookInfoList.get(position).getBookType();
 //                int pageIdx = position;
 //                Intent intent = new Intent(BookListActivity.this, BookActivity.class);
 //                intent.setData(((FastFile)files.get(pageIdx)).getUri());
 //                startActivity(intent);
 
-                        Intent intent = new Intent();
+                                Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                        if (false) {
-                            intent.setClassName("com.txkj.pdfreader",
-                                    "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                        } else {
-                            intent.setClassName("com.txkj.readingapp",
-                                    "org.ebookdroid.ui.viewer.VerticalViewActivity");
-                            DualScreenConstant.launchFull(intent, false, false);
+                                if (false) {
+                                    intent.setClassName("com.txkj.pdfreader",
+                                            "org.ebookdroid.ui.viewer.VerticalViewActivity");
+                                } else {
+                                    intent.setClassName("com.txkj.readingapp",
+                                            "org.ebookdroid.ui.viewer.VerticalViewActivity");
+                                    DualScreenConstant.launchFull(intent, false, false);
+                                }
+
+                                AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));
+
+                                File file = new File(meta.getPath());
+                                intent.setData(Uri.fromFile(file));
+                                //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                startActivity(intent);
+                            }
+                        } catch (ActivityNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (Throwable eee) {
+                            eee.printStackTrace();
                         }
-
-                        AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));
-
-                        File file = new File(meta.getPath());
-                        intent.setData(Uri.fromFile(file));
-                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        startActivity(intent);
                     }
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                } catch (Throwable eee) {
-                    eee.printStackTrace();
-                }
+                }, global_view.findViewById(R.id.popup_loading));
             }
         });
 
@@ -885,6 +931,9 @@ public class HomeRightFragment extends Fragment {
         onTintChanged();
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(BooksService.INTENT_NAME));
+
+        //from onResume move here
+        setSegment(currentSeg);
 
         return view;
     }
@@ -1070,28 +1119,66 @@ public class HomeRightFragment extends Fragment {
         onSelectFragment();
     }
 
+    private boolean needFragmentRefresh = false;
     @Override
     public void onResume() {
         super.onResume();
-        //Safe.clearAll();
-        try {
-            Glide.with(LibreraApp.context).resumeRequests();
-        } catch (Exception e) {
-            LOG.e(e);
+//        IMG.clearAllCoverPage();
+
+        if (searchAdapter != null) {
+            searchAdapter.isPause = false;
         }
-        notifyFragment();
+        if (bookGridAdapter != null) {
+            bookGridAdapter.isPause = false;
+        }
+
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        } else {
+            notifyFragment();
+        }
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver_, new IntentFilter(INTENT_TINT_CHANGE));
         EventBus.getDefault().register(this);
         onResume2();
+        //setSegment(currentSeg);
+        //if (needFragmentRefresh) {
 
-        setSegment(currentSeg);
+        if (recyclerView != null) {
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+//                    if (bookGridAdapter != null) {
+//                        bookGridAdapter.clearAllMapCache();
+//                        bookGridAdapter.clearItems();
+//                        bookGridAdapter.notifyDataSetChanged();
+//                    }
+//                    searchAndOrderAsync();
+                    //notifyFragment();
+                }
+            }, 200);
+        }
+
+        //}
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.e(TAG, "HomeRightFragment-onPause");
+        if (searchAdapter != null) {
+            searchAdapter.isPause = true;
+        }
+        if (bookGridAdapter != null) {
+            bookGridAdapter.isPause = true;
+        }
+        try {
+            Glide.with(LibreraApp.context).pauseAllRequestsRecursive();
+        } catch (Exception e) {
+            LOG.e(e);
+        }
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver_);
         EventBus.getDefault().unregister(this);
+        LoadingNoteDialog.dismiss();
     }
 
     @Subscribe
@@ -1187,6 +1274,7 @@ public class HomeRightFragment extends Fragment {
         }
 
         recyclerView.setAdapter(searchAdapter);
+        IMG.setScroll(recyclerView, searchAdapter);
     }
 
     public boolean onKeyDown(int keyCode) {
@@ -1511,8 +1599,8 @@ public class HomeRightFragment extends Fragment {
         try {
             searchAdapter.clearItems();
             searchAdapter.notifyDataSetChanged();
-            IMG.clearMemoryCache();
-            IMG.clearDiscCache();
+//            IMG.clearMemoryCache();
+//            IMG.clearDiscCache();
             //BooksService.startForeground(getActivity(), BooksService.ACTION_SEARCH_ALL);
 
             SearchAllBooksWorker.run(getActivity());
@@ -1523,6 +1611,9 @@ public class HomeRightFragment extends Fragment {
     }
 
     public void checkForDeleteBooks() {
+        if (MainTabs2.MOD_VERSION) {
+            return;
+        }
         try {
             //BooksService.startForeground(getActivity(), BooksService.ACTION_REMOVE_DELETED);
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest
@@ -3231,7 +3322,7 @@ public class HomeRightFragment extends Fragment {
             //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_NOTE_NEW);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
         }

@@ -172,6 +172,7 @@ public class LibraryFragment2Book extends Fragment {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_library2_book, container, false);
         //View view = inflater.inflate(R.layout.fragment_search2, container, false);
+
         AutoWrapViewGroup autoWrapViewGroup = (AutoWrapViewGroup) view.findViewById(R.id.autoWrapViewGroup);
         if (getInitIndex() == 1) {
             autoWrapViewGroup.output("PDFs", ""); //"PDFs: "
@@ -374,6 +375,9 @@ public class LibraryFragment2Book extends Fragment {
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(BooksService.INTENT_NAME));
 
+        //from onResume move here
+        setSegment(currentSeg);
+
         return view;
     }
 
@@ -560,18 +564,15 @@ public class LibraryFragment2Book extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //Safe.clearAll();
-        try {
-            Glide.with(LibreraApp.context).resumeRequests();
-        } catch (Exception e) {
-            LOG.e(e);
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        } else {
+            notifyFragment();
         }
-        notifyFragment();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver_, new IntentFilter(INTENT_TINT_CHANGE));
         EventBus.getDefault().register(this);
         onResume2();
-
-        setSegment(currentSeg);
+        //setSegment(currentSeg);
     }
 
     @Override
@@ -998,8 +999,8 @@ public class LibraryFragment2Book extends Fragment {
         try {
             searchAdapter.clearItems();
             searchAdapter.notifyDataSetChanged();
-            IMG.clearMemoryCache();
-            IMG.clearDiscCache();
+//            IMG.clearMemoryCache();
+//            IMG.clearDiscCache();
             //BooksService.startForeground(getActivity(), BooksService.ACTION_SEARCH_ALL);
 
             SearchAllBooksWorker.run(getActivity());
@@ -1010,6 +1011,9 @@ public class LibraryFragment2Book extends Fragment {
     }
 
     public void checkForDeleteBooks() {
+        if (MainTabs2.MOD_VERSION) {
+            return;
+        }
         try {
             //BooksService.startForeground(getActivity(), BooksService.ACTION_REMOVE_DELETED);
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest

@@ -9,6 +9,7 @@ import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.sys.TempHolder;
+import com.foobnix.ui2.MainTabs2;
 
 import org.ebookdroid.BookType;
 import org.ebookdroid.core.codec.AbstractCodecDocument;
@@ -96,6 +97,9 @@ public class MuPdfDocument extends AbstractCodecDocument {
     private native static String setMetaData(long docHandle, final String key, String value);
 
     private static long openFile(final int format, String fname, final String pwd, String css) {
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        }
         TempHolder.lock.lock();
         try {
             int allocatedMemory = AppState.get().allocatedMemorySize * 1024 * 1024;

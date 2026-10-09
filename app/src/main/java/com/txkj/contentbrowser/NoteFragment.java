@@ -36,6 +36,7 @@ import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.view.EditTextHelper;
+import com.foobnix.ui2.MainTabs2;
 import com.txkj.contentbrowser2.R;
 import com.dseink.DualScreenConstant;
 
@@ -461,7 +462,11 @@ class PreferencesKeys {
     @Override
     public void onResume() {
         super.onResume();
-        //notifyFragment();
+        if (MainTabs2.MOD_VERSION) {
+            //skip
+        } else {
+            //notifyFragment();
+        }
         populate();
     }
 }

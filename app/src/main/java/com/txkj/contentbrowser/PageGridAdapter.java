@@ -12,6 +12,11 @@ import com.txkj.contentbrowser2.R;
 import java.util.List;
 
 public class PageGridAdapter extends BaseAdapter {
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
     private Context context;
     private GridViewHolder gridholder;
     private List<Page> dataList;
