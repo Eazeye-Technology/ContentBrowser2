@@ -146,6 +146,15 @@ public class AppsFragment extends Fragment {
                 return true;
             }
         });
+        MenuItem openbrowser = menu.findItem(R.id.openbrowser);
+        openbrowser.setEnabled(true);
+        openbrowser.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                openbrowser();
+                return true;
+            }
+        });
 
         popupMenu.show();
     }
@@ -557,6 +566,20 @@ public class AppsFragment extends Fragment {
 
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    private void openbrowser() {
+        try {
+            //Intent intent = new Intent(Intent.ACTION_MAIN);
+            String url = "http://www.google.com";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //Intent chooser = Intent.createChooser(intent, "Choose browser");
+            //startActivity(chooser);
+            //intent.addCategory(Intent.CATEGORY_APP_BROWSER);
+            startActivity(intent);
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }

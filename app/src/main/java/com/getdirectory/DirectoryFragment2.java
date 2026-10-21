@@ -40,17 +40,11 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.dseink.EinkUtils;
-import com.foobnix.dao2.FileMeta;
 import com.foobnix.pdf.info.ExtUtils;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.loadingindicator.LoadingIndicator;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 import com.upgradetool.upgrade.UriUtil;
-
-import org.w3c.dom.Text;
-import org.zwobble.mammoth.internal.documents.Image;
-import org.zwobble.mammoth.internal.documents.Run;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -59,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -1136,6 +1129,7 @@ public class DirectoryFragment2 extends Fragment {
     public final static String OPERATION_TYPE_PASTE = "paste";
     public final static String OPERATION_TYPE_ZIP = "zip";
     public final static String OPERATION_TYPE_DELETE = "delete";
+    public final static String OPERATION_TYPE_IMPORT = "import";
     String operationType = "";
     boolean isPasteMenuEnable = false;
     MenuItem deletemenu;
@@ -1172,6 +1166,8 @@ public class DirectoryFragment2 extends Fragment {
                                 cancelSelect();
                             } else if (view.getId() == R.id.popTextViewNewFolder) {
                                 newFolderSelect();
+                            } else if (view.getId() == R.id.popTextViewExternal) {
+                                gotoExternal();
                             } else if (view.getId() == R.id.popTextViewCut) {
                                 cutSelect();
                             } else if (view.getId() == R.id.popTextViewCopy) {
@@ -1182,6 +1178,8 @@ public class DirectoryFragment2 extends Fragment {
                                 renameSelect();
                             } else if (view.getId() == R.id.popButtonDelete) {
                                 deleteSelect();
+                            } else if (view.getId() == R.id.popTextViewImportFile) {
+                                importSelect();
                             }
                         }
                     }
@@ -1704,6 +1702,22 @@ public class DirectoryFragment2 extends Fragment {
         EinkUtils.centerToLeftScreen(getActivity(), dialog);
     }
 
+    public void gotoExternal() {
+        List<String> extFolders = ExtUtils.getAllExternalStorages(getActivity());
+        boolean isHit = false;
+        for (final String info : extFolders) {
+            if (info != null) {
+                File file = new File(info);
+                changeDir(file, file.getName());
+                isHit = true;
+                break;
+            }
+        }
+        if (!isHit) {
+            showErrorBox("No external storage");
+        }
+    }
+
     private void performCopy() {
         if (cpy) {
             for (int count = 0; count < items.size(); count++) {
@@ -1759,6 +1773,24 @@ public class DirectoryFragment2 extends Fragment {
             showErrorBox("The paste process could not be performed.");
         }
     }
+    private void importFiles() {
+        try {
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS);
+            if (!downloadsDir.exists()) downloadsDir.mkdirs();
+            String path = downloadsDir.getAbsolutePath();//currentDir.getAbsolutePath();
+            FileTransactions tran = new FileTransactions();
+            paste = true;
+            for (int count = 0; count < copyList.size(); count++) {
+                if (copyList.get(count).getParent().equals(path)) {
+                    continue;
+                }
+                tran.copyFileOrDirectory(copyList.get(count), path);
+            }
+        } catch (Exception e) {
+            showErrorBox("The paste process could not be performed.");
+        }
+    }
     public class AsyncClass extends AsyncTask<String, String, String> {
         private boolean mIsError = false;
         @Override
@@ -1779,6 +1811,8 @@ public class DirectoryFragment2 extends Fragment {
                 } else {
                     copyFiles();
                 }
+            } else if (operationType.equals(OPERATION_TYPE_IMPORT)) {
+                importFiles();
             } else if (operationType.equals(OPERATION_TYPE_ZIP)) {
 //                ziple();
             } else if (operationType.equals(OPERATION_TYPE_DELETE)) {
@@ -1809,7 +1843,8 @@ public class DirectoryFragment2 extends Fragment {
             if (operationType == null) {
                 return;
             }
-            if (operationType.equals(OPERATION_TYPE_PASTE)) {
+            if (operationType.equals(OPERATION_TYPE_PASTE) ||
+                    operationType.equals(OPERATION_TYPE_IMPORT)) {
                 if (tasi) {
                     if (pastemenu != null) {
                         pastemenu.setVisible(false);
@@ -1953,6 +1988,30 @@ public class DirectoryFragment2 extends Fragment {
         } catch (Throwable e) {
             e.printStackTrace();
             Toast.makeText(mAct, "Install apk failed", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void importSelect() {
+        copySelect();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                operationType = OPERATION_TYPE_IMPORT;
+                AsyncClass task = new AsyncClass();
+                if (android.os.Build.VERSION.SDK_INT < 11) {
+                    task.execute();
+                } else {
+                    task.executeOnExecutor(newFixedThreadPool);
+                }
+            }
+        };
+        if (false) {
+            androidx.appcompat.app.AlertDialog dialog =
+                    new DirectoryFragment2DeleteDialog(getActivity(), runnable).create();
+            dialog.show();
+            EinkUtils.centerToLeftScreen(getActivity(), dialog);
+        } else {
+            runnable.run();
         }
     }
 }

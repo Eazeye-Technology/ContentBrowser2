@@ -168,7 +168,9 @@ public class LibraryGridAdapter2 extends BaseAdapter {
                                    imageSize, new IMG.ResourceReady() {
                                        @Override
                                        public void onResourceReady(Bitmap bitmap) {
-
+                                           if (true) { //bitmap != null) {
+                                               notifyDataSetChanged();
+                                           }
                                        }
                                    });
                     }
@@ -178,12 +180,16 @@ public class LibraryGridAdapter2 extends BaseAdapter {
                         IMG.getCoverPageWithEffect(gridholder.ivCoverImage, path, imageSize, new IMG.ResourceReady() {
                             @Override
                             public void onResourceReady(Bitmap bitmap) {
-
+                                if (true) { //bitmap != null) {
+                                    notifyDataSetChanged();
+                                }
                             }
                         });
                     }
                 }
             }
+        } else {
+            Log.e("LibraryGridAdapter2", "????");
         }
         return convertView;
     }

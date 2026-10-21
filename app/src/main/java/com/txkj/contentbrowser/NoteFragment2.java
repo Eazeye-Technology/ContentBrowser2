@@ -1,10 +1,13 @@
 package com.txkj.contentbrowser;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -26,17 +29,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.BaseExtractor;
+import com.bumptech.glide.Glide;
 import com.dseink.EinkUtils;
+import com.foobnix.LibreraApp;
 import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.Keyboards;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.dao2.FileMeta;
+import com.foobnix.model.AppData;
 import com.foobnix.model.AppState;
+import com.foobnix.model.SimpleMeta;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.TintUtil;
@@ -45,6 +54,7 @@ import com.foobnix.ui2.MainTabs2;
 import com.tvg.AutoWrapViewGroup;
 import com.txkj.contentbrowser2.R;
 import com.dseink.DualScreenConstant;
+import com.txkj.contentbrowser2.activity.MainActivity6Util;
 import com.txkj.drawingapp.db.NoteItem;
 import com.txkj.drawingapp.db.SDNotesDatabase;
 
@@ -103,9 +113,84 @@ class PreferencesKeys {
 
 
 
+    public void refresh() {
+        searchAndOrderAsync();
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == HomeRightFragment.REQUEST_CODE_OPEN_DOCUMENT && resultCode == Activity.RESULT_OK) {
+            Uri selectedFileUri = data.getData();
+            if (selectedFileUri != null) {
+                Intent intent = new Intent();
+                intent.setClassName("com.txkj.readingapp",
+                        "org.ebookdroid.ui.viewer.VerticalViewActivity");
+                DualScreenConstant.launchFull(intent, false, false);
+                // FIXME:
+                //AppData.get().addRecent(new SimpleMeta(meta.getPath(), System.currentTimeMillis()));
+                String path = null;
+
+                if (true) {
+                    try {
+                        Cursor cursor = getActivity().getContentResolver().query(selectedFileUri, null, null, null, null);
+                        if (cursor != null && cursor.moveToFirst()) {
+//                            @SuppressLint("Range")
+//                            String fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//
+//                            @SuppressLint("Range")
+//                            int fileSize = cursor.getInt(cursor.getColumnIndex(OpenableColumns.SIZE));
+
+                            int index = cursor.getColumnIndex("_data");
+                            if (index > -1) {
+                                path = cursor.getString(index);
+                            }
+
+                            cursor.close();
+                        }
+                    } catch (Throwable eee) {
+                        eee.printStackTrace();
+                    }
+                } else {
+                    DocumentFile documentFile = DocumentFile.fromSingleUri(getActivity(), selectedFileUri);
+                    String fileName = documentFile.getName();
+                    AppData.get().addRecent(new SimpleMeta(fileName, System.currentTimeMillis()));
+                    //boolean isDirectory = documentFile.isDirectory();
+                }
 
 
+                if (false) {
+                    intent.setData(selectedFileUri);
+                } else if (path != null) {
+                    AppData.get().addRecent(new SimpleMeta(path, System.currentTimeMillis()));
 
+                    File file = new File(path);
+                    intent.setData(Uri.fromFile(file));
+                }
+                if (DualScreenConstant.USE_SINGLE_TOP) {
+                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                startActivity(intent);
+            }
+        } else if (requestCode == HomeRightFragment.REQUEST_CODE_NOTE_NEW || requestCode == HomeRightFragment.REQUEST_CODE_NOTE_OPEN) {
+            //Toast.makeText(getActivity(), "onActivityResult " + System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+            if (true) {
+                //don't use this, because callback before returning
+                if (false) {
+                    IMG.clearMemoryCache();
+                    if (false) IMG.clearDiscCache();
+                }
+                IMG.enableGetCover = true;
+                try {
+                    Glide.with(LibreraApp.context).resumeRequests();
+                } catch (Exception e) {
+                    LOG.e(e);
+                }
+            }
+            Log.e(TAG, "onActivityResult ");
+            MainActivity6Util.refreshAllFragments(getActivity(), this, global_view.findViewById(R.id.home_top_note));
+            searchAndOrderAsync();
+        }
+    }
 
     private boolean isCheckMode = false;
     private List<FileMeta> recentNoteList;
@@ -159,6 +244,11 @@ class PreferencesKeys {
             @Override
             public void onClick(View view) {
                 try {
+                    Glide.with(LibreraApp.context).pauseRequests();
+                } catch (Exception e) {
+                    LOG.e(e);
+                }
+                try {
                     Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
                     if (false) {
@@ -175,10 +265,12 @@ class PreferencesKeys {
 
                     intent.putExtra("APP_OPEN", "NEW");
 
-                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (DualScreenConstant.USE_SINGLE_TOP) {
+                        //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    }
 
-                    startActivity(intent);
+                    startActivityForResult(intent, HomeRightFragment.REQUEST_CODE_NOTE_NEW);
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -269,12 +361,31 @@ class PreferencesKeys {
 //                Intent intent = new Intent(BookListActivity.this, BookActivity.class);
 //                intent.setData(((FastFile)files.get(pageIdx)).getUri());
 //                startActivity(intent);
-
-                    IMG.enableGetCover = false;
+                    if (isOnPause) {
+                        Toast.makeText(getActivity(), "Please wait...", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top_note), new Runnable() {
                         @Override
                         public void run() {
                             try {
+                                if (true) {
+                                    IMG.enableGetCover = false;
+                                    try {
+                                        Glide.with(LibreraApp.context).pauseRequests();
+                                    } catch (Exception e) {
+                                        LOG.e(e);
+                                    }
+                                    FileMeta fileMeta = recentNoteList.get(position);
+                                    if (fileMeta.getPath() != null && fileMeta.getPath().endsWith("/cover.png")) {
+                                        String path = fileMeta.getPath().replace("/cover.png", "/bg.png");
+                                        IMG.setNoCache(path);
+                                    }
+                                    if (fileMeta.getPath() != null) {
+                                        String path = fileMeta.getPath();
+                                        IMG.setNoCache(path);
+                                    }
+                                }
                                 Intent intent = new Intent();
 //                    intent.setAction(android.content.Intent.ACTION_VIEW);
                                 if (false) {
@@ -293,10 +404,12 @@ class PreferencesKeys {
                                 intent.putExtra("APP_FILE", APP_FILE);
                                 Log.d(TAG, "APP_FILE: " + APP_FILE);
 
-                                //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
-                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                if (DualScreenConstant.USE_SINGLE_TOP) {
+                                    //https://blog.csdn.net/kaiyuanheshang/article/details/49740489
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                }
 
-                                startActivity(intent);
+                                startActivityForResult(intent, HomeRightFragment.REQUEST_CODE_NOTE_OPEN);
                             } catch (ActivityNotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -312,6 +425,16 @@ class PreferencesKeys {
         }
 
         return view;
+    }
+
+    public void searchAndOrderAsync() {
+        if (Apps.isDestroyedActivity(getActivity())) {
+            return;
+        }
+        searchEditText.setHint(R.string.msg_loading);
+        String order = getString(AppState.get().isSortAsc ? R.string.ascending : R.string.descending);
+
+        populate();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -630,23 +753,26 @@ class PreferencesKeys {
     @Override
     public void onResume() {
         super.onResume();
+        isOnPause = false;
         if (MainTabs2.MOD_VERSION) {
             //skip
         } else {
             //notifyFragment();
         }
-        if (recentNoteView != null) {
-            recentNoteView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (recentNoteAdapter != null) {
-                        recentNoteAdapter.clearAllMapCache();
-                    }
-                    populate();
+        IMG.enableGetCover = true;
 
-                }
-            }, 200);
-        }
+//        if (recentNoteView != null) {
+//            recentNoteView.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (recentNoteAdapter != null) {
+//                        recentNoteAdapter.clearAllMapCache();
+//                    }
+//                    populate();
+//
+//                }
+//            }, 200);
+//        }
     }
 
     public void setSearch(String text) {
@@ -729,7 +855,7 @@ class PreferencesKeys {
                 };
                 androidx.appcompat.app.AlertDialog dialog = new NoteFragment2DeleteDialog(getActivity(), r).create();
                 dialog.show();
-                EinkUtils.centerToLeftScreen(getActivity(), dialog);
+                EinkUtils.centerToRightScreen(getActivity(), dialog);
                 return true;
             }
         });
@@ -782,8 +908,10 @@ class PreferencesKeys {
         }
     }
 
+    private boolean isOnPause = false;
     public void onPause() {
         super.onPause();
+        isOnPause = true;
         LoadingNoteDialog.dismiss();
     }
 }

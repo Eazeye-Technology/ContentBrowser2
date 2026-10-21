@@ -61,7 +61,7 @@ public class NoteGridAdapter2 extends BaseAdapter {
     }
 
     private Context context;
-    private GridViewHolder gridholder;
+    //private GridViewHolder gridholder;
     private List<FileMeta> dataList;
     DisplayMetrics DM = new DisplayMetrics();
 
@@ -94,6 +94,7 @@ public class NoteGridAdapter2 extends BaseAdapter {
     //@see com.foobnix.ui2.adapter.FileMetaAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        GridViewHolder gridholder = null;
         if (convertView == null) {
             convertView = View.inflate(this.context, R.layout.pagegridviewitem_note_grid2, null);
             gridholder = new GridViewHolder();
@@ -160,6 +161,9 @@ public class NoteGridAdapter2 extends BaseAdapter {
 //                                        } catch (Exception e) {
 //                                            LOG.e(e);
 //                                        }
+                                        if (true) { //bitmap != null) {
+                                            notifyDataSetChanged();
+                                        }
                                     }
                                 });
                     }
@@ -177,6 +181,9 @@ public class NoteGridAdapter2 extends BaseAdapter {
 //                            } catch (Exception e) {
 //                                LOG.e(e);
 //                            }
+                            if (true) { //bitmap != null) {
+                                notifyDataSetChanged();
+                            }
                         }
                     });
                 }

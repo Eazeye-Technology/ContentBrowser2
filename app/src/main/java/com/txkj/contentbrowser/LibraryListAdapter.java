@@ -111,6 +111,9 @@ public class LibraryListAdapter extends BaseAdapter {
 //                                        } catch (Exception e) {
 //                                            LOG.e(e);
 //                                        }
+                                        if (true) { //bitmap != null) {
+                                            notifyDataSetChanged();
+                                        }
                                     }
                                 });
                     }
@@ -128,6 +131,9 @@ public class LibraryListAdapter extends BaseAdapter {
 //                            } catch (Exception e) {
 //                                LOG.e(e);
 //                            }
+                            if (true) { //bitmap != null) {
+                                notifyDataSetChanged();
+                            }
                         }
                     });
                 }

@@ -38,5 +38,6 @@ public class BitmapImageViewTarget extends ImageViewTarget<Bitmap> {
 //      }
       Log.e("cover", "recycled bitmap gen 2, " + resource);
       view.setImageBitmap(resource);
+      //view.invalidate();
   }
 }

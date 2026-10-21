@@ -1011,9 +1011,9 @@ public class LibraryFragment2Book extends Fragment {
     }
 
     public void checkForDeleteBooks() {
-        if (MainTabs2.MOD_VERSION) {
-            return;
-        }
+//        if (MainTabs2.MOD_VERSION) {
+//            return;
+//        }
         try {
             //BooksService.startForeground(getActivity(), BooksService.ACTION_REMOVE_DELETED);
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest

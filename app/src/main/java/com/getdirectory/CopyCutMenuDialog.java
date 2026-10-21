@@ -34,11 +34,14 @@ public class CopyCutMenuDialog {
 
                 R.id.popTextViewNewFolder,
 
+                R.id.popTextViewExternal,
+
                 R.id.popTextViewCut,
                 R.id.popTextViewCopy,
                 R.id.popTextViewPaste,
 
                 R.id.popTextViewRenameFile,
+                R.id.popTextViewImportFile,
 
                 R.id.popButtonDelete,
         };

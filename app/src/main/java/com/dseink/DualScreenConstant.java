@@ -3,6 +3,7 @@ package com.dseink;
 import android.content.Intent;
 
 public class DualScreenConstant {
+    public static boolean USE_SINGLE_TOP = false;
     public static boolean FORCE_TAB_REFRESH = false;
 
     /**

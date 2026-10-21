@@ -113,6 +113,9 @@ public class LibraryGridAdapter extends BaseAdapter {
 //                                        } catch (Exception e) {
 //                                            LOG.e(e);
 //                                        }
+                                        if (true) { //bitmap != null) {
+                                            notifyDataSetChanged();
+                                        }
                                     }
                                 });
                     }
@@ -130,6 +133,9 @@ public class LibraryGridAdapter extends BaseAdapter {
 //                            } catch (Exception e) {
 //                                LOG.e(e);
 //                            }
+                            if (true) { //bitmap != null) {
+                                notifyDataSetChanged();
+                            }
                         }
                     });
                 }

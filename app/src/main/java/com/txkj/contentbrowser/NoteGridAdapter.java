@@ -108,6 +108,9 @@ public class NoteGridAdapter extends BaseAdapter {
 //                                        } catch (Exception e) {
 //                                            LOG.e(e);
 //                                        }
+                                        if (true) { //bitmap != null) {
+                                            notifyDataSetChanged();
+                                        }
                                     }
                                 });
                     }
@@ -125,6 +128,9 @@ public class NoteGridAdapter extends BaseAdapter {
 //                            } catch (Exception e) {
 //                                LOG.e(e);
 //                            }
+                            if (true) { //bitmap != null) {
+                                notifyDataSetChanged();
+                            }
                         }
                     });
                 }

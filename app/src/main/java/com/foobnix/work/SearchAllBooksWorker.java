@@ -54,9 +54,9 @@ public class SearchAllBooksWorker extends MessageWorker {
     }
 
     public static void run(Context context) {
-        if (MainTabs2.MOD_VERSION) {
-            return;
-        }
+//        if (MainTabs2.MOD_VERSION) {
+//            return;
+//        }
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest
                 .Builder(SearchAllBooksWorker.class).build();
 

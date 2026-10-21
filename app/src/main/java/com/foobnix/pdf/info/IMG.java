@@ -29,6 +29,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.signature.ObjectKey;
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.model.AppState;
@@ -260,26 +261,34 @@ public class IMG {
     private static List<Bitmap> globalRemovedBitmap = new ArrayList<>();
     private static Map<String, Bitmap> globalBitmap = new HashMap<String, Bitmap>();
     private static Map<String, Integer> globalStatus = new HashMap<String, Integer>();
-//    private static Map<String, Integer> globalNoCache = new HashMap<String, Integer>();
+    private static Map<String, Integer> globalNoCache = new HashMap<String, Integer>();
 //    private Map<Integer, GridViewHolder> globalHolder = new HashMap<>();
     private final static int IMG_SIZE = 100;
     public static boolean enableGetCover = true;
-//    public static void setNoCache(String path) {
-//        globalNoCache.put(path, 2);
-//    }
+    public static void setNoCache(String path) {
+        if (globalBitmap.containsKey(path)) {
+            Log.e("IMG", "have cache");
+        } else {
+            Log.e("IMG", "no cache");
+        }
+        globalNoCache.put(path, 1);
+    }
     public static void getCoverPageWithEffect(ImageView img, String path, int width, ResourceReady run) {
-        if (true) { //if (enableGetCover) {
+        if (enableGetCover) {
             if (img != null) {
-                //Integer noCache = globalNoCache.get(path);
-                if (globalStatus.get(path) != null && globalStatus.get(path).equals(2) /*&&
-                        (noCache == null || noCache.intValue() <= 0)*/ ) { //fileMeta.bmpBGStatus == 2) {
+                Integer noCache = globalNoCache.get(path);
+                if (noCache != null) {
+                    Log.e("TAG", "noCache");
+                }
+                if (globalStatus.get(path) != null && globalStatus.get(path).equals(2) &&
+                        (noCache == null || noCache.intValue() <= 0) ) { //fileMeta.bmpBGStatus == 2) {
                     Log.e("cover", "recycled bitmap gen 1, " + globalBitmap.get(path));
                     img.setImageBitmap(globalBitmap.get(path));//fileMeta.bmpBG);
-                } else if (globalStatus.get(path) == null || globalStatus.get(path).equals(0) /*||
-                        (noCache != null && noCache.intValue() > 0)*/) { //fileMeta.bmpBGStatus == 0) {
-//                    if (noCache != null) {
-//                        globalNoCache.put(path, noCache.intValue() - 1);
-//                    }
+                } else if (globalStatus.get(path) == null || globalStatus.get(path).equals(0) ||
+                        (noCache != null && noCache.intValue() > 0)) { //fileMeta.bmpBGStatus == 0) {
+                    if (noCache != null) {
+                        globalNoCache.put(path, noCache.intValue() - 1);
+                    }
                     Log.e("cover", "setImageBitmap 2");
                     globalStatus.put(path, 1); //fileMeta.bmpBGStatus = 1;
                     File file = new File(path);
@@ -289,38 +298,77 @@ public class IMG {
                     //String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, IMG_SIZE);//width);
                     String url = IMG.toUrl(path, ImageExtractor.COVER_PAGE, width);//width);
                     LOG.d("Bitmap-test-load", path);
-                    IMG.with(img.getContext())
-                            .asBitmap()
-                            .load(url)
-                            //.override(100, 100)//Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE) //RESOURCE)
-                            .skipMemoryCache(true) //false) //true)
-                            .listener(new RequestListener<Bitmap>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                    LOG.d("Bitmap-test-2", "failed");
+                    if (noCache != null) { //noCache != null) {
+                        ObjectKey signature = new ObjectKey(System.currentTimeMillis());
+                        IMG.with(img.getContext())
+                                .asBitmap()
+                                .load(url)
+                                //.override(100, 100)//Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE) //RESOURCE)
+                                .skipMemoryCache(true) //false) //true)
+                                .signature(signature)
+                                .listener(new RequestListener<Bitmap>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                        LOG.d("Bitmap-test-2", "failed");
 
-                                    globalBitmap.put(path, null);//fileMeta.bmpCover = bitmap;
-                                    globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                    target.onResourceReady(bitmap, null);
-                                    LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-
-                                    if (run != null) {
-                                        run.onResourceReady(bitmap);//null);
+                                        globalBitmap.put(path, null);//fileMeta.bmpCover = bitmap;
+                                        globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
+                                        return false;
                                     }
 
-                                    globalBitmap.put(path, bitmap);//fileMeta.bmpCover = bitmap;
-                                    globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
-                                    return true;
-                                }
-                            })
-                            .into(img);
+                                    @Override
+                                    public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                        target.onResourceReady(bitmap, null);
+                                        LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+
+                                        globalBitmap.put(path, bitmap);//fileMeta.bmpCover = bitmap;
+                                        globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
+
+                                        if (run != null) {
+                                            run.onResourceReady(bitmap);//null);
+                                        }
+                                        return true;
+                                    }
+                                })
+                                .into(img);
+                    } else {
+                        //ObjectKey signature = new ObjectKey(System.currentTimeMillis());
+                        IMG.with(img.getContext())
+                                .asBitmap()
+                                .load(url)
+                                //.override(100, 100)//Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE) //RESOURCE)
+                                .skipMemoryCache(true) //false) //true)
+                                //.signature(signature)
+                                .listener(new RequestListener<Bitmap>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                        LOG.d("Bitmap-test-2", "failed");
+
+                                        globalBitmap.put(path, null);//fileMeta.bmpCover = bitmap;
+                                        globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                        target.onResourceReady(bitmap, null);
+                                        LOG.d("Bitmap-test-2", bitmap, bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+
+                                        globalBitmap.put(path, bitmap);//fileMeta.bmpCover = bitmap;
+                                        globalStatus.put(path, 2);//fileMeta.bmpCoverStatus = 2;
+
+                                        if (run != null) {
+                                            run.onResourceReady(bitmap);//null);
+                                        }
+                                        return true;
+                                    }
+                                })
+                                .into(img);
+                    }
                 }
             }
         }

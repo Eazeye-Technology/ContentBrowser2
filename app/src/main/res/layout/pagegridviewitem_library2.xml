@@ -59,13 +59,16 @@ android:background="@android:color/transparent"
                                 android:id="@+id/browserItemIcon_library_bg"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:padding="10px"
                                 />
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/browserItemIcon_library"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/pdf_back"
+                                android:padding="10px"
                                 />
+                            <!--android:background="@drawable/pdf_back"
+                                -->
                         </RelativeLayout>
                         <!--width and height should be 80px x 100px x times
                          so 134=168*80/100

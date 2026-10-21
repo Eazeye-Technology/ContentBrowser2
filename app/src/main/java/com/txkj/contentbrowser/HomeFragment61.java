@@ -38,6 +38,7 @@ import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
 import com.foobnix.pdf.info.Android6Mod;
 import com.foobnix.pdf.info.ExtUtils;
+import com.foobnix.pdf.info.IMG;
 import com.getdirectory.DirectoryFragment2;
 import com.txkj.contentbrowser2.R;
 import com.txkj.contentbrowser2.activity.CopyCutMenuDialog;
@@ -91,6 +92,10 @@ public class HomeFragment61 extends Fragment {
             R.id.menu_bar_item_7_R,
     };
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,9 +129,13 @@ public class HomeFragment61 extends Fragment {
             @Override
             public void onClick(View view) {
                 Fragment currentFragment = null;
-                FragmentManager fragmentManager = getMyActivity().getSupportFragmentManager();
-                if (fragmentManager.getFragments().size() - 1 >= 0) {
-                    currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                if (false) {
+                    FragmentManager fragmentManager = getMyActivity().getSupportFragmentManager();
+                    if (fragmentManager.getFragments().size() - 1 >= 0) {
+                        currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1);
+                    }
+                } else {
+                    currentFragment = g_currentFragment;
                 }
                 boolean res = false;
                 if (currentFragment instanceof DirectoryFragment2 ||
@@ -432,7 +441,7 @@ public class HomeFragment61 extends Fragment {
 
     private HomeFragment mHomeFragment;
     private HomeFragment2 mHomeFragment2;
-    private HomeFragment4 mHomeFragment4;
+    public HomeFragment4 mHomeFragment4;
     private BrowserFragment mBrowserFragment;
     private SettingFragment mSettingFragment;
     private NoteFragment2 mNoteFragment;
@@ -443,6 +452,7 @@ public class HomeFragment61 extends Fragment {
     private HomeFragment3 mHome3Fragment;
     private AnswerFragment mAnswerFragment;
     private SystemSettingFragment mSystemSettingFragment;
+    private Fragment g_currentFragment;
 
     private int currentTabId = R.id.function_bar_item_home;
     //@Override
@@ -524,8 +534,10 @@ public class HomeFragment61 extends Fragment {
             tvTitleText.setText("Home");
             if (false) {
                 fragmentTransaction.replace(R.id.content_layout61, mAnswerFragment);//mHome3Fragment); //mHomeFragment
+                g_currentFragment = mAnswerFragment;
             } else {
                 fragmentTransaction.replace(R.id.content_layout61, mHomeFragment4);//mHomeFragment); //mHomeFragment, mHomeFragment2
+                g_currentFragment = mHomeFragment4;
             }
             fragmentTransaction.commit();
 
@@ -541,11 +553,13 @@ public class HomeFragment61 extends Fragment {
         } else if (id == R.id.menu_bar_item_2 || id == R.id.menu_bar_item_2_R) {
             tvTitleText.setText("Notes");
             fragmentTransaction.replace(R.id.content_layout61, mNoteFragment);
+            g_currentFragment = mNoteFragment;
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_3 || id == R.id.menu_bar_item_3_R) {
             //tvTitleText.setText("Books");
             tvTitleText.setText("Readings");
             fragmentTransaction.replace(R.id.content_layout61, mLibraryFragment2Readings);
+            g_currentFragment = mLibraryFragment2Readings;
             fragmentTransaction.commit();
 //        } else if (id == R.id.menu_bar_item_4 || id == R.id.menu_bar_item_4_R) {
 //            tvTitleText.setText("PDFs");
@@ -554,16 +568,20 @@ public class HomeFragment61 extends Fragment {
         } else if (id == R.id.menu_bar_item_5 || id == R.id.menu_bar_item_5_R) {
             tvTitleText.setText("Storage");
             fragmentTransaction.replace(R.id.content_layout61, mDirectoryFragment);
+            g_currentFragment = mDirectoryFragment;
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_6 || id == R.id.menu_bar_item_6_R) {
             tvTitleText.setText("Apps");
             fragmentTransaction.replace(R.id.content_layout61, mAppsFragment);
+            g_currentFragment = mAppsFragment;
             fragmentTransaction.commit();
         } else if (id == R.id.menu_bar_item_7 || id == R.id.menu_bar_item_7_R) {
             tvTitleText.setText("Settings");
             fragmentTransaction.replace(R.id.content_layout61, mSystemSettingFragment);//mSettingFragment);
+            g_currentFragment = mSystemSettingFragment;
             fragmentTransaction.commit();
         }
+        IMG.enableGetCover = true;
         onUpdateMenu();
         //FIXME:
         if (DualScreenConstant.FORCE_TAB_REFRESH) {
@@ -639,6 +657,7 @@ public class HomeFragment61 extends Fragment {
         //fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_layout61, mAnswerFragment);
+        g_currentFragment = mAnswerFragment;
         fragmentTransaction.commit();
         onUpdateMenu();
     }
