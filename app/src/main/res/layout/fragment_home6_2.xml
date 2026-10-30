@@ -40,15 +40,14 @@
                     android:layout_margin="0px">
 
                     <LinearLayout
-                        android:layout_width="@dimen/fragment_home2_nav_menu_collapse_width"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="top"
                         android:id="@+id/leftmenu2"
-                        android:visibility="visible"
-                        >
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top"
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-                        <include layout="@layout/fragment_home2_2_4"/>
+                        <include layout="@layout/fragment_home2_2_4" />
 
 
                     </LinearLayout>
@@ -67,7 +66,9 @@
                 android:layout_weight="3"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="40dp"
+                android:paddingTop="40px"
+                android:paddingLeft="40px"
+                android:paddingRight="40px"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"

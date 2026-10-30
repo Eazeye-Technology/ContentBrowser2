@@ -819,8 +819,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/home_back001"
+        android:src="@drawable/home_back002"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-200dp"
         />
 </RelativeLayout>

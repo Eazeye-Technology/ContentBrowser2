@@ -8,10 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0px"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:paddingTop="50dp"
-        android:paddingBottom="50dp"
+        android:paddingLeft="0px"
+        android:paddingRight="0px"
+        android:paddingTop="0px"
+        android:paddingBottom="0px"
         android:id="@+id/home_top"
         android:visibility="visible"
         >
@@ -1794,14 +1794,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/home_top2"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:paddingLeft="0px"
+        android:paddingRight="0px"
+        android:paddingTop="0px"
+        android:paddingBottom="0px"
         >
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_back001"
+            android:layout_width="578px"
+            android:layout_height="770px"
+            android:src="@drawable/home_back002"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="-86px"
             />
         <ScrollView
             android:layout_width="match_parent"

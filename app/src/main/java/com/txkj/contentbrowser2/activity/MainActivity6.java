@@ -166,7 +166,7 @@ public class MainActivity6 extends AppCompatActivity {
                         fragmentTransaction2.replace(R.id.content_layout2, mHomeFragment62);//mHomeFragment); //mHomeFragment, mHomeFragment2
                         fragmentTransaction2.commit();
                     }
-                }, 100);
+                }, 0/*100*/);
             } else {
                 fragmentTransaction2.replace(R.id.content_layout2, mHomeFragment62);//mHomeFragment); //mHomeFragment, mHomeFragment2
                 fragmentTransaction2.commit();
