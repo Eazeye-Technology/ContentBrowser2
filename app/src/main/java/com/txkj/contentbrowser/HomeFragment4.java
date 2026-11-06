@@ -588,6 +588,7 @@ public class HomeFragment4 extends Fragment {
                     Toast.makeText(getActivity(), "Please wait...", Toast.LENGTH_LONG).show();
                     return;
                 }
+                FileMeta meta_ = pageList.get(position);
                 LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top), new Runnable() {
                     @Override
                     public void run() {
@@ -669,7 +670,7 @@ public class HomeFragment4 extends Fragment {
                             eee.printStackTrace();
                         }
                     }
-                }, global_view.findViewById(R.id.popup_loading));
+                }, global_view.findViewById(R.id.popup_loading), (meta_ != null && meta_.isNote));
             }
         });
 

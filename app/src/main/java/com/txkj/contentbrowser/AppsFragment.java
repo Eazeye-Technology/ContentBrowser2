@@ -59,6 +59,7 @@ import java.util.concurrent.Executors;
 import dev.dworks.apps.anexplorer.provider.AppsProviderMy;
 
 public class AppsFragment extends Fragment {
+    public final static boolean USE_LOCALSEND_SHOW = true;
     private final static boolean TEST_EMPTY = false;
     private final static boolean SHOW_SYSTEM_APP = false;
 
@@ -200,7 +201,7 @@ public class AppsFragment extends Fragment {
                     @Override
                     public void run() {
                         FileMeta meta = pageList.get(i);
-                        if (meta != null) {
+                        if (meta != null && !meta.isInner) {
                             String packageName = meta.getPath();
                             if (packageName != null) {
                                 if (true) {
@@ -334,6 +335,20 @@ public class AppsFragment extends Fragment {
             Collections.sort(resultsUser, comparator);
             if (SHOW_SYSTEM_APP) {
                 results.addAll(resultsSystem);
+            } else {
+                if (USE_LOCALSEND_SHOW) {
+                    for (AppsProviderMy.MyResult result : resultsSystem) {
+                        if (result != null &&
+//                                result.displayName != null &&
+//                                result.displayName.equals("LocalSend")
+                                result.packageName != null &&
+                                result.packageName.equals("org.localsend.localsend_app")
+                        ) {
+                            result.isInner = true;
+                            results.add(result);
+                        }
+                    }
+                }
             }
             results.addAll(resultsUser);
 
@@ -366,6 +381,7 @@ public class AppsFragment extends Fragment {
                     }
 //                    icons.add(result);
                     meta.setTempBitmap(result);
+                    meta.isInner = item.isInner;
                     fileMetas.add(meta);
                 }
             }

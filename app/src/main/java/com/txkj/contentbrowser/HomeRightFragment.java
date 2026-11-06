@@ -579,7 +579,7 @@ public class HomeRightFragment extends Fragment {
                     public void run() {
                         openNote();
                     }
-                }, global_view.findViewById(R.id.popup_loading));
+                }, global_view.findViewById(R.id.popup_loading), true);
             }
         });
 
@@ -701,7 +701,7 @@ public class HomeRightFragment extends Fragment {
                     public void run() {
                         openNote();
                     }
-                }, global_view.findViewById(R.id.popup_loading));
+                }, global_view.findViewById(R.id.popup_loading), true);
             }
         });
 
@@ -796,6 +796,7 @@ public class HomeRightFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please wait...", Toast.LENGTH_LONG).show();
                     return;
                 }
+                FileMeta meta_ = pageList.get(position);
                 LoadingNoteDialog.show(getActivity(), global_view.findViewById(R.id.home_top), new Runnable() {
                     @Override
                     public void run() {
@@ -875,7 +876,7 @@ public class HomeRightFragment extends Fragment {
                             eee.printStackTrace();
                         }
                     }
-                }, global_view.findViewById(R.id.popup_loading));
+                }, global_view.findViewById(R.id.popup_loading), meta_ != null && meta_.isNote);
             }
         });
 

@@ -29,6 +29,7 @@ public class AppsProviderMy {
         public String path;
 //        public int flags;
         public String packageName;
+        public boolean isInner = false;
     };
 
     private static String getAppName(String packageName){

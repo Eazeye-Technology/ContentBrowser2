@@ -414,7 +414,7 @@ class PreferencesKeys {
                                 e.printStackTrace();
                             }
                         }
-                    }, global_view.findViewById(R.id.popup_loading));
+                    }, global_view.findViewById(R.id.popup_loading), true);
                 }
             }
         });

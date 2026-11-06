@@ -51,6 +51,7 @@
                         android:text="Loading note"
                         android:layout_gravity="center"
                         android:textSize="30px"
+                        android:id="@+id/tv_loading_note"
                         />
                 </LinearLayout>
             </RelativeLayout>

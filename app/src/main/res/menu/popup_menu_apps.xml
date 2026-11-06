@@ -15,10 +15,10 @@
         myapp:showAsAction="always"/>
 
     <item android:id="@+id/choosefile"
-        android:title="Reading App"
+        android:title="Reading App and Auto Update"
         myapp:showAsAction="always"/>
     <item android:id="@+id/opennote"
-        android:title="Drawing App"
+        android:title="Drawing App and Auto Update"
         myapp:showAsAction="always"/>
     <item android:id="@+id/openbrowser"
         android:title="Web Browser"

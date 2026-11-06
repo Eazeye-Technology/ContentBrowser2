@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.dseink.DualScreenConstant;
 import com.dseink.EinkUtils;
@@ -21,7 +22,7 @@ public class LoadingNoteDialog {
     private static View.OnClickListener mListener = null;
     private static PopupWindow popup;
     private static View myLoadingView;
-    public static void show(Context context, View anchor, Runnable runnable, View loadingView) {
+    public static void show(Context context, View anchor, Runnable runnable, View loadingView, boolean isNote) {
         if (USE_LAYER) {
             if (loadingView != null) {
                 myLoadingView = loadingView;
@@ -34,6 +35,11 @@ public class LoadingNoteDialog {
                         }
                     }
                 });
+                if (!isNote) {
+                    ((TextView) loadingView.findViewById(R.id.tv_loading_note)).setText("Loading book");
+                } else {
+                    ((TextView) loadingView.findViewById(R.id.tv_loading_note)).setText("Loading note");
+                }
                 loadingView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -49,6 +55,11 @@ public class LoadingNoteDialog {
             //  make a popup window
             popup = new PopupWindow(layout,
                     350, 350);//ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (!isNote) {
+                ((TextView) layout.findViewById(R.id.tv_loading_note)).setText("Loading book");
+            } else {
+                ((TextView) layout.findViewById(R.id.tv_loading_note)).setText("Loading note");
+            }
             popup.setFocusable(true);
             //popup.setOutsideTouchable(false);
             popup.setOnDismissListener(new PopupWindow.OnDismissListener() {

@@ -41,7 +41,7 @@
 
                     <LinearLayout
                         android:id="@+id/leftmenu2"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/fragment_home2_nav_menu_collapse_width"
                         android:layout_height="match_parent"
                         android:gravity="top"
                         android:orientation="vertical"

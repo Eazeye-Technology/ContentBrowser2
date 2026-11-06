@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.txkj.contentbrowser.AppsFragment;
 import com.txkj.contentbrowser2.R;
 
 public class CopyCutMenuDialog {
@@ -25,6 +26,11 @@ public class CopyCutMenuDialog {
         //View layout = View.inflate(context, R.layout.activity_main_menu1, null);
         View layout = View.inflate(context, R.layout.activity_manipulation_menu, null);
         //View wv = layout.findViewById(R.id.wheel);
+
+        if (AppsFragment.USE_LOCALSEND_SHOW) {
+            layout.findViewById(R.id.popTextViewExternal).setVisibility(View.GONE);
+            layout.findViewById(R.id.popTextViewImportFile).setVisibility(View.GONE);
+        }
 
         mListener = listener;
         final int[] ids = {

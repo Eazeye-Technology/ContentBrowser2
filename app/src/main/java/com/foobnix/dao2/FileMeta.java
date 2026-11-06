@@ -13,6 +13,7 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class FileMeta {
+    public boolean isInner = false;
     public Bitmap bmpCover;
     public int bmpCoverStatus = 0; //0=ready,1=loading,2=loaded
     public Bitmap bmpBG;
